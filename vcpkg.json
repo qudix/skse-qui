@@ -1,0 +1,14 @@
+{
+    "name": "qui",
+    "version-string": "0.0.0",
+    "description": "",
+    "homepage": "https://github.com/Qudix/QUI-SKSE",
+    "license": "MIT",
+    "dependencies": [
+      "boost-stl-interfaces",
+      "spdlog",
+      "frozen",
+      "tomlplusplus",
+      "autotoml"
+    ]
+  }

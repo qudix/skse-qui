@@ -1,0 +1,3 @@
+[submodule "lib/CommonLibSSE"]
+	path = lib/CommonLibSSE
+	url = https://github.com/Qudix/CommonLibSSE.git

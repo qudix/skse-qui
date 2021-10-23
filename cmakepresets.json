@@ -1,0 +1,84 @@
+{
+    "configurePresets": [
+      {
+        "binaryDir": "build",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": {
+            "type": "STRING",
+            "value": "Debug"
+          },
+          "COPY_BUILD": {
+            "type": "BOOL",
+            "value": "ON"
+          },
+          "CMAKE_INTERPROCEDURAL_OPTIMIZATION": {
+            "type": "BOOL",
+            "value": "ON"
+          },
+          "CMAKE_INTERPROCEDURAL_OPTIMIZATION_DEBUG": {
+            "type": "BOOL",
+            "value": "OFF"
+          }
+        },
+        "errors": {
+          "deprecated": true
+        },
+        "hidden": true,
+        "name": "cmake-dev",
+        "warnings": {
+          "deprecated": true,
+          "dev": true
+        }
+      },
+      {
+        "cacheVariables": {
+          "CMAKE_TOOLCHAIN_FILE": {
+            "type": "STRING",
+            "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+          },
+          "VCPKG_OVERLAY_PORTS": {
+            "type": "STRING",
+            "value": "${sourceDir}/etc/ports/"
+          }
+        },
+        "hidden": true,
+        "name": "vcpkg"
+      },
+      {
+        "cacheVariables": {
+          "Boost_USE_STATIC_LIBS": {
+            "type": "BOOL",
+            "value": "ON"
+          },
+          "Boost_USE_STATIC_RUNTIME": {
+            "type": "BOOL",
+            "value": "OFF"
+          },
+          "CMAKE_MSVC_RUNTIME_LIBRARY": {
+            "type": "STRING",
+            "value": "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
+          },
+          "VCPKG_TARGET_TRIPLET": {
+            "type": "STRING",
+            "value": "x64-windows-static-md"
+          }
+        },
+        "hidden": true,
+        "name": "windows"
+      },
+      {
+        "cacheVariables": {
+          "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX"
+        },
+        "generator": "Visual Studio 17 2022",
+        "inherits": [
+          "cmake-dev",
+          "vcpkg",
+          "windows"
+        ],
+        "name": "vs2022-windows-vcpkg",
+        "toolset": "v143"
+      }
+    ],
+    "version": 2
+  }
