@@ -23,7 +23,7 @@ namespace Menus
 		using GRefCountBaseStatImpl::operator delete;
 
 	public:
-		static constexpr std::string_view FILE_NAME{ "QUI/PluginExplorerMenu" };
+		static constexpr std::string_view FILE_NAME{ "PluginExplorerMenu" };
 		static constexpr std::string_view MENU_NAME{ "PluginExplorerMenu" };
 		static constexpr std::int8_t SORT_PRIORITY{ 3 };
 
