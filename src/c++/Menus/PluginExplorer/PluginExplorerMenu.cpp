@@ -60,16 +60,15 @@ namespace Menus
 		using Message = RE::UI_MESSAGE_TYPE;
 		switch (*a_message.type) {
 			case RE::UI_MESSAGE_TYPE::kShow:
-				{
-					OnOpen();
-					return RE::UI_MESSAGE_RESULTS::kHandled;
-				}
+				OnOpen();
+				return RE::UI_MESSAGE_RESULTS::kHandled;
 			case RE::UI_MESSAGE_TYPE::kHide:
 			case RE::UI_MESSAGE_TYPE::kForceHide:
-				{
-					OnClose();
-					return RE::UI_MESSAGE_RESULTS::kHandled;
-				}
+				OnClose();
+				return RE::UI_MESSAGE_RESULTS::kHandled;
+			case RE::UI_MESSAGE_TYPE::kUpdateController:
+				RefreshPlatform();
+				return RE::UI_MESSAGE_RESULTS::kPassOn;
 			default:
 				return Super::ProcessMessage(a_message);
 		}
