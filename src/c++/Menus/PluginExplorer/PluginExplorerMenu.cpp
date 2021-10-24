@@ -227,19 +227,23 @@ namespace Menus
 
 	void PluginExplorerMenu::OnOpen()
 	{
+		using UEFlag = RE::ControlMap::UEFlag;
 		auto controlMap = RE::ControlMap::GetSingleton();
 		if (controlMap) {
-			//controlMap->ToggleControls(RE::ControlMap::UEFlag::kMovement, false);
-			controlMap->ToggleControls(RE::ControlMap::UEFlag::kPOVSwitch, false);
+			controlMap->ToggleControls(UEFlag::kMovement, false);
+			controlMap->ToggleControls(UEFlag::kLooking, false);
+			controlMap->ToggleControls(UEFlag::kPOVSwitch, false);
 		}
 	}
 
 	void PluginExplorerMenu::OnClose()
 	{
+		using UEFlag = RE::ControlMap::UEFlag;
 		auto controlMap = RE::ControlMap::GetSingleton();
 		if (controlMap) {
-			//controlMap->ToggleControls(RE::ControlMap::UEFlag::kMovement, true);
-			controlMap->ToggleControls(RE::ControlMap::UEFlag::kPOVSwitch, true);
+			controlMap->ToggleControls(UEFlag::kMovement, true);
+			controlMap->ToggleControls(UEFlag::kLooking, true);
+			controlMap->ToggleControls(UEFlag::kPOVSwitch, true);
 		}
 	}
 
