@@ -40,8 +40,6 @@ namespace Menus
 		bool CanProcess(RE::InputEvent* a_event) override;
 		bool ProcessButton(RE::ButtonEvent* a_event) override;
 
-		void InitExtensions();
-
 	public:
 		static bool IsOpen();
 
@@ -57,6 +55,8 @@ namespace Menus
 		};
 
 		void Init();
+		void InitExtensions();
+
 		void OnOpen();
 		void OnClose();
 
@@ -88,6 +88,6 @@ namespace Menus
 
 		Focus _focus{ Focus::Plugin };
 		std::string _pluginName;
-		uint32_t _pluginFormID;
+		uint32_t _pluginIndex;
 	};
 }

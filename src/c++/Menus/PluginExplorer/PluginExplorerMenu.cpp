@@ -157,16 +157,6 @@ namespace Menus
 		return true;
 	}
 
-	void PluginExplorerMenu::InitExtensions()
-	{
-		const RE::GFxValue boolean{ true };
-		[[maybe_unused]] bool success;
-		success = _view->SetVariable("_global.gfxExtensions", boolean);
-		assert(success);
-		success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
-		assert(success);
-	}
-
 	bool PluginExplorerMenu::IsOpen()
 	{
 		auto ui = RE::UI::GetSingleton();
@@ -226,6 +216,16 @@ namespace Menus
 		RefreshUI();
 	}
 
+	void PluginExplorerMenu::InitExtensions()
+	{
+		const RE::GFxValue boolean{ true };
+		[[maybe_unused]] bool success;
+		success = _view->SetVariable("_global.gfxExtensions", boolean);
+		assert(success);
+		success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
+		assert(success);
+	}
+
 	void PluginExplorerMenu::OnOpen()
 	{
 		auto controlMap = RE::ControlMap::GetSingleton();
@@ -250,11 +250,11 @@ namespace Menus
 		_pluginList.Clear();
 
 		auto& plugins = PluginExplorer::GetPlugins();
-		for (auto& [formID, plugin] : plugins) {
+		for (auto& [index, plugin] : plugins) {
 			if (plugin.GetCount() == 0)
 				continue;
 
-			Item::ItemPlugin itemPlugin{ formID, plugin.GetName(), plugin.GetCount() };
+			Item::ItemPlugin itemPlugin{ index, plugin.GetName(), plugin.GetCount() };
 			_pluginList.PushBack(itemPlugin);
 		}
 
@@ -270,7 +270,7 @@ namespace Menus
 		const auto idx = static_cast<ptrdiff_t>(_formList.SelectedIndex());
 		_formList.Clear();
 
-		auto plugin = PluginExplorer::FindPlugin(_pluginFormID);
+		auto plugin = PluginExplorer::FindPlugin(_pluginIndex);
 		if (plugin) {
 			for (auto& [type, map] : plugin->GetForms()) {
 				Item::ItemForm form{ type, map.size() };
@@ -314,7 +314,7 @@ namespace Menus
 			if (plugin) {
 				_focus = Focus::Form;
 				_pluginName = plugin->GetName();
-				_pluginFormID = plugin->GetFormID();
+				_pluginIndex = plugin->GetIndex();
 				_pluginList.Visible(false);
 				RefreshForms();
 			}
@@ -339,7 +339,7 @@ namespace Menus
 			_formList.SelectedIndex(0);
 			_pluginList.Visible(true);
 			_pluginName.clear();
-			_pluginFormID = 0;
+			_pluginIndex = 0;
 		}
 
 		RefreshUI();

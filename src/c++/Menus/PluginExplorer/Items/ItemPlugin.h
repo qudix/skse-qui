@@ -4,8 +4,8 @@ namespace Menus::Item
 {
 	struct ItemPlugin
 	{
-		ItemPlugin(uint32_t a_formID, std::string_view a_name, size_t a_count) :
-			_formID(a_formID),
+		ItemPlugin(uint32_t a_index, std::string_view a_name, size_t a_count) :
+			_index(a_index),
 			_name(a_name),
 			_count(a_count)
 		{}
@@ -17,10 +17,10 @@ namespace Menus::Item
 			a_view.CreateObject(std::addressof(value));
 
 			std::string index;
-			if (_formID >= 0xFE) {
-				index = fmt::format(FMT_STRING("FE {:03X}"), _formID - 0xFE);
+			if (_index >= 0xFE) {
+				index = fmt::format(FMT_STRING("FE {:03X}"), _index - 0xFE);
 			} else {
-				index = fmt::format(FMT_STRING("{:02X}"), _formID);
+				index = fmt::format(FMT_STRING("{:02X}"), _index);
 			}
 
 			value.SetMember("index", { static_cast<std::string_view>(index) });
@@ -36,11 +36,11 @@ namespace Menus::Item
 		}
 
 		[[nodiscard]]
-		uint32_t GetFormID() {
-			return _formID;
+		uint32_t GetIndex() {
+			return _index;
 		}
 
-		uint32_t _formID;
+		uint32_t _index;
 		std::string_view _name;
 		size_t _count;
 	};
