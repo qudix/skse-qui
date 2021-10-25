@@ -52,7 +52,6 @@ add_subdirectory("lib/CommonLibSSE" CommonLibSSE)
 find_package(spdlog REQUIRED CONFIG)
 find_package(frozen REQUIRED CONFIG)
 find_package(tomlplusplus REQUIRED CONFIG)
-find_package(AutoTOML REQUIRED CONFIG)
 
 # ---- Add source files ----
 
@@ -101,7 +100,6 @@ target_link_libraries(
 		spdlog::spdlog
 		frozen::frozen
 		tomlplusplus::tomlplusplus
-		AutoTOML::AutoTOML
 )
 
 if(MSVC)

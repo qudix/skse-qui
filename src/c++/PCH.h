@@ -8,8 +8,7 @@
 
 #include <frozen/map.h>
 #include <spdlog/sinks/basic_file_sink.h>
-
-#include "AutoTOML.hpp"
+#include <toml++/toml.h>
 
 namespace WinAPI = SKSE::WinAPI;
 namespace logger = SKSE::log;

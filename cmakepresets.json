@@ -35,10 +35,6 @@
           "CMAKE_TOOLCHAIN_FILE": {
             "type": "STRING",
             "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-          },
-          "VCPKG_OVERLAY_PORTS": {
-            "type": "STRING",
-            "value": "${sourceDir}/etc/ports/"
           }
         },
         "hidden": true,
