@@ -3,9 +3,8 @@
 #include "Menus/PluginExplorer/Items/ItemForm.h"
 #include "Menus/PluginExplorer/Items/ItemPlugin.h"
 
-#include "Scaleform/System/Logger.h"
-
 #include "Event/Input/Input.h"
+#include "Scaleform/System/Logger.h"
 
 namespace Menus
 {
@@ -44,8 +43,6 @@ namespace Menus
 
 		auto mc = RE::MenuControls::GetSingleton();
 		mc->RegisterHandler(this);
-
-		logger::info("Constructed: {}"sv, MENU_NAME);
 	}
 
 	PluginExplorerMenu::~PluginExplorerMenu()
@@ -58,17 +55,18 @@ namespace Menus
 		-> RE::UI_MESSAGE_RESULTS
 	{
 		using Message = RE::UI_MESSAGE_TYPE;
+		using Result = RE::UI_MESSAGE_RESULTS;
 		switch (*a_message.type) {
-			case RE::UI_MESSAGE_TYPE::kShow:
+			case Message::kShow:
 				OnOpen();
-				return RE::UI_MESSAGE_RESULTS::kHandled;
-			case RE::UI_MESSAGE_TYPE::kHide:
-			case RE::UI_MESSAGE_TYPE::kForceHide:
+				return Result::kHandled;
+			case Message::kHide:
+			case Message::kForceHide:
 				OnClose();
-				return RE::UI_MESSAGE_RESULTS::kHandled;
-			case RE::UI_MESSAGE_TYPE::kUpdateController:
+				return Result::kHandled;
+			case Message::kUpdateController:
 				RefreshPlatform();
-				return RE::UI_MESSAGE_RESULTS::kPassOn;
+				return Result::kPassOn;
 			default:
 				return Super::ProcessMessage(a_message);
 		}

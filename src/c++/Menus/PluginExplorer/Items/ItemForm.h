@@ -5,6 +5,7 @@ namespace Menus::Item
 	struct ItemForm
 	{
 		ItemForm(RE::FormType a_type, size_t a_count) :
+			_type(a_type),
 			_count(a_count)
 		{
 			switch (a_type) {
@@ -48,11 +49,10 @@ namespace Menus::Item
 			return value;
 		}
 
-		[[nodiscard]] std::string_view& GetName()
-		{
-			return _name;
-		}
+		[[nodiscard]] RE::FormType GetType() { return _type; }
+		[[nodiscard]] std::string_view& GetName() { return _name; }
 
+		RE::FormType _type;
 		std::string_view _name{ "" };
 		size_t _count{ 0 };
 	};

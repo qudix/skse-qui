@@ -29,16 +29,8 @@ namespace Menus::Item
 			return value;
 		}
 
-		[[nodiscard]]
-		std::string_view GetName()
-		{
-			return _name;
-		}
-
-		[[nodiscard]]
-		uint32_t GetIndex() {
-			return _index;
-		}
+		[[nodiscard]] std::string_view GetName() { return _name; }
+		[[nodiscard]] uint32_t GetIndex() { return _index; }
 
 		uint32_t _index;
 		std::string_view _name;

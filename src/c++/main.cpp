@@ -5,11 +5,9 @@ void OnInit(SKSE::MessagingInterface::Message* a_msg)
 {
 	switch (a_msg->type) {
 	case SKSE::MessagingInterface::kDataLoaded:
-		{
-			Event::Register();
-			Menus::Register();
-			break;
-		}
+		Event::Register();
+		Menus::Register();
+		break;
 	}
 }
 
