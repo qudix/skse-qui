@@ -1,17 +1,12 @@
 #include "Event/Event.h"
-#include "Event/Input/InputHandler.h"
+
+#include "Menus/PluginExplorer/PluginExplorerHandler.h"
 
 namespace Event
 {
 	InputEvent::InputEvent()
 	{
-		_callbacks.push_back(std::make_unique<KeyHandler>());
-	}
-
-	InputEvent* InputEvent::GetSingleton()
-	{
-		static InputEvent singleton;
-		return std::addressof(singleton);
+		_callbacks.push_back(std::make_shared<Menus::PluginExplorerHandler>());
 	}
 
 	EventResult InputEvent::ProcessEvent(RE::InputEvent* const* a_event, RE::BSTEventSource<RE::InputEvent*>*)
@@ -34,9 +29,25 @@ namespace Event
 		return EventResult::kContinue;
 	}
 
+	MenuEvent::MenuEvent()
+	{
+		_callbacks.push_back(std::make_shared<Menus::PluginExplorerHandler>());
+	}
+
+	EventResult MenuEvent::ProcessEvent(const RE::MenuOpenCloseEvent* a_event, RE::BSTEventSource<RE::MenuOpenCloseEvent>*)
+	{
+		if (a_event) {
+			for (auto& callback : _callbacks) {
+				callback->Handle(*a_event);
+			}
+		}
+
+		return EventResult::kContinue;
+	}
+
 	void Register()
 	{
-		auto input = RE::BSInputDeviceManager::GetSingleton();
-		input->AddEventSink(InputEvent::GetSingleton());
+		InputEvent::Register();
+		MenuEvent::Register();
 	}
 }

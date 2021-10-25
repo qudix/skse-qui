@@ -3,7 +3,7 @@
 #include "Menus/PluginExplorer/Items/ItemForm.h"
 #include "Menus/PluginExplorer/Items/ItemPlugin.h"
 
-#include "Event/Input/Input.h"
+#include "Event/Input.h"
 #include "Scaleform/System/Logger.h"
 
 namespace Menus
@@ -13,15 +13,16 @@ namespace Menus
 		RE::MenuEventHandler()
 	{
 		auto menu = static_cast<Super*>(this);
-		menu->depthPriority = -1;
+		menu->depthPriority = SORT_PRIORITY;
 		menu->menuFlags.set(
+			Flag::kUsesMenuContext,
 			Flag::kDisablePauseMenu,
 			Flag::kTopmostRenderedMenu,
 			Flag::kAllowSaving,
 			Flag::kHasButtonBar,
 			Flag::kUsesMovementToDirection
 		);
-		menu->inputContext = Context::kFavor;
+		menu->inputContext = Context::kItemMenu;
 
 		auto scaleform = RE::BSScaleformManager::GetSingleton();
 		bool success = scaleform->LoadMovieEx(menu, FILE_NAME, [](RE::GFxMovieDef* a_def) -> void {
@@ -31,8 +32,8 @@ namespace Menus
 		});
 
 		if (!success) {
-			logger::critical("{} did not have a view due to missing dependencies! Aborting process!", MENU_NAME);
-			assert(success);
+			auto message = fmt::format("{} did not have a view due to missing dependencies!", MENU_NAME);
+			stl::report_and_fail(message);
 		}
 
 		_view = menu->uiMovie;
@@ -208,13 +209,13 @@ namespace Menus
 		_view->CreateArray(std::addressof(_buttonBarProvider));
 		_buttonBar.DataProvider(CLIK::Array{ _buttonBarProvider });
 
-		UpdatePosition();
-		RefreshPlugins();
-		RefreshUI();
-
+		Refresh();
+		
 		auto container = PluginExplorer::GetContainer();
 		if (container && !container->Get3D()) {
-			container->SetPosition({ 0, 0, 0 });
+			auto player = RE::PlayerCharacter::GetSingleton();
+			container->SetParentCell(player->GetParentCell());
+			container->SetPosition({ player->GetPositionX(), player->GetPositionY(), -2000 });
 			container->SetCollision(false);
 		}
 	}
@@ -231,24 +232,28 @@ namespace Menus
 
 	void PluginExplorerMenu::OnOpen()
 	{
-		using UEFlag = RE::ControlMap::UEFlag;
-		auto controlMap = RE::ControlMap::GetSingleton();
-		if (controlMap) {
-			controlMap->ToggleControls(UEFlag::kMovement, false);
-			controlMap->ToggleControls(UEFlag::kLooking, false);
-			controlMap->ToggleControls(UEFlag::kPOVSwitch, false);
-		}
 	}
 
 	void PluginExplorerMenu::OnClose()
 	{
-		using UEFlag = RE::ControlMap::UEFlag;
-		auto controlMap = RE::ControlMap::GetSingleton();
-		if (controlMap) {
-			controlMap->ToggleControls(UEFlag::kMovement, true);
-			controlMap->ToggleControls(UEFlag::kLooking, true);
-			controlMap->ToggleControls(UEFlag::kPOVSwitch, true);
+	}
+
+	void PluginExplorerMenu::Refresh()
+	{
+		UpdatePosition();
+		RefreshPlugins();
+
+		if (_focus == Focus::Container) {
+			_focus = Focus::Form;
+			_pluginList.Visible(false);
+			RefreshForms();
+		} else {
+			_focus = Focus::Plugin;
+			_pluginName = "";
+			_pluginIndex = 0;
 		}
+
+		RefreshUI();
 	}
 
 	void PluginExplorerMenu::RefreshPlugins()
@@ -329,8 +334,12 @@ namespace Menus
 			auto form = _formList.SelectedItem();
 			if (form) {
 				Close();
+
 				bool success = PluginExplorer::OpenContainer(_pluginIndex, form->GetType());
-				if (!success) {
+				if (success) {
+					if (Settings::PluginExplorer.Loop)
+						_focus = Focus::Container;
+				} else {
 					logger::info("Failed to open container: [{}] {} ({})",
 						_pluginIndex, _pluginName, form->GetName());
 				}

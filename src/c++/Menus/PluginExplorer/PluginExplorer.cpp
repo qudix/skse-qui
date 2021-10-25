@@ -1,4 +1,5 @@
 #include "Menus/PluginExplorer/PluginExplorer.h"
+#include "Menus/PluginExplorer/PluginExplorerMenu.h"
 
 #include "Script/Script.h"
 
@@ -22,21 +23,12 @@ namespace Menus
 			case RE::FormType::Note:
 			case RE::FormType::Weapon:
 				_forms[formType].insert_or_assign(a_form, formName);
+				_count += 1;
 				break;
 			default:
 				logger::warn("Unhandled FormType: {}", formType);
 				break;
 		}
-	}
-
-	size_t PluginExplorer::PluginInfo::GetCount()
-	{
-		size_t result{ 0 };
-		for (auto& [type, map] : _forms) {
-			result += map.size();
-		}
-
-		return result;
 	}
 
 	void PluginExplorer::Init()
@@ -70,28 +62,36 @@ namespace Menus
 
 	void PluginExplorer::InitContainer()
 	{
-		auto factoryCONT = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectCONT>();
-		if (!factoryCONT)
+		// TODO: Figure out how to access the container in an unloaded cell
+		
+		auto factoryCELL = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectCELL>();
+		auto cell = factoryCELL ? factoryCELL->Create() : nullptr;
+		if (!cell)
 			return;
 
-		auto container = factoryCONT->Create();
+		auto handler = RE::TESDataHandler::GetSingleton();
+		auto lighting = handler->LookupForm(RE::FormID(0x300E2), "Skyrim.esm")->As<RE::BGSLightingTemplate>();
+		if (!lighting)
+			return;
+
+		cell->SetFormEditorID("PluginExplorerCELL");
+		cell->fullName = "PluginExplorerCELL";
+		cell->cellFlags.set(RE::TESObjectCELL::Flag::kIsInteriorCell);
+		cell->lightingTemplate = lighting;
+		cell->waterHeight = 0;
+
+		auto factoryCONT = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectCONT>();
+		auto container = factoryCONT ? factoryCONT->Create() : nullptr;
 		if (!container)
 			return;
 
-		container->fullName = "PluginExplorer";
+		container->SetFormEditorID("PluginExplorerCONT");
+		container->fullName = "PluginExplorerContainer";
 		container->boundData = { { 0, 0, 0 }, { 0, 0, 0 } };
 		container->SetModel("furniture/noble/noblechest01.nif");
-
-		auto handler = RE::TESDataHandler::GetSingleton();
-		auto cell = handler->LookupForm(RE::FormID(0x1301), "TestWorld.esp")->As<RE::TESObjectCELL>();
-		if (!cell)
-			return;
 	
 		auto factoryREFR = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectREFR>();
-		if (!factoryREFR)
-			return;
-
-		_container = factoryREFR->Create();
+		_container = factoryREFR ? factoryREFR->Create() : nullptr;
 		if (!_container)
 			return;
 
@@ -103,7 +103,7 @@ namespace Menus
 
 	bool PluginExplorer::OpenContainer(uint32_t a_index, RE::FormType a_type)
 	{
-		if (!_container)
+		if (!_container || _container->IsActivationBlocked())
 			return false;
 
 		auto plugin = FindPlugin(a_index);
@@ -125,7 +125,8 @@ namespace Menus
 		for (auto& [form, name] : plugin->GetForms(a_type)) {
 			auto bound = form ? form->As<RE::TESBoundObject>() : nullptr;
 			if (bound && _container) {
-				_container->AddObjectToContainer(bound, nullptr, 5, nullptr);
+				auto count = GetTypeCount(a_type);
+				_container->AddObjectToContainer(bound, nullptr, count, nullptr);
 			}
 		}
 
@@ -159,6 +160,31 @@ namespace Menus
 	uint32_t PluginExplorer::GetCombinedIndex(const RE::TESFile* a_file)
 	{
 		return static_cast<uint32_t>(a_file->compileIndex + a_file->smallFileCompileIndex);
+	}
+
+	uint32_t PluginExplorer::GetTypeCount(RE::FormType a_type)
+	{
+		auto& count = Settings::PluginExplorer.Count;
+		switch (a_type) {
+		case RE::FormType::AlchemyItem:
+			return count.Alchemy;
+		case RE::FormType::Ammo:
+			return count.Ammo;
+		case RE::FormType::Armor:
+			return count.Armor;
+		case RE::FormType::Book:
+			return count.Book;
+		case RE::FormType::KeyMaster:
+			return count.Key;
+		case RE::FormType::Misc:
+			return count.Misc;
+		case RE::FormType::Note:
+			return count.Note;
+		case RE::FormType::Weapon:
+			return count.Weapon;
+		default:
+			return 1;
+		}
 	}
 
 	void PluginExplorer::AddForms(RE::FormType a_type)

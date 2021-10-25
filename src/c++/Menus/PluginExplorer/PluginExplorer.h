@@ -23,14 +23,15 @@ namespace Menus
 			TypeMap& GetForms() { return _forms; }
 
 			template<class T>
-			FormMap& GetForms(T a_type) { return GetForms()[a_type]; };
+			FormMap& GetForms(T a_type) { return GetForms()[a_type]; }
 
-			size_t GetCount();
+			size_t GetCount() { return _count; }
 
 		private:
 			std::string_view _name{ "" };
 			TypeMap _forms;
 			uint32_t _index;
+			size_t _count;
 		};
 
 		using PluginList = std::map<uint32_t, PluginInfo>;
@@ -49,13 +50,13 @@ namespace Menus
 		static void InitContainer();
 
 		static uint32_t GetCombinedIndex(const RE::TESFile* a_file);
+		static uint32_t GetTypeCount(RE::FormType a_type);
 
 		static void AddForms(RE::FormType a_type);
 
 	private:
 		static inline PluginList _plugins;
 		static inline PluginCache _cache;
-
 		static inline RE::TESObjectREFR* _container;
 	};
 }

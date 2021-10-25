@@ -2,15 +2,15 @@ set(SOURCES
 	src/c++/Event/Event.cpp
 	src/c++/Event/Event.h
 	src/c++/Event/EventHandler.h
-	src/c++/Event/Input/Input.h
-	src/c++/Event/Input/InputHandler.cpp
-	src/c++/Event/Input/InputHandler.h
+	src/c++/Event/Input.h
 	src/c++/Menus/Menus.cpp
 	src/c++/Menus/Menus.h
 	src/c++/Menus/PluginExplorer/Items/ItemForm.h
 	src/c++/Menus/PluginExplorer/Items/ItemPlugin.h
 	src/c++/Menus/PluginExplorer/PluginExplorer.cpp
 	src/c++/Menus/PluginExplorer/PluginExplorer.h
+	src/c++/Menus/PluginExplorer/PluginExplorerHandler.cpp
+	src/c++/Menus/PluginExplorer/PluginExplorerHandler.h
 	src/c++/Menus/PluginExplorer/PluginExplorerMenu.cpp
 	src/c++/Menus/PluginExplorer/PluginExplorerMenu.h
 	src/c++/PCH.h

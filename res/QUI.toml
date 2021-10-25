@@ -1,2 +1,19 @@
-[Key]
-PluginExplorerKey = 87
+[General]
+# Nothing yet
+
+[PluginExplorer]
+Loop = true
+Sound = true
+
+[PluginExplorer.Key]
+KeyboardToggle = 87 # F11
+
+[PluginExplorer.Count]
+Alchemy = 25
+Ammo = 500
+Armor = 5
+Book = 5
+Key = 1
+Misc = 25
+Note = 5
+Weapon = 10

@@ -25,7 +25,7 @@ namespace Menus
 	public:
 		static constexpr std::string_view FILE_NAME{ "PluginExplorerMenu" };
 		static constexpr std::string_view MENU_NAME{ "PluginExplorerMenu" };
-		static constexpr std::int8_t SORT_PRIORITY{ 3 };
+		static constexpr std::int8_t SORT_PRIORITY{ -1 };
 
 		PluginExplorerMenu();
 		~PluginExplorerMenu() override;
@@ -41,25 +41,30 @@ namespace Menus
 		bool ProcessButton(RE::ButtonEvent* a_event) override;
 
 	public:
+		enum class Focus
+		{
+			Plugin,
+			Form,
+			Container
+		};
+
+	public:
 		static bool IsOpen();
 
 		static void Open();
 		static void Close();
 		static void Toggle();
 
-	private:
-		enum class Focus
-		{
-			Plugin,
-			Form
-		};
+		static Focus GetFocus() { return _focus; };
 
+	private:
 		void Init();
 		void InitExtensions();
 
 		void OnOpen();
 		void OnClose();
 
+		void Refresh();
 		void RefreshPlugins();
 		void RefreshForms();
 		void RefreshUI();
@@ -86,8 +91,8 @@ namespace Menus
 		CLIK::GFx::Controls::ButtonBar _buttonBar;
 		RE::GFxValue _buttonBarProvider;
 
-		Focus _focus{ Focus::Plugin };
-		std::string _pluginName;
-		uint32_t _pluginIndex;
+		static inline Focus _focus{ Focus::Plugin };
+		static inline std::string _pluginName;
+		static inline uint32_t _pluginIndex;
 	};
 }
