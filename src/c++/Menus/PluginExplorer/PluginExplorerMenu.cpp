@@ -211,6 +211,12 @@ namespace Menus
 		UpdatePosition();
 		RefreshPlugins();
 		RefreshUI();
+
+		auto container = PluginExplorer::GetContainer();
+		if (container && !container->Get3D()) {
+			container->SetPosition({ 0, 0, 0 });
+			container->SetCollision(false);
+		}
 	}
 
 	void PluginExplorerMenu::InitExtensions()
@@ -323,7 +329,11 @@ namespace Menus
 			auto form = _formList.SelectedItem();
 			if (form) {
 				Close();
-				// TODO: Create container with selected items and open with container UI
+				bool success = PluginExplorer::OpenContainer(_pluginIndex, form->GetType());
+				if (!success) {
+					logger::info("Failed to open container: [{}] {} ({})",
+						_pluginIndex, _pluginName, form->GetName());
+				}
 			}
 		}
 

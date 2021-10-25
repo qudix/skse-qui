@@ -8,7 +8,7 @@ namespace Menus
 		class PluginInfo
 		{
 		public:
-			using FormMap = std::map<RE::FormID, std::string_view>;
+			using FormMap = std::map<RE::TESForm*, std::string_view>;
 			using TypeMap = std::unordered_map<RE::FormType, FormMap>;
 
 			PluginInfo(std::string_view a_name, uint32_t a_index) :
@@ -20,7 +20,11 @@ namespace Menus
 			void AddForm(T a_form);
 
 			std::string_view GetName() const noexcept { return _name; }
-			TypeMap GetForms() { return _forms; }
+			TypeMap& GetForms() { return _forms; }
+
+			template<class T>
+			FormMap& GetForms(T a_type) { return GetForms()[a_type]; };
+
 			size_t GetCount();
 
 		private:
@@ -36,9 +40,14 @@ namespace Menus
 		static void Reset() { _plugins.clear(); }
 
 		static PluginList& GetPlugins() { return _plugins; }
-		static PluginInfo* FindPlugin(uint32_t a_formID);
+		static PluginInfo* FindPlugin(uint32_t a_index);
+
+		static RE::TESObjectREFR* GetContainer() { return _container; }
+		static bool OpenContainer(uint32_t a_index, RE::FormType a_type);
 
 	private:
+		static void InitContainer();
+
 		static uint32_t GetCombinedIndex(const RE::TESFile* a_file);
 
 		static void AddForms(RE::FormType a_type);
@@ -46,5 +55,7 @@ namespace Menus
 	private:
 		static inline PluginList _plugins;
 		static inline PluginCache _cache;
+
+		static inline RE::TESObjectREFR* _container;
 	};
 }
