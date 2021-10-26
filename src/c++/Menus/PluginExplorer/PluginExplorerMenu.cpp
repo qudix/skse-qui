@@ -23,7 +23,9 @@ namespace Menus
 			Flag::kHasButtonBar,
 			Flag::kUsesMovementToDirection
 		);
-		menu->inputContext = Context::kItemMenu;
+
+		if (Settings::PluginExplorer.Pause)
+			menu->menuFlags.set(Flag::kPausesGame);
 
 		auto scaleform = RE::BSScaleformManager::GetSingleton();
 		bool success = scaleform->LoadMovieEx(menu, FILE_NAME, [](RE::GFxMovieDef* a_def) -> void {
