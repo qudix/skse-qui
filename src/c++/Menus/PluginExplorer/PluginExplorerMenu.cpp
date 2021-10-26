@@ -76,6 +76,29 @@ namespace Menus
 		}
 	}
 
+	void PluginExplorerMenu::AdvanceMovie(float a_interval, std::uint32_t a_currentTime)
+	{
+		if (_upHeld || _downHeld) {
+			_heldGuard += 1;
+			if (_heldGuard >= 15) {
+				_heldCount += 1;
+				if (_heldCount >= 5) {
+					if (_upHeld)
+						ModSelectedIndex(-1);
+					else if (_downHeld)
+						ModSelectedIndex(1);
+
+					_heldCount = 0;
+				}
+			}
+		} else {
+			_heldGuard = 0;
+			_heldCount = 0;
+		}
+
+		Super::AdvanceMovie(a_interval, a_currentTime);
+	}
+
 	bool PluginExplorerMenu::CanProcess(RE::InputEvent* a_event)
 	{
 		using Type = RE::INPUT_EVENT_TYPE;
@@ -92,67 +115,113 @@ namespace Menus
 	bool PluginExplorerMenu::ProcessButton(RE::ButtonEvent* a_event)
 	{
 		using Device = RE::INPUT_DEVICE;
-		if (!a_event->IsDown())
-			return true;
+		auto device = a_event->GetDevice();
 
-		switch (a_event->GetDevice()) {
-		case Device::kKeyboard:
-			{
-				using Key = RE::BSWin32KeyboardDevice::Key;
-				switch (a_event->idCode) {
-				case Key::kEnter:
-					Select();
-					break;
-				case Key::kEscape:
-					Back();
-					break;
-				case Key::kW:
-					ModSelectedIndex(-1);
-					break;
-				case Key::kS:
-					ModSelectedIndex(1);
-					break;
+		if (a_event->IsUp()) {
+			switch (device) {
+			case Device::kKeyboard:
+				{
+					using Key = RE::BSWin32KeyboardDevice::Key;
+					switch (a_event->idCode) {
+					case Key::kW:
+						_upHeld = false;
+						break;
+					case Key::kS:
+						_downHeld = false;
+						break;
+					}
+				}
+				break;
+			case Device::kGamepad:
+				{
+					using Key = RE::BSWin32GamepadDevice::Key;
+					switch (a_event->idCode) {
+					case Key::kUp:
+						_upHeld = false;
+						break;
+					case Key::kDown:
+						_downHeld = false;
+						break;
+					}
 				}
 			}
-			break;
-		case Device::kMouse:
-			{
-				using Key = RE::BSWin32MouseDevice::Key;
-				switch (a_event->idCode) {
-				case Key::kLeftButton:
-					Select();
-					break;
-				case Key::kRightButton:
-					Back();
-					break;
-				case Key::kWheelUp:
-					ModSelectedIndex(-1);
-					break;
-				case Key::kWheelDown:
-					ModSelectedIndex(1);
-					break;
+		}
+
+		if (a_event->IsDown()) {
+			switch (device) {
+			case Device::kKeyboard:
+				{
+					using Key = RE::BSWin32KeyboardDevice::Key;
+					switch (a_event->idCode) {
+					case Key::kD:
+					case Key::kEnter:
+						Select();
+						break;
+					case Key::kA:
+					case Key::kEscape:
+					case Key::kTab:
+						Back();
+						break;
+					case Key::kW:
+						{
+							_upHeld = true;
+							ModSelectedIndex(-1);
+							break;
+						}
+					case Key::kS:
+						{
+							_downHeld = true;
+							ModSelectedIndex(1);
+							break;
+						}
+					}
 				}
-			}
-			break;
-		case Device::kGamepad:
-			{
-				using Key = RE::BSWin32GamepadDevice::Key;
-				switch (a_event->idCode) {
-				case Key::kA:
-					Select();
-					break;
-				case Key::kBack:
-					Back();
-					break;
-				case Key::kUp:
-					ModSelectedIndex(-1);
-					break;
-				case Key::kDown:
-					ModSelectedIndex(1);
-					break;
+				break;
+			case Device::kMouse:
+				{
+					using Key = RE::BSWin32MouseDevice::Key;
+					switch (a_event->idCode) {
+					case Key::kLeftButton:
+						Select();
+						break;
+					case Key::kRightButton:
+						Back();
+						break;
+					case Key::kWheelUp:
+						ModSelectedIndex(-1);
+						break;
+					case Key::kWheelDown:
+						ModSelectedIndex(1);
+						break;
+					}
 				}
+				break;
+			case Device::kGamepad:
+				{
+					using Key = RE::BSWin32GamepadDevice::Key;
+					switch (a_event->idCode) {
+					case Key::kA:
+						Select();
+						break;
+					case Key::kB:
+						Back();
+						break;
+					case Key::kUp:
+						{
+							_upHeld = true;
+							ModSelectedIndex(-1);
+							break;
+						}
+					case Key::kDown:
+						{
+							_downHeld = true;
+							ModSelectedIndex(1);
+							break;
+						}
+					}
+				}
+				break;
 			}
-			break;
 		}
 
 		return true;

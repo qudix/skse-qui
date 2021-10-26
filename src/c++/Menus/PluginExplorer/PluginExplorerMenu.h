@@ -34,6 +34,7 @@ namespace Menus
 
 		// override (IMenu)
 		RE::UI_MESSAGE_RESULTS	ProcessMessage(RE::UIMessage& a_message) override;
+		void					AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;
 		void					RefreshPlatform() override { UpdateButtonBar(); }
 
 		// override (MenuEventHandler)
@@ -90,6 +91,11 @@ namespace Menus
 
 		CLIK::GFx::Controls::ButtonBar _buttonBar;
 		RE::GFxValue _buttonBarProvider;
+
+		uint32_t _heldGuard{ 0 };
+		uint32_t _heldCount{ 0 };
+		bool _upHeld{ false };
+		bool _downHeld{ false };
 
 		static inline Focus _focus{ Focus::Plugin };
 		static inline std::string _pluginName;
