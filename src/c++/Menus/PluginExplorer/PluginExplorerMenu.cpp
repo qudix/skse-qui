@@ -13,6 +13,7 @@ namespace Menus
 		RE::MenuEventHandler()
 	{
 		auto menu = static_cast<Super*>(this);
+		menu->inputContext = Context::kInventory;
 		menu->depthPriority = SORT_PRIORITY;
 		menu->menuFlags.set(
 			Flag::kUsesMenuContext,
