@@ -5,7 +5,6 @@ class Settings
 public:
 	struct PluginExplorer_
 	{
-		bool Pause;
 		bool Loop;
 		bool Sound;
 
@@ -35,7 +34,6 @@ public:
 
 			const auto pluginExplorer = table["PluginExplorer"];
 			PluginExplorer = {
-				.Pause = *pluginExplorer["Pause"].value<bool>(),
 				.Loop = *pluginExplorer["Loop"].value<bool>(),
 				.Sound = *pluginExplorer["Sound"].value<bool>()
 			};

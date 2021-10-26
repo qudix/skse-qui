@@ -13,7 +13,7 @@ namespace Menus
 		RE::MenuEventHandler()
 	{
 		auto menu = static_cast<Super*>(this);
-		menu->inputContext = Context::kInventory;
+		menu->inputContext = Context::kItemMenu;
 		menu->depthPriority = SORT_PRIORITY;
 		menu->menuFlags.set(
 			Flag::kUsesMenuContext,
@@ -23,9 +23,6 @@ namespace Menus
 			Flag::kHasButtonBar,
 			Flag::kUsesMovementToDirection
 		);
-
-		if (Settings::PluginExplorer.Pause)
-			menu->menuFlags.set(Flag::kPausesGame);
 
 		auto scaleform = RE::BSScaleformManager::GetSingleton();
 		bool success = scaleform->LoadMovieEx(menu, FILE_NAME, [](RE::GFxMovieDef* a_def) -> void {
