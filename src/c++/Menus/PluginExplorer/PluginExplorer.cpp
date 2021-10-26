@@ -88,7 +88,6 @@ namespace Menus
 		container->SetFormEditorID("PluginExplorerCONT");
 		container->fullName = "PluginExplorerContainer";
 		container->boundData = { { 0, 0, 0 }, { 0, 0, 0 } };
-		container->SetModel("furniture/noble/noblechest01.nif");
 	
 		auto factoryREFR = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectREFR>();
 		_container = factoryREFR ? factoryREFR->Create() : nullptr;
