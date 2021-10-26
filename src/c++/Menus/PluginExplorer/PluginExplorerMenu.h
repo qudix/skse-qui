@@ -46,7 +46,8 @@ namespace Menus
 		{
 			Plugin,
 			Form,
-			Container
+			Container,
+			ContainerLoop
 		};
 
 	public:
@@ -56,7 +57,14 @@ namespace Menus
 		static void Close();
 		static void Toggle();
 
+		static void SetFocus(Focus a_focus) { _focus = a_focus; }
 		static Focus GetFocus() { return _focus; };
+
+		static std::string GetPluginName() { return _pluginName; }
+		static uint32_t GetPluginIndex() { return _pluginIndex; }
+
+		static std::string GetFormName() { return _formName; }
+		static RE::FormType GetFormType() { return _formType; }
 
 	private:
 		void Init();
@@ -98,7 +106,11 @@ namespace Menus
 		bool _downHeld{ false };
 
 		static inline Focus _focus{ Focus::Plugin };
+
 		static inline std::string _pluginName;
-		static inline uint32_t _pluginIndex;
+		static inline uint32_t _pluginIndex{ 0 };
+
+		static inline std::string _formName;
+		static inline RE::FormType _formType{ RE::FormType::None };
 	};
 }

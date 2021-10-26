@@ -1,5 +1,6 @@
 #include "Menus/PluginExplorer/PluginExplorerHandler.h"
 #include "Menus/PluginExplorer/PluginExplorerMenu.h"
+#include "Menus/PluginExplorer/PluginExplorer.h"
 
 namespace Menus
 {
@@ -38,8 +39,31 @@ namespace Menus
 			if (!a_event.opening) {
 				bool loop = Settings::PluginExplorer.Loop;
 				auto focus = Menu::GetFocus();
-				if (loop && focus == Menu::Focus::Container)
+				if (loop && focus == Menu::Focus::Container) {
+					Menu::SetFocus(Menu::Focus::ContainerLoop);
 					Menu::Open();
+				}
+			}
+		} else if (name == Menu::MENU_NAME) {
+			if (!a_event.opening) {
+				auto focus = Menu::GetFocus();
+				if (focus != Menu::Focus::Container)
+					return;
+
+				auto pluginName = Menu::GetPluginName();
+				auto pluginIndex = Menu::GetPluginIndex();
+				if (pluginName.empty() || !pluginIndex)
+					return;
+
+				auto formName = Menu::GetFormName();
+				auto formType = Menu::GetFormType();
+				if (formType != RE::FormType::None) {
+					bool success = PluginExplorer::OpenContainer(pluginIndex, formType);
+					if (!success) {
+						logger::info("Failed to open container: [{}] {} ({})",
+							pluginIndex, pluginName, formName);
+					}
+				}
 			}
 		}
 	}

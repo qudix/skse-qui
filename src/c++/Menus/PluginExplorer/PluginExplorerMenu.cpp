@@ -315,7 +315,7 @@ namespace Menus
 		UpdatePosition();
 		RefreshPlugins();
 
-		if (_focus == Focus::Container) {
+		if (_focus == Focus::ContainerLoop) {
 			_focus = Focus::Form;
 			_pluginList.Visible(false);
 			RefreshForms();
@@ -323,6 +323,8 @@ namespace Menus
 			_focus = Focus::Plugin;
 			_pluginName = "";
 			_pluginIndex = 0;
+			_formName = "";
+			_formType = RE::FormType::None;
 		}
 
 		RefreshUI();
@@ -405,16 +407,10 @@ namespace Menus
 		} else if (_focus == Focus::Form) {
 			auto form = _formList.SelectedItem();
 			if (form) {
+				_focus = Focus::Container;
+				_formName = form->GetName();
+				_formType = form->GetType();
 				Close();
-
-				bool success = PluginExplorer::OpenContainer(_pluginIndex, form->GetType());
-				if (success) {
-					if (Settings::PluginExplorer.Loop)
-						_focus = Focus::Container;
-				} else {
-					logger::info("Failed to open container: [{}] {} ({})",
-						_pluginIndex, _pluginName, form->GetName());
-				}
 			}
 		}
 
@@ -432,6 +428,7 @@ namespace Menus
 			_pluginList.Visible(true);
 			_pluginName.clear();
 			_pluginIndex = 0;
+			_formType = RE::FormType::None;
 		}
 
 		RefreshUI();

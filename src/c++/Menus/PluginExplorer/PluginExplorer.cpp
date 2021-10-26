@@ -137,7 +137,7 @@ namespace Menus
 
 		Script::CallbackPtr callback;
 		auto playerRef = RE::PlayerCharacter::GetSingleton()->AsReference();
-		bool success = Script::DispatchMethodCall(obj, "Activate", callback, std::move(playerRef), false);
+		bool success = Script::DispatchMethodCall(obj, "Activate", callback, std::move(playerRef), true);
 		if (!success) {
 			logger::info("Could not dispatch `Activate` on ObjectReference");
 			return false;
