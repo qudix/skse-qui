@@ -2,6 +2,7 @@
 # Nothing yet
 
 [PluginExplorer]
+Pause = false
 Loop = true
 Sound = true
 

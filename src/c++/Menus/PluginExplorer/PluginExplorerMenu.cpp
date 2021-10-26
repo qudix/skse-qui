@@ -24,6 +24,9 @@ namespace Menus
 			Flag::kUsesMovementToDirection
 		);
 
+		if (Settings::PluginExplorer.Pause)
+			menu->menuFlags.set(Flag::kPausesGame);
+
 		auto scaleform = RE::BSScaleformManager::GetSingleton();
 		bool success = scaleform->LoadMovieEx(menu, FILE_NAME, [](RE::GFxMovieDef* a_def) -> void {
 			a_def->SetState(
