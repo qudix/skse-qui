@@ -30,6 +30,9 @@ namespace Menus::Item
 			case RE::FormType::Note:
 				_name = "Note";
 				break;
+			case RE::FormType::Spell:
+				_name = "Spell";
+				break;
 			case RE::FormType::Weapon:
 				_name = "Weapon";
 				break;

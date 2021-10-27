@@ -358,10 +358,23 @@ namespace Menus
 
 		auto plugin = PluginExplorer::FindPlugin(_pluginIndex);
 		if (plugin) {
-			for (auto& [type, map] : plugin->GetForms()) {
-				Item::ItemForm form{ type, map.size() };
-				_formList.PushBack(form);
-			}
+			auto& types = plugin->GetForms();
+			auto doForms = [&](RE::FormType a_type) {
+				if (types.contains(a_type)) {
+					Item::ItemForm form{ a_type, types[a_type].size() };
+					_formList.PushBack(form);
+				}
+			};
+
+			doForms(RE::FormType::AlchemyItem);
+			doForms(RE::FormType::Ammo);
+			doForms(RE::FormType::Armor);
+			doForms(RE::FormType::Book);
+			doForms(RE::FormType::KeyMaster);
+			doForms(RE::FormType::Misc);
+			doForms(RE::FormType::Note);
+			doForms(RE::FormType::Spell);
+			doForms(RE::FormType::Weapon);
 		}
 
 		_formList.Refresh();

@@ -5,29 +5,45 @@
 
 namespace Menus
 {
-	template <class T>
-	void PluginExplorer::PluginInfo::AddForm(T a_form)
+	void PluginExplorer::PluginInfo::AddForm(RE::TESForm* a_form, RE::FormType a_type)
 	{
 		auto formName = a_form->GetName();
 		if (!formName || !a_form->GetPlayable())
 			return;
 
-		RE::FormType formType = a_form->GetFormType();
-		switch (formType) {
-			case RE::FormType::AlchemyItem:
-			case RE::FormType::Ammo:
-			case RE::FormType::Armor:
-			case RE::FormType::Book:
-			case RE::FormType::KeyMaster:
-			case RE::FormType::Misc:
-			case RE::FormType::Note:
-			case RE::FormType::Weapon:
-				_forms[formType].insert_or_assign(a_form, formName);
-				_count += 1;
+		using Type = RE::FormType;
+		switch (a_type) {
+		case Type::AlchemyItem:
+		case Type::Ammo:
+		case Type::Armor:
+		case Type::KeyMaster:
+		case Type::Misc:
+		case Type::Note:
+		case Type::Weapon:
+			_forms[a_type].insert_or_assign(a_form, formName);
+			_count += 1;
+			break;
+		case Type::Book:
+			{
+				auto book = a_form->As<RE::TESObjectBOOK>();
+				if (book && !book->TeachesSpell()) {
+					_forms[a_type].insert_or_assign(a_form, formName);
+					_count += 1;
+				}
 				break;
-			default:
-				logger::warn("Unhandled FormType: {}", formType);
+			}
+		case Type::Spell:
+			{
+				auto book = a_form->As<RE::TESObjectBOOK>();
+				if (book && book->TeachesSpell()) {
+					_forms[a_type].insert_or_assign(a_form, formName);
+					_count += 1;
+				}
 				break;
+			}
+		default:
+			logger::warn("Unhandled FormType: {}", a_type);
+			break;
 		}
 	}
 
@@ -55,6 +71,7 @@ namespace Menus
 		AddForms(RE::FormType::KeyMaster);
 		AddForms(RE::FormType::Misc);
 		AddForms(RE::FormType::Note);
+		AddForms(RE::FormType::Spell);
 		AddForms(RE::FormType::Weapon);
 
 		InitContainer();
@@ -188,8 +205,17 @@ namespace Menus
 
 	void PluginExplorer::AddForms(RE::FormType a_type)
 	{
+		RE::FormType type = a_type;
+		switch (a_type) {
+		case RE::FormType::Spell:
+			{
+				type = RE::FormType::Book;
+				break;
+			}
+		}
+
 		auto handler = RE::TESDataHandler::GetSingleton();
-		auto& items = handler->GetFormArray(a_type);
+		auto& items = handler->GetFormArray(type);
 		for (auto form : items) {
 			auto file = form->GetFile(0);
 			if (!file || !(file->compileIndex < 0xFF))
@@ -201,7 +227,7 @@ namespace Menus
 
 			auto info = _plugins.find(GetCombinedIndex(file));
 			if (info != _plugins.end()) {
-				info->second.AddForm(form);
+				info->second.AddForm(form, a_type);
 			}
 		}
 	}

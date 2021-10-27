@@ -16,14 +16,12 @@ namespace Menus
 				_index(a_index)
 			{}
 
-			template<class T>
-			void AddForm(T a_form);
+			void AddForm(RE::TESForm* a_form, RE::FormType a_type);
 
 			std::string_view GetName() const noexcept { return _name; }
-			TypeMap& GetForms() { return _forms; }
 
-			template<class T>
-			FormMap& GetForms(T a_type) { return GetForms()[a_type]; }
+			TypeMap& GetForms() { return _forms; }
+			FormMap& GetForms(RE::FormType a_type) { return _forms[a_type]; }
 
 			size_t GetCount() { return _count; }
 
