@@ -52,7 +52,7 @@ namespace Menus
 
 				auto pluginName = Menu::GetPluginName();
 				auto pluginIndex = Menu::GetPluginIndex();
-				if (pluginName.empty() || !pluginIndex)
+				if (pluginName.empty())
 					return;
 
 				auto formName = Menu::GetFormName();
