@@ -304,10 +304,20 @@ namespace Menus
 
 	void PluginExplorerMenu::OnOpen()
 	{
+		using UEFlag = RE::ControlMap::UEFlag;
+		auto controlMap = RE::ControlMap::GetSingleton();
+		if (controlMap) {
+			controlMap->ToggleControls(UEFlag::kPOVSwitch, false);
+		}
 	}
 
 	void PluginExplorerMenu::OnClose()
 	{
+		using UEFlag = RE::ControlMap::UEFlag;
+		auto controlMap = RE::ControlMap::GetSingleton();
+		if (controlMap) {
+			controlMap->ToggleControls(UEFlag::kPOVSwitch, true);
+		}
 	}
 
 	void PluginExplorerMenu::Refresh()
