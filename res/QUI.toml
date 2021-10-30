@@ -18,3 +18,17 @@ Key = 1
 Misc = 25
 Note = 5
 Weapon = 10
+
+[MainMenu]
+# Nothing yet
+
+[MainMenu.UI]
+Logo = false
+Motd = false
+
+[MainMenu.List]
+CC = false
+DLC = false
+Mods = false
+Credits = false
+Help = false

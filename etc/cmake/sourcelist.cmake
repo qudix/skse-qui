@@ -13,6 +13,8 @@ set(SOURCES
 	src/c++/Menus/PluginExplorer/PluginExplorerHandler.h
 	src/c++/Menus/PluginExplorer/PluginExplorerMenu.cpp
 	src/c++/Menus/PluginExplorer/PluginExplorerMenu.h
+	src/c++/Menus/Start/Start.cpp
+	src/c++/Menus/Start/Start.h
 	src/c++/PCH.h
 	src/c++/Scaleform/CLIK/Array.h
 	src/c++/Scaleform/CLIK/GFx/Controls/Button.h
@@ -38,4 +40,5 @@ set(SOURCES
 	src/swf/PluginExplorerMenu/ListPluginRenderer.as
 	src/swf/PluginExplorerMenu/Root.as
 	src/swf/PluginExplorerMenu/ScrollingList.as
+	src/swf/StartMenuEx/Main.as
 )

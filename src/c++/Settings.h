@@ -27,6 +27,24 @@ public:
 		} Count;
 	};
 
+	struct MainMenu_
+	{
+		struct
+		{
+			bool Logo;
+			bool Motd;
+		} UI;
+
+		struct
+		{
+			bool CC;
+			bool DLC;
+			bool Mods;
+			bool Credits;
+			bool Help;
+		} List;
+	};
+
 	static void Load()
 	{
 		try {
@@ -57,6 +75,22 @@ public:
 				.Weapon = *pluginExplorerCount["Weapon"].value<uint32_t>()
 			};
 
+			const auto mainMenu = table["MainMenu"];
+			const auto mainMenuUI = mainMenu["UI"];
+			MainMenu.UI = {
+				.Logo = *mainMenuUI["Logo"].value<bool>(),
+				.Motd = *mainMenuUI["Motd"].value<bool>()
+			};
+
+			const auto mainMenuList = mainMenu["List"];
+			MainMenu.List = {
+				.CC = *mainMenuList["CC"].value<bool>(),
+				.DLC = *mainMenuList["DLC"].value<bool>(),
+				.Mods = *mainMenuList["Mods"].value<bool>(),
+				.Credits = *mainMenuList["Credits"].value<bool>(),
+				.Help = *mainMenuList["Help"].value<bool>()
+			};
+
 		} catch (const toml::parse_error& e) {
 			std::ostringstream ss;
 			ss << "Error parsing file \'" << *e.source().path << "\':\n"
@@ -72,4 +106,5 @@ public:
 	}
 
 	static inline PluginExplorer_ PluginExplorer;
+	static inline MainMenu_ MainMenu;
 };
