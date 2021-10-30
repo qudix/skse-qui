@@ -27,6 +27,7 @@ set(SOURCES
 	src/c++/Scaleform/CLIK/Object.h
 	src/c++/Scaleform/CLIK/TextField.h
 	src/c++/Scaleform/Common/ItemList.h
+	src/c++/Scaleform/System/Function.h
 	src/c++/Scaleform/System/Logger.h
 	src/c++/Script/Script.h
 	src/c++/Settings.h
