@@ -23,12 +23,12 @@ Weapon = 10
 # Nothing yet
 
 [MainMenu.UI]
-Logo = false
-Motd = false
+Logo = true
+Motd = true
 
 [MainMenu.List]
-CC = false
+CC = true
 DLC = false
-Mods = false
-Credits = false
-Help = false
+Mods = true
+Credits = true
+Help = true
