@@ -11,6 +11,7 @@ namespace Menus
 		if (!formName || !a_form->GetPlayable())
 			return;
 
+		auto formID = a_form->GetFormID();
 		using Type = RE::FormType;
 		switch (a_type) {
 		case Type::AlchemyItem:
@@ -20,14 +21,14 @@ namespace Menus
 		case Type::Misc:
 		case Type::Note:
 		case Type::Weapon:
-			_forms[a_type].insert_or_assign(a_form, formName);
+			_forms[a_type].insert_or_assign(formID, formName);
 			_count += 1;
 			break;
 		case Type::Book:
 			{
 				auto book = a_form->As<RE::TESObjectBOOK>();
 				if (book && !book->TeachesSpell()) {
-					_forms[a_type].insert_or_assign(a_form, formName);
+					_forms[a_type].insert_or_assign(formID, formName);
 					_count += 1;
 				}
 				break;
@@ -36,7 +37,7 @@ namespace Menus
 			{
 				auto book = a_form->As<RE::TESObjectBOOK>();
 				if (book && book->TeachesSpell()) {
-					_forms[a_type].insert_or_assign(a_form, formName);
+					_forms[a_type].insert_or_assign(formID, formName);
 					_count += 1;
 				}
 				break;
@@ -138,11 +139,11 @@ namespace Menus
 			}
 		}
 
-		for (auto& [form, name] : plugin->GetForms(a_type)) {
-			auto bound = form ? form->As<RE::TESBoundObject>() : nullptr;
-			if (bound && _container) {
+		for (auto& [formID, name] : plugin->GetForms(a_type)) {
+			auto object = RE::TESForm::LookupByID(formID)->As<RE::TESBoundObject>();
+			if (object && _container) {
 				auto count = GetTypeCount(a_type);
-				_container->AddObjectToContainer(bound, nullptr, count, nullptr);
+				_container->AddObjectToContainer(object, nullptr, count, nullptr);
 			}
 		}
 

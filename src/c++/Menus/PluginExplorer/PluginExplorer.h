@@ -8,7 +8,7 @@ namespace Menus
 		class PluginInfo
 		{
 		public:
-			using FormMap = std::map<RE::TESForm*, std::string_view>;
+			using FormMap = std::map<RE::FormID, std::string_view>;
 			using TypeMap = std::unordered_map<RE::FormType, FormMap>;
 
 			PluginInfo(std::string_view a_name, uint32_t a_index) :
