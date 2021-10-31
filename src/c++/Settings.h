@@ -23,6 +23,7 @@ public:
 			uint32_t Key;
 			uint32_t Misc;
 			uint32_t Note;
+			uint32_t Spell;
 			uint32_t Weapon;
 		} Count;
 	};
@@ -72,6 +73,7 @@ public:
 				.Key = *pluginExplorerCount["Key"].value<uint32_t>(),
 				.Misc = *pluginExplorerCount["Misc"].value<uint32_t>(),
 				.Note = *pluginExplorerCount["Note"].value<uint32_t>(),
+				.Spell = *pluginExplorerCount["Spell"].value<uint32_t>(),
 				.Weapon = *pluginExplorerCount["Weapon"].value<uint32_t>()
 			};
 

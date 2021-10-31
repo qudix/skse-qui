@@ -17,6 +17,7 @@ Book = 5
 Key = 1
 Misc = 25
 Note = 5
+Spell = 1
 Weapon = 10
 
 [MainMenu]

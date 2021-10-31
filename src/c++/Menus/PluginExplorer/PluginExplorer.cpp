@@ -196,6 +196,8 @@ namespace Menus
 			return count.Misc;
 		case RE::FormType::Note:
 			return count.Note;
+		case RE::FormType::Spell:
+			return count.Spell;
 		case RE::FormType::Weapon:
 			return count.Weapon;
 		default:
