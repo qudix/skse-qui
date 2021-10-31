@@ -112,7 +112,6 @@ namespace Menus
 		if (!_container)
 			return;
 
-		_container->formFlags |= RE::TESObjectREFR::RecordFlags::kPersistent;
 		_container->data.objectReference = container;
 		_container->SetParentCell(cell);
 		_container->SetStartingPosition({ 0, 0, 0 });
