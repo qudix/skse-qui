@@ -11,7 +11,7 @@ void OnInit(SKSE::MessagingInterface::Message* a_msg)
 	}
 }
 
-extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
+bool StartLogger()
 {
 	auto path = logger::log_directory();
 	if (!path)
@@ -28,6 +28,27 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 	spdlog::set_pattern("%s(%#): [%^%l%$] %v"s);
 
 	logger::info("{} v{}"sv, Version::PROJECT, Version::NAME);
+
+	return true;
+}
+
+#ifdef IS_SKYRIM_AE
+
+extern "C" DLLEXPORT constexpr auto SKSEPlugin_Version = []() {
+	SKSE::PluginVersionData v{};
+	v.PluginVersion({ Version::MAJOR, Version::MINOR, Version::PATCH });
+	v.PluginName(Version::NAME);
+	v.AuthorName("Qudix"sv);
+	v.CompatibleVersions({ SKSE::RUNTIME_1_6_318 });
+	return v;
+}();
+
+#else
+
+extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
+{
+	if (!StartLogger())
+		return false;
 
 	a_info->infoVersion = SKSE::PluginInfo::kVersion;
 	a_info->name = Version::PROJECT.data();
@@ -47,8 +68,15 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 	return true;
 }
 
+#endif
+
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 {
+	#ifdef IS_SKYRIM_AE
+	if (!StartLogger())
+		return false;
+	#endif
+
 	SKSE::Init(a_skse);
 	Settings::Load();
 	Menus::Load();

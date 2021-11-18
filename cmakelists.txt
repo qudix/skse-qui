@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.21)
 # ---- Options ----
 
 option(COPY_BUILD "Copy the build output to the Skyrim SE directory." OFF)
+option(USE_AE "Use CommonLibAE" ON)
 
 # ---- Cache build vars ----
 
@@ -47,7 +48,11 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # ---- Dependencies ----
 
-add_subdirectory("lib/CommonLibSSE" CommonLibSSE)
+if(USE_AE)
+	add_subdirectory("lib/CommonLibAE" CommonLibSSE)
+else()
+	add_subdirectory("lib/CommonLibSSE" CommonLibSSE)
+endif()
 
 find_package(spdlog REQUIRED CONFIG)
 find_package(frozen REQUIRED CONFIG)
@@ -103,12 +108,18 @@ target_link_libraries(
 )
 
 if(MSVC)
+	if (USE_AE)
+		add_compile_definitions(IS_SKYRIM_AE)
+	endif()
+
 	target_compile_options(
 		"${PROJECT_NAME}"
 		PRIVATE
 			"/sdl"	 # Enable Additional Security Checks
 			"/utf-8" # Set Source and Executable character sets to UTF-8
 			"/Zi"	 # Debug Information Format
+
+			"/wd4201" # nonstandard extension used : nameless struct/union
 
 			"/permissive-" # Standards conformance
 
