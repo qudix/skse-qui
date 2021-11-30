@@ -34,7 +34,7 @@ bool StartLogger()
 
 #ifdef IS_SKYRIM_AE
 
-extern "C" DLLEXPORT constexpr auto SKSEPlugin_Version = []() {
+extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() {
 	SKSE::PluginVersionData v{};
 	v.PluginVersion({ Version::MAJOR, Version::MINOR, Version::PATCH });
 	v.PluginName(Version::NAME);
