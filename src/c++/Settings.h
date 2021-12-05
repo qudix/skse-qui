@@ -50,7 +50,7 @@ public:
 	{
 		try {
 			const auto table = toml::parse_file(
-				fmt::format("Data/SKSE/Plugins/{}.toml", Version::PROJECT));
+				fmt::format("Data/SKSE/Plugins/{}.toml", Plugin::NAME));
 
 			const auto pluginExplorer = table["PluginExplorer"];
 			PluginExplorer = {

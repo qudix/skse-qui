@@ -1,7 +1,7 @@
 #include "Event/Event.h"
 #include "Menus/Menus.h"
 
-void OnInit(SKSE::MessagingInterface::Message* a_msg)
+void MessageHandler(SKSE::MessagingInterface::Message* a_msg)
 {
 	switch (a_msg->type) {
 	case SKSE::MessagingInterface::kDataLoaded:
@@ -11,13 +11,13 @@ void OnInit(SKSE::MessagingInterface::Message* a_msg)
 	}
 }
 
-bool StartLogger()
+bool InitLogger()
 {
 	auto path = logger::log_directory();
 	if (!path)
 		return false;
 
-	*path /= fmt::format(FMT_STRING("{}.log"), Version::PROJECT);
+	*path /= fmt::format(FMT_STRING("{}.log"), Plugin::NAME);
 	auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
 	auto log = std::make_shared<spdlog::logger>("global log"s, std::move(sink));
 
@@ -27,7 +27,7 @@ bool StartLogger()
 	spdlog::set_default_logger(std::move(log));
 	spdlog::set_pattern("%s(%#): [%^%l%$] %v"s);
 
-	logger::info("{} v{}"sv, Version::PROJECT, Version::NAME);
+	logger::info("{} v{}"sv, Plugin::NAME, Plugin::VERSION.string());
 
 	return true;
 }
@@ -35,11 +35,12 @@ bool StartLogger()
 #ifdef IS_SKYRIM_AE
 
 extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() {
-	SKSE::PluginVersionData v{};
-	v.PluginVersion({ Version::MAJOR, Version::MINOR, Version::PATCH });
-	v.PluginName(Version::NAME);
+	SKSE::PluginVersionData v;
+	v.PluginVersion(Plugin::VERSION);
+	v.PluginName(Plugin::NAME);
 	v.AuthorName("Qudix"sv);
-	v.CompatibleVersions({ SKSE::RUNTIME_1_6_318 });
+	v.UsesAddressLibrary(true);
+	v.CompatibleVersions({ SKSE::RUNTIME_LATEST });
 	return v;
 }();
 
@@ -51,8 +52,8 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 		return false;
 
 	a_info->infoVersion = SKSE::PluginInfo::kVersion;
-	a_info->name = Version::PROJECT.data();
-	a_info->version = Version::MAJOR;
+	a_info->name = Plugin::NAME.data();
+	a_info->version = Plugin::VERSION;
 
 	if (a_skse->IsEditor()) {
 		logger::critical("Loaded in editor, marking as incompatible"sv);
@@ -73,7 +74,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 {
 	#ifdef IS_SKYRIM_AE
-	if (!StartLogger())
+	if (!InitLogger())
 		return false;
 	#endif
 
@@ -82,9 +83,9 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	Menus::Load();
 
 	const auto messaging = SKSE::GetMessagingInterface();
-	messaging->RegisterListener("SKSE", OnInit);
+	messaging->RegisterListener("SKSE", MessageHandler);
 
-	logger::info("{} loaded"sv, Version::PROJECT);
+	logger::info("{} loaded"sv, Plugin::NAME);
 
 	return true;
 }

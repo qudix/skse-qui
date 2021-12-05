@@ -1,23 +1,11 @@
 {
     "configurePresets": [
       {
-        "binaryDir": "build",
+        "binaryDir": "${sourceDir}/build",
         "cacheVariables": {
           "CMAKE_BUILD_TYPE": {
             "type": "STRING",
             "value": "Debug"
-          },
-          "COPY_BUILD": {
-            "type": "BOOL",
-            "value": "ON"
-          },
-          "CMAKE_INTERPROCEDURAL_OPTIMIZATION": {
-            "type": "BOOL",
-            "value": "ON"
-          },
-          "CMAKE_INTERPROCEDURAL_OPTIMIZATION_DEBUG": {
-            "type": "BOOL",
-            "value": "OFF"
           }
         },
         "errors": {
@@ -42,14 +30,6 @@
       },
       {
         "cacheVariables": {
-          "Boost_USE_STATIC_LIBS": {
-            "type": "BOOL",
-            "value": "ON"
-          },
-          "Boost_USE_STATIC_RUNTIME": {
-            "type": "BOOL",
-            "value": "OFF"
-          },
           "CMAKE_MSVC_RUNTIME_LIBRARY": {
             "type": "STRING",
             "value": "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
@@ -63,6 +43,27 @@
         "name": "windows"
       },
       {
+        "architecture": {
+          "strategy": "set",
+          "value": "x64"
+        },
+        "cacheVariables": {
+          "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX"
+        },
+        "generator": "Visual Studio 16 2019",
+        "inherits": [
+          "cmake-dev",
+          "vcpkg",
+          "windows"
+        ],
+        "name": "vs2019-windows-vcpkg",
+        "toolset": "v142"
+      },
+      {
+        "architecture": {
+          "strategy": "set",
+          "value": "x64"
+        },
         "cacheVariables": {
           "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX"
         },
@@ -76,5 +77,5 @@
         "toolset": "v143"
       }
     ],
-    "version": 2
+    "version": 3
   }

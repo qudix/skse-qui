@@ -6,6 +6,7 @@
     "license": "GPL-3.0",
     "dependencies": [
       "boost-stl-interfaces",
+      "rsm-binary-io",
       "spdlog",
       "frozen",
       "tomlplusplus"

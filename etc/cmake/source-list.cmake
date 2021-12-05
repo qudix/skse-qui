@@ -1,4 +1,4 @@
-set(SOURCES
+set(CXX_FILES
 	src/c++/Event/Event.cpp
 	src/c++/Event/Event.h
 	src/c++/Event/EventHandler.h
@@ -34,11 +34,4 @@ set(SOURCES
 	src/c++/Script/Script.h
 	src/c++/Settings.h
 	src/c++/main.cpp
-	src/swf/PluginExplorerMenu/Button.as
-	src/swf/PluginExplorerMenu/ButtonBar.as
-	src/swf/PluginExplorerMenu/ListFormRenderer.as
-	src/swf/PluginExplorerMenu/ListPluginRenderer.as
-	src/swf/PluginExplorerMenu/Root.as
-	src/swf/PluginExplorerMenu/ScrollingList.as
-	src/swf/StartMenuEx/Main.as
 )

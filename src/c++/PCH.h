@@ -23,5 +23,5 @@ namespace stl
 
 #define DLLEXPORT __declspec(dllexport)
 
-#include "Version.h"
+#include "Plugin.h"
 #include "Settings.h"
