@@ -11,7 +11,7 @@ option(USE_AE "Use Anniversary Edition" OFF)
 
 project(
     QUI
-    VERSION 0.2.1
+    VERSION 0.2.2
     LANGUAGES CXX
 )
 
