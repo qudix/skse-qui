@@ -284,11 +284,13 @@ namespace Menus
 		Refresh();
 		
 		auto container = PluginExplorer::GetContainer();
-		if (container && !container->Get3D()) {
+		if (container) {
 			auto player = RE::PlayerCharacter::GetSingleton();
 			container->SetParentCell(player->GetParentCell());
 			container->SetPosition({ player->GetPositionX(), player->GetPositionY(), -2000 });
 			container->SetCollision(false);
+		} else {
+			logger::critical("No container");
 		}
 	}
 
