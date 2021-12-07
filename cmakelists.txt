@@ -5,7 +5,7 @@ set(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 # ---- Options ----
 
 option(COPY_OUTPUT "Copy the output of build operations to the game directory." OFF)
-option(USE_AE "Use Anniversary Edition" ON)
+option(USE_AE "Use Anniversary Edition" OFF)
 
 # ---- Project ----
 
