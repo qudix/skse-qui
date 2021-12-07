@@ -16,7 +16,7 @@ def make_rel_archive(a_args):
         write(file, "Interface")
 
 def make_dbg_archive(a_args):
-	zip = make_zipfile(f"{a_args.name}-pdb")
+	zip = make_zipfile(f"{a_args.name}.pdb")
 	for pdb in a_args.pdb_files:
 		zip.write(pdb, os.path.basename(pdb))
 
