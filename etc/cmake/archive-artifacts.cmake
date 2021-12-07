@@ -37,7 +37,7 @@ add_custom_target(
 		"${PROJECT_NAME}"
 	BYPRODUCTS
 		"${ROOT_DIR}/bin/${ARCHIVE_NAME}.zip"
-		"${ROOT_DIR}/bin/${ARCHIVE_NAME}.pdb.zip"
+		"${ROOT_DIR}/bin/${ARCHIVE_NAME}_pdb.zip"
 	VERBATIM
 	SOURCES
 		"${SCRIPT}"
