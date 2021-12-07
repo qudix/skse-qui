@@ -381,6 +381,7 @@ namespace Menus
 			doForms(RE::FormType::Ammo);
 			doForms(RE::FormType::Armor);
 			doForms(RE::FormType::Book);
+			doForms(RE::FormType::Ingredient);
 			doForms(RE::FormType::KeyMaster);
 			doForms(RE::FormType::Misc);
 			doForms(RE::FormType::Note);

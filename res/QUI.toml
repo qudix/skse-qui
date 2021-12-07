@@ -14,6 +14,7 @@ Alchemy = 25
 Ammo = 500
 Armor = 5
 Book = 5
+Ingredient = 100
 Key = 1
 Misc = 25
 Note = 5

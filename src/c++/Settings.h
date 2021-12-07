@@ -20,6 +20,7 @@ public:
 			uint32_t Ammo;
 			uint32_t Armor;
 			uint32_t Book;
+			uint32_t Ingredient;
 			uint32_t Key;
 			uint32_t Misc;
 			uint32_t Note;
@@ -70,6 +71,7 @@ public:
 				.Ammo = *pluginExplorerCount["Ammo"].value<uint32_t>(),
 				.Armor = *pluginExplorerCount["Armor"].value<uint32_t>(),
 				.Book = *pluginExplorerCount["Book"].value<uint32_t>(),
+				.Ingredient = *pluginExplorerCount["Ingredient"].value<uint32_t>(),
 				.Key = *pluginExplorerCount["Key"].value<uint32_t>(),
 				.Misc = *pluginExplorerCount["Misc"].value<uint32_t>(),
 				.Note = *pluginExplorerCount["Note"].value<uint32_t>(),

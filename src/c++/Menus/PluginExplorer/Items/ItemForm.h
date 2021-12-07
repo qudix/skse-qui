@@ -21,6 +21,9 @@ namespace Menus::Item
 			case RE::FormType::Book:
 				_name = "Book";
 				break;
+			case RE::FormType::Ingredient:
+				_name = "Ingredient";
+				break;
 			case RE::FormType::KeyMaster:
 				_name = "Key";
 				break;

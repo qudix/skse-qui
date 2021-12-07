@@ -17,6 +17,7 @@ namespace Menus
 		case Type::AlchemyItem:
 		case Type::Ammo:
 		case Type::Armor:
+		case Type::Ingredient:
 		case Type::KeyMaster:
 		case Type::Misc:
 		case Type::Note:
@@ -69,6 +70,7 @@ namespace Menus
 		AddForms(RE::FormType::Ammo);
 		AddForms(RE::FormType::Armor);
 		AddForms(RE::FormType::Book);
+		AddForms(RE::FormType::Ingredient);
 		AddForms(RE::FormType::KeyMaster);
 		AddForms(RE::FormType::Misc);
 		AddForms(RE::FormType::Note);
@@ -207,6 +209,8 @@ namespace Menus
 			return count.Armor;
 		case RE::FormType::Book:
 			return count.Book;
+		case RE::FormType::Ingredient:
+			return count.Ingredient;
 		case RE::FormType::KeyMaster:
 			return count.Key;
 		case RE::FormType::Misc:
