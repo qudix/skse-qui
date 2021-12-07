@@ -41,11 +41,12 @@ namespace Menus
 		static PluginList& GetPlugins() { return _plugins; }
 		static PluginInfo* FindPlugin(uint32_t a_index);
 
-		static RE::TESObjectREFR* GetContainer() { return _container; }
+		static RE::TESObjectREFRPtr GetContainer();
 		static bool OpenContainer(uint32_t a_index, RE::FormType a_type);
 
 	private:
 		static void InitContainer();
+		static void InitContainerRef();
 
 		static uint32_t GetCombinedIndex(const RE::TESFile* a_file);
 		static uint32_t GetTypeCount(RE::FormType a_type);
@@ -55,6 +56,9 @@ namespace Menus
 	private:
 		static inline PluginList _plugins;
 		static inline PluginCache _cache;
-		static inline RE::TESObjectREFR* _container;
+
+		static inline RE::TESObjectCELL* _cell;
+		static inline RE::TESObjectCONT* _container;
+		static inline RE::ObjectRefHandle _containerRef;
 	};
 }

@@ -83,43 +83,60 @@ namespace Menus
 		// TODO: Figure out how to access the container in an unloaded cell
 		
 		auto factoryCELL = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectCELL>();
-		auto cell = factoryCELL ? factoryCELL->Create() : nullptr;
-		if (!cell)
+		_cell = factoryCELL ? factoryCELL->Create() : nullptr;
+		if (!_cell)
 			return;
 
 		auto handler = RE::TESDataHandler::GetSingleton();
-		auto lighting = handler->LookupForm(RE::FormID(0x300E2), "Skyrim.esm")->As<RE::BGSLightingTemplate>();
+		auto lighting = handler->LookupForm<RE::BGSLightingTemplate>(RE::FormID(0x300E2), "Skyrim.esm");
 		if (!lighting)
 			return;
 
-		cell->SetFormEditorID("PluginExplorerCELL");
-		cell->fullName = "PluginExplorerCELL";
-		cell->cellFlags.set(RE::TESObjectCELL::Flag::kIsInteriorCell);
-		cell->lightingTemplate = lighting;
-		cell->waterHeight = 0;
+		_cell->SetFormEditorID("QUIPluginExplorerCELL");
+		_cell->fullName = "QUIPluginExplorerCELL";
+		_cell->cellFlags.set(RE::TESObjectCELL::Flag::kIsInteriorCell);
+		_cell->lightingTemplate = lighting;
+		_cell->waterHeight = 0;
 
 		auto factoryCONT = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectCONT>();
-		auto container = factoryCONT ? factoryCONT->Create() : nullptr;
-		if (!container)
-			return;
-
-		container->SetFormEditorID("PluginExplorerCONT");
-		container->fullName = "PluginExplorerContainer";
-		container->boundData = { { 0, 0, 0 }, { 0, 0, 0 } };
-	
-		auto factoryREFR = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectREFR>();
-		_container = factoryREFR ? factoryREFR->Create() : nullptr;
+		_container = factoryCONT ? factoryCONT->Create() : nullptr;
 		if (!_container)
 			return;
 
-		_container->data.objectReference = container;
-		_container->SetParentCell(cell);
-		_container->SetStartingPosition({ 0, 0, 0 });
+		_container->SetFormEditorID("QUIPluginExplorerCONT");
+		_container->fullName = "QUIPluginExplorerContainer";
+		_container->boundData = { { 0, 0, 0 }, { 0, 0, 0 } };
+		//_container->SetModel("furniture/noble/noblechest01.nif"); // FOR TESTING ONLY!
+	}
+
+	void PluginExplorer::InitContainerRef()
+	{
+		auto factoryREFR = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectREFR>();
+		auto containerRef = factoryREFR ? factoryREFR->Create() : nullptr;
+		if (!containerRef)
+			return;
+
+		containerRef->formFlags |= RE::TESForm::RecordFlags::kTemporary;
+		containerRef->data.objectReference = _container;
+		containerRef->SetParentCell(_cell);
+		containerRef->SetStartingPosition({ 0, 0, 0 });
+		_containerRef = containerRef->CreateRefHandle();
+	}
+
+	RE::TESObjectREFRPtr PluginExplorer::GetContainer()
+	{
+		auto ref = _containerRef.get();
+		if (ref)
+			return ref;
+
+		InitContainerRef();
+		return _containerRef.get();
 	}
 
 	bool PluginExplorer::OpenContainer(uint32_t a_index, RE::FormType a_type)
 	{
-		if (!_container || _container->IsActivationBlocked())
+		auto container = GetContainer();
+		if (!container || container->IsActivationBlocked())
 			return false;
 
 		auto plugin = FindPlugin(a_index);
@@ -128,13 +145,13 @@ namespace Menus
 			return false;
 		}
 
-		_container->SetDisplayName(plugin->GetName(), true);
+		container->SetDisplayName(plugin->GetName(), true);
 
-		auto inv = _container->GetInventory();
+		auto inv = container->GetInventory();
 		for (auto& [obj, data] : inv) {
 			auto& [count, entry] = data;
 			if (count > 0 && entry) {
-				_container->RemoveItem(obj, count, RE::ITEM_REMOVE_REASON::kRemove, nullptr, nullptr);
+				container->RemoveItem(obj, count, RE::ITEM_REMOVE_REASON::kRemove, nullptr, nullptr);
 			}
 		}
 
@@ -142,11 +159,11 @@ namespace Menus
 			auto object = RE::TESForm::LookupByID(formID)->As<RE::TESBoundObject>();
 			if (object && _container) {
 				auto count = GetTypeCount(a_type);
-				_container->AddObjectToContainer(object, nullptr, count, nullptr);
+				container->AddObjectToContainer(object, nullptr, count, nullptr);
 			}
 		}
 
-		auto obj = Script::GetObject(_container, "ObjectReference", true);
+		auto obj = Script::GetObject(container.get(), "ObjectReference", true);
 		if (!obj) {
 			logger::info("Could not obtain ObjectReference");
 			return false;
