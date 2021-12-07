@@ -48,12 +48,12 @@ extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() {
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
 {
-	if (!StartLogger())
+	if (!InitLogger())
 		return false;
 
 	a_info->infoVersion = SKSE::PluginInfo::kVersion;
 	a_info->name = Plugin::NAME.data();
-	a_info->version = Plugin::VERSION;
+	a_info->version = stl::version_pack(Plugin::VERSION);
 
 	if (a_skse->IsEditor()) {
 		logger::critical("Loaded in editor, marking as incompatible"sv);
