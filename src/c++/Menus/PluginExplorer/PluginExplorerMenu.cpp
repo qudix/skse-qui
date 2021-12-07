@@ -18,7 +18,6 @@ namespace Menus
 		menu->menuFlags.set(
 			Flag::kUsesMenuContext,
 			Flag::kDisablePauseMenu,
-			Flag::kTopmostRenderedMenu,
 			Flag::kAllowSaving,
 			Flag::kHasButtonBar,
 			Flag::kUsesMovementToDirection

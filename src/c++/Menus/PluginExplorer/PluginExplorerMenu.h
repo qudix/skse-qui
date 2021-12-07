@@ -25,7 +25,7 @@ namespace Menus
 	public:
 		static constexpr std::string_view FILE_NAME{ "PluginExplorerMenu" };
 		static constexpr std::string_view MENU_NAME{ "PluginExplorerMenu" };
-		static constexpr std::int8_t SORT_PRIORITY{ -1 };
+		static constexpr std::int8_t SORT_PRIORITY{ 3 };
 
 		PluginExplorerMenu();
 		~PluginExplorerMenu() override;
