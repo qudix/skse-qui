@@ -13,4 +13,4 @@ nagging you? Want to remove items from the list? Well, you're in luck!
 
 # Dependencies
 - [SKSE64](https://skse.silverlock.org/)
-- [Address Library](https://www.nexusmods.com/fallout4/mods/47327)
+- [Address Library](https://www.nexusmods.com/skyrimspecialedition/mods/32444)
