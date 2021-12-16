@@ -1,11 +1,10 @@
 {
     "configurePresets": [
       {
-        "binaryDir": "${sourceDir}/build",
         "cacheVariables": {
           "CMAKE_BUILD_TYPE": {
             "type": "STRING",
-            "value": "Debug"
+            "value": "RelWithDebInfo"
           }
         },
         "errors": {
@@ -75,6 +74,46 @@
         ],
         "name": "vs2022-windows-vcpkg",
         "toolset": "v143"
+      },
+      {
+        "binaryDir": "${sourceDir}/build/vs2019-SE",
+        "inherits": [
+          "vs2019-windows-vcpkg"
+        ],
+        "name": "vs2019-windows-vcpkg-se"
+      },
+      {
+        "cacheVariables": {
+          "USE_AE": {
+            "type": "BOOL",
+            "value": "ON"
+          }
+        },
+        "binaryDir": "${sourceDir}/build/vs2019-AE",
+        "inherits": [
+          "vs2019-windows-vcpkg"
+        ],
+        "name": "vs2019-windows-vcpkg-ae"
+      },
+      {
+        "binaryDir": "${sourceDir}/build/vs2022-SE",
+        "inherits": [
+          "vs2022-windows-vcpkg"
+        ],
+        "name": "vs2022-windows-vcpkg-se"
+      },
+      {
+        "cacheVariables": {
+          "USE_AE": {
+            "type": "BOOL",
+            "value": "ON"
+          }
+        },
+        "binaryDir": "${sourceDir}/build/vs2022-AE",
+        "inherits": [
+          "vs2022-windows-vcpkg"
+        ],
+        "name": "vs2022-windows-vcpkg-ae"
       }
     ],
     "version": 3

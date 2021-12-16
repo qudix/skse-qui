@@ -33,7 +33,7 @@ def main():
     print("Packing artifacts...")
 
     args = parse_arguments()
-    out = os.path.join(args.bin_dir, "bin")
+    out = os.path.join(args.bin_dir, "build")
     os.makedirs(out, exist_ok=True)
     os.chdir(out)
 

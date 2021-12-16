@@ -11,7 +11,7 @@ set(SCRIPT "${ROOT_DIR}/etc/scripts/archive-artifacts.py")
 if("${USE_AE}")
 	set(ARCHIVE_NAME "${PROJECT_NAME}-AE-${PROJECT_VERSION}")
 else()
-	set(ARCHIVE_NAME "${PROJECT_NAME}-${PROJECT_VERSION}")
+	set(ARCHIVE_NAME "${PROJECT_NAME}-SE-${PROJECT_VERSION}")
 endif()
 
 source_group(
@@ -36,8 +36,8 @@ add_custom_target(
 	DEPENDS
 		"${PROJECT_NAME}"
 	BYPRODUCTS
-		"${ROOT_DIR}/bin/${ARCHIVE_NAME}.zip"
-		"${ROOT_DIR}/bin/${ARCHIVE_NAME}_pdb.zip"
+		"${ROOT_DIR}/build/${ARCHIVE_NAME}.zip"
+		"${ROOT_DIR}/build/${ARCHIVE_NAME}_pdb.zip"
 	VERBATIM
 	SOURCES
 		"${SCRIPT}"
