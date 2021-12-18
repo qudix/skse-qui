@@ -13,4 +13,5 @@ nagging you? Want to remove items from the list? Well, you're in luck!
 
 # Dependencies
 - [SKSE64](https://skse.silverlock.org/)
+- [SkyUI](https://www.nexusmods.com/skyrimspecialedition/mods/12604)
 - [Address Library](https://www.nexusmods.com/skyrimspecialedition/mods/32444)
