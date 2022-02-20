@@ -126,8 +126,11 @@ namespace Menus
 			return;
 		}
 
+		auto player = RE::PlayerCharacter::GetSingleton();
+		auto playerRef = player->GetObjectReference();
 		containerRef->formFlags |= RE::TESForm::RecordFlags::kTemporary;
 		containerRef->data.objectReference = _container;
+		containerRef->extraList.SetOwner(playerRef);
 		containerRef->SetParentCell(_cell);
 		containerRef->SetStartingPosition({ 0, 0, 0 });
 		_containerRef = containerRef->CreateRefHandle();
