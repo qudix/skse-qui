@@ -48,7 +48,6 @@ namespace Menus
 		static void InitContainer();
 		static void InitContainerRef();
 
-		static uint32_t GetCombinedIndex(const RE::TESFile* a_file);
 		static uint32_t GetTypeCount(RE::FormType a_type);
 
 		static void AddForms(RE::FormType a_type);

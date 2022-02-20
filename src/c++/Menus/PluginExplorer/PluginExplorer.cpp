@@ -60,7 +60,7 @@ namespace Menus
 
 		for (auto file : handler->files) {
 			if (file->compileIndex != 0xFF) {
-				auto index = GetCombinedIndex(file);
+				auto index = REX::TESFile::GetCombinedIndex(file);
 				PluginInfo info{ file->fileName, index };
 				_cache.insert({ file->fileName, index });
 				_plugins.insert({ index, std::move(info) });
@@ -198,11 +198,6 @@ namespace Menus
 		return nullptr;
 	}
 
-	uint32_t PluginExplorer::GetCombinedIndex(const RE::TESFile* a_file)
-	{
-		return static_cast<uint32_t>(a_file->compileIndex + a_file->smallFileCompileIndex);
-	}
-
 	uint32_t PluginExplorer::GetTypeCount(RE::FormType a_type)
 	{
 		auto& count = Settings::PluginExplorer.Count;
@@ -254,7 +249,8 @@ namespace Menus
 			if (it == _cache.end())
 				continue;
 
-			auto info = _plugins.find(GetCombinedIndex(file));
+			auto index = REX::TESFile::GetCombinedIndex(file);
+			auto info = _plugins.find(index);
 			if (info != _plugins.end()) {
 				info->second.AddForm(form, a_type);
 			}
