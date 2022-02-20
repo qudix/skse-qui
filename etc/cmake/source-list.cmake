@@ -16,6 +16,8 @@ set(CXX_FILES
 	src/c++/Menus/Start/Start.cpp
 	src/c++/Menus/Start/Start.h
 	src/c++/PCH.h
+	src/c++/REX/REX.cpp
+	src/c++/REX/REX.h
 	src/c++/Scaleform/CLIK/Array.h
 	src/c++/Scaleform/CLIK/GFx/Controls/Button.h
 	src/c++/Scaleform/CLIK/GFx/Controls/ButtonBar.h
