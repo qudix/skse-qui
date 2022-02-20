@@ -100,7 +100,7 @@ public:
 			ss << "Error parsing file \'" << *e.source().path << "\':\n"
 			   << '\t' << e.description() << '\n'
 			   << "\t\t(" << e.source().begin << ')';
-			logger::error(ss.str());
+			logger::error("{}"sv, ss.str());
 			stl::report_and_fail("failed to load settings"sv);
 		} catch (const std::exception& e) {
 			stl::report_and_fail(e.what());
