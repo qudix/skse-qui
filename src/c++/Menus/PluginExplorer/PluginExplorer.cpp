@@ -1,6 +1,7 @@
 #include "Menus/PluginExplorer/PluginExplorer.h"
 #include "Menus/PluginExplorer/PluginExplorerMenu.h"
 
+#include "REX/REX.h"
 #include "Script/Script.h"
 
 namespace Menus
@@ -176,15 +177,9 @@ namespace Menus
 			}
 		}
 
-		auto obj = Script::GetObject(container.get(), "ObjectReference", true);
-		if (!obj) {
-			logger::info("Could not obtain ObjectReference");
-			return false;
-		}
-
-		Script::CallbackPtr callback;
-		auto playerRef = RE::PlayerCharacter::GetSingleton()->AsReference();
-		bool success = Script::DispatchMethodCall(obj, "Activate", callback, std::move(playerRef), true);
+		auto player = RE::PlayerCharacter::GetSingleton();
+		auto playerRef = player->AsReference();
+		bool success = REX::TESObjectREFR::ActivateRef(container.get(), playerRef, 0, nullptr, 0, false);
 		if (!success) {
 			logger::warn("Could not call `Activate` on ObjectReference");
 			return false;
