@@ -44,7 +44,7 @@ namespace Menus
 				break;
 			}
 		default:
-			logger::warn("Unhandled FormType: {}", a_type);
+			logger::warn("Unhandled FormType: {}", static_cast<int32_t>(a_type));
 			break;
 		}
 	}
@@ -86,13 +86,17 @@ namespace Menus
 		
 		auto factoryCELL = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectCELL>();
 		_cell = factoryCELL ? factoryCELL->Create() : nullptr;
-		if (!_cell)
+		if (!_cell) {
+			logger::error("Failed to create cell");
 			return;
+		}
 
 		auto handler = RE::TESDataHandler::GetSingleton();
 		auto lighting = handler->LookupForm<RE::BGSLightingTemplate>(RE::FormID(0x300E2), "Skyrim.esm");
-		if (!lighting)
+		if (!lighting) {
+			logger::error("Failed to lookup default lighting template");
 			return;
+		}
 
 		_cell->SetFormEditorID("QUIPluginExplorerCELL");
 		_cell->fullName = "QUIPluginExplorerCELL";
@@ -102,8 +106,10 @@ namespace Menus
 
 		auto factoryCONT = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectCONT>();
 		_container = factoryCONT ? factoryCONT->Create() : nullptr;
-		if (!_container)
+		if (!_container) {
+			logger::error("Failed to create container");
 			return;
+		}
 
 		_container->SetFormEditorID("QUIPluginExplorerCONT");
 		_container->fullName = "QUIPluginExplorerContainer";
@@ -115,8 +121,10 @@ namespace Menus
 	{
 		auto factoryREFR = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectREFR>();
 		auto containerRef = factoryREFR ? factoryREFR->Create() : nullptr;
-		if (!containerRef)
+		if (!containerRef) {
+			logger::error("Failed to create container reference");
 			return;
+		}
 
 		containerRef->formFlags |= RE::TESForm::RecordFlags::kTemporary;
 		containerRef->data.objectReference = _container;
@@ -143,7 +151,7 @@ namespace Menus
 
 		auto plugin = FindPlugin(a_index);
 		if (!plugin) {
-			logger::info("Could not find plugin ({})", plugin->GetName());
+			logger::warn("Could not find plugin ({})", plugin->GetName());
 			return false;
 		}
 
@@ -175,7 +183,7 @@ namespace Menus
 		auto playerRef = RE::PlayerCharacter::GetSingleton()->AsReference();
 		bool success = Script::DispatchMethodCall(obj, "Activate", callback, std::move(playerRef), true);
 		if (!success) {
-			logger::info("Could not dispatch `Activate` on ObjectReference");
+			logger::warn("Could not call `Activate` on ObjectReference");
 			return false;
 		}
 
