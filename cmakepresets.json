@@ -50,6 +50,7 @@
           "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX"
         },
         "generator": "Visual Studio 16 2019",
+        "hidden": true,
         "inherits": [
           "cmake-dev",
           "vcpkg",
@@ -67,6 +68,7 @@
           "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX"
         },
         "generator": "Visual Studio 17 2022",
+        "hidden": true,
         "inherits": [
           "cmake-dev",
           "vcpkg",
@@ -76,24 +78,17 @@
         "toolset": "v143"
       },
       {
-        "binaryDir": "${sourceDir}/build/vs2019-SE",
-        "inherits": [
-          "vs2019-windows-vcpkg"
-        ],
-        "name": "vs2019-windows-vcpkg-se"
-      },
-      {
         "cacheVariables": {
           "USE_AE": {
             "type": "BOOL",
             "value": "ON"
           }
         },
-        "binaryDir": "${sourceDir}/build/vs2019-AE",
+        "binaryDir": "${sourceDir}/build/vs2022-AE",
         "inherits": [
-          "vs2019-windows-vcpkg"
+          "vs2022-windows-vcpkg"
         ],
-        "name": "vs2019-windows-vcpkg-ae"
+        "name": "vs2022-windows-vcpkg-ae"
       },
       {
         "binaryDir": "${sourceDir}/build/vs2022-SE",
@@ -109,11 +104,18 @@
             "value": "ON"
           }
         },
-        "binaryDir": "${sourceDir}/build/vs2022-AE",
+        "binaryDir": "${sourceDir}/build/vs2019-AE",
         "inherits": [
-          "vs2022-windows-vcpkg"
+          "vs2019-windows-vcpkg"
         ],
-        "name": "vs2022-windows-vcpkg-ae"
+        "name": "vs2019-windows-vcpkg-ae"
+      },
+      {
+        "binaryDir": "${sourceDir}/build/vs2019-SE",
+        "inherits": [
+          "vs2019-windows-vcpkg"
+        ],
+        "name": "vs2019-windows-vcpkg-se"
       }
     ],
     "version": 3
