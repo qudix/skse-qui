@@ -17,7 +17,7 @@ namespace REX
 			using func_t = decltype(&TESObjectREFR::ActivateRef);
 		#ifdef IS_SKYRIM_AE
 			REL::Relocation<func_t> func{ REL::ID(19796) };
-		#elif
+		#else
 			REL::Relocation<func_t> func{ REL::ID(19369) };
 		#endif
 			return func(a_self, a_activator, a_arg2, a_object, a_count, a_defaultProcessingOnly);
