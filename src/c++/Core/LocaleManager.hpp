@@ -10,9 +10,6 @@ namespace Core
     public:
         LocaleManager();
 
-        static std::wstring ConvertStringToWString(const std::string& a_str);
-        static std::string ConvertWStringToString(const std::wstring& a_str);
-
         std::wstring GetLocalization(std::wstring a_key);
         std::string GetLocalization(std::string a_key);
 

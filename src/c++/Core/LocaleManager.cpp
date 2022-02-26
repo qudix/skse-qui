@@ -2,60 +2,6 @@
 
 #include <codecvt>
 
-#define WIN32_LEAN_AND_MEAN
-
-#define NOGDICAPMASKS
-#define NOVIRTUALKEYCODES
-#define NOWINMESSAGES
-#define NOWINSTYLES
-#define NOSYSMETRICS
-
-#define NOMENUS
-#define NOICONS
-#define NOKEYSTATES
-#define NOSYSCOMMANDS
-#define NORASTEROPS
-#define NOSHOWWINDOW
-#define OEMRESOURCE
-#define NOATOM
-#define NOCLIPBOARD
-#define NOCOLOR
-#define NOCTLMGR
-#define NODRAWTEXT
-#define NOGDI
-#define NOKERNEL
-#define NOUSER
-//#define NONLS
-#define NOMB
-#define NOMEMMGR
-#define NOMETAFILE
-#define NOMINMAX
-#define NOMSG
-#define NOOPENFILE
-#define NOSCROLL
-#define NOSERVICE
-#define NOSOUND
-#define NOTEXTMETRIC
-#define NOWH
-#define NOWINOFFSETS
-#define NOCOMM
-#define NOKANJI
-#define NOHELP
-#define NOPROFILER
-#define NODEFERWINDOWPOS
-#define NOMCX
-
-#include <Windows.h>
-
-#undef GetEnvironmentVariable
-#undef GetFileVersionInfo
-#undef GetFileVersionInfoSize
-#undef GetModuleFileName
-#undef GetModuleHandle
-#undef MessageBox
-#undef OutputDebugString
-#undef VerQueryValue
-
 namespace Core
 {
     LocaleManager::LocaleManager() :
@@ -65,59 +11,21 @@ namespace Core
         LoadLocalizationStrings();
     }
 
-    std::wstring LocaleManager::ConvertStringToWString(const std::string& a_str)
-    {
-        if (a_str.empty())
-            return std::wstring{};
-
-        auto size = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, a_str.c_str(), static_cast<int>(a_str.length()), nullptr, 0);
-        bool err = size == 0;
-        if (!err) {
-            std::wstring strTo;
-            strTo.resize(size);
-            err = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, a_str.c_str(), static_cast<int>(a_str.length()), strTo.data(), size) == 0;
-            if (!err)
-                return strTo;
-        }
-
-        if (err)
-            logger::error("MultiByteToWideChar failed with error code ({})", GetLastError());
-
-        return std::wstring{};
-    }
-
-    std::string LocaleManager::ConvertWStringToString(const std::wstring& a_str)
-    {
-        if (a_str.empty())
-            return std::string{};
-
-        auto size = WideCharToMultiByte(CP_UTF8, 0, a_str.c_str(), static_cast<int>(a_str.length()), nullptr, 0, nullptr, nullptr);
-        bool err = size == 0;
-        if (!err) {
-            std::string strTo;
-            strTo.resize(size);
-            err = WideCharToMultiByte(CP_UTF8, 0, a_str.c_str(), static_cast<int>(a_str.length()), strTo.data(), size, nullptr, nullptr) == 0;
-            if (!err)
-                return strTo;
-        }
-
-        if (err)
-            logger::error("WideCharToMultiByte failed with error code ({})", GetLastError());
-
-        return std::string{};
-    }
-
     std::wstring LocaleManager::GetLocalization(std::wstring a_key)
     {
         return GetLocalizationInternal(a_key);
     }
 
-
     std::string LocaleManager::GetLocalization(std::string a_key)
     {
-        auto str = ConvertStringToWString(a_key);
-        str = GetLocalization(str);
-        return ConvertWStringToString(str);
+        auto wstr = stl::utf8_to_utf16(a_key);
+        if (wstr) {
+            auto locale = GetLocalization(wstr.value());
+            auto str = stl::utf16_to_utf8(locale);
+            return str ? str.value() : a_key;
+        }
+
+        return a_key;
     }
 
     std::string LocaleManager::Translate(std::string a_key)
@@ -132,10 +40,12 @@ namespace Core
     void LocaleManager::SetOverride(std::string a_locale)
     {
         if (!a_locale.empty()) {
-            auto locale = ConvertStringToWString(a_locale);
-            _localeOverride = locale;
-            if (LoadLocalizationStrings(true))
-                return;
+            auto locale = stl::utf8_to_utf16(a_locale);
+            if (locale) {
+                _localeOverride = locale.value();
+                if (LoadLocalizationStrings(true))
+                    return;
+            }
         }
 
         _localeOverride = L"";
@@ -148,8 +58,8 @@ namespace Core
         std::string value;
         logger::info("[Dump Locale]");
         for (auto& pair : GetLocalizationMap()) {
-            key = ConvertWStringToString(pair.first);
-            value = ConvertWStringToString(pair.second);
+            key = stl::utf16_to_utf8(pair.first).value_or("[Failed]");
+            value = stl::utf16_to_utf8(pair.second).value_or("[Failed]");
             logger::info("{}: {}", key.c_str(), value.c_str());
         }
     }
@@ -233,7 +143,9 @@ namespace Core
             auto setting = RE::GetINISetting("sLanguage:General");
             if (setting) {
                 auto u8Language = setting->GetString();
-                wLanguage = ConvertStringToWString(u8Language);
+                auto u16Language = stl::utf8_to_utf16(u8Language);
+                if (u16Language)
+                    wLanguage = u16Language.value();
             }
         }
         pattern += wLanguage;
