@@ -1,4 +1,4 @@
-﻿---
+---
 AccessModifierOffset: -4
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: 'false'
@@ -90,6 +90,6 @@ SpacesInSquareBrackets: 'false'
 Standard: c++17
 TabWidth: 4
 UseCRLF: 'true'
-UseTab: Always
+UseTab: Never
 
 ...

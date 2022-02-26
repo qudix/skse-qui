@@ -2,5 +2,5 @@
 
 namespace Core
 {
-	void Init();
+    void Init();
 }

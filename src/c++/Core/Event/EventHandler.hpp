@@ -2,15 +2,15 @@
 
 namespace Core::Event
 {
-	class IEventHandler
-	{
-	public:
-		virtual ~IEventHandler() = default;
+    class IEventHandler
+    {
+    public:
+        virtual ~IEventHandler() = default;
 
-		// UI
-		virtual void Handle(const RE::MenuOpenCloseEvent*){};
+        // UI
+        virtual void Handle(const RE::MenuOpenCloseEvent*){};
 
-		// Input
-		virtual void Handle(const RE::InputEvent*){};
-	};
+        // Input
+        virtual void Handle(const RE::InputEvent*){};
+    };
 }
