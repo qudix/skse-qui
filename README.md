@@ -1,7 +1,7 @@
 # `QUI-SKSE`
 [![Releases](https://img.shields.io/github/v/release/Qudix/QUI-SKSE?include_prereleases&style=flat-square&label=QUI-SKSE)](https://github.com/Qudix/QUI-SKSE/releases)
 [![C++20](https://img.shields.io/static/v1?label=standard&message=C%2B%2B20&color=blue&logo=c%2B%2B&&logoColor=white&style=flat-square)](https://en.cppreference.com/w/cpp/compiler_support)
-[![MIT license](https://img.shields.io/github/license/Qudix/QUI-SKSE)](./LICENSE)
+[![MIT license](https://img.shields.io/github/license/Qudix/QUI-SKSE?&style=flat-square)](./LICENSE)
 
 # Features
 
