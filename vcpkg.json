@@ -10,5 +10,12 @@
       "spdlog",
       "frozen",
       "tomlplusplus"
+    ],
+    "builtin-baseline": "4f3cf7a20eaf4ea44d7433c37ba8968a9355a2d3",
+    "overrides": [
+      {
+        "name": "fmt",
+        "version": "8.0.1"
+      }
     ]
   }
