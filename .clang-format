@@ -22,7 +22,7 @@ AlwaysBreakTemplateDeclarations: 'Yes'
 BinPackArguments: 'true'
 BinPackParameters: 'true'
 BraceWrapping:
-    AfterCaseLabel: 'true'
+    AfterCaseLabel: 'false'
     AfterClass: 'true'
     AfterControlStatement: 'false'
     AfterEnum: 'true'
@@ -55,7 +55,7 @@ DisableFormat: 'false'
 FixNamespaceComments: 'false'
 IncludeBlocks: Preserve
 IndentCaseBlocks: 'true'
-IndentCaseLabels: 'false'
+IndentCaseLabels: 'true'
 IndentGotoLabels: 'false'
 IndentPPDirectives: None
 IndentWidth: 4
