@@ -1,15 +1,4 @@
-#include "Event/Event.h"
-#include "Menus/Menus.h"
-
-void MessageHandler(SKSE::MessagingInterface::Message* a_msg)
-{
-	switch (a_msg->type) {
-	case SKSE::MessagingInterface::kDataLoaded:
-		Menus::Register();
-		Event::Register();
-		break;
-	}
-}
+#include "Core/Core.hpp"
 
 bool InitLogger()
 {
@@ -79,11 +68,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	#endif
 
 	SKSE::Init(a_skse);
-	Settings::Load();
-	Menus::Load();
-
-	const auto messaging = SKSE::GetMessagingInterface();
-	messaging->RegisterListener("SKSE", MessageHandler);
+	Core::Init();
 
 	logger::info("{} loaded"sv, Plugin::NAME);
 

@@ -33,6 +33,17 @@ add_custom_target(
 		"--swf-files"
             "${ROOT_DIR}/src/swf/PluginExplorerMenu.swf"
             "${ROOT_DIR}/src/swf/StartMenuEx.swf"
+		"--translation-files"
+			"${ROOT_DIR}/res/${PROJECT_NAME}_CHINESE.txt"
+			"${ROOT_DIR}/res/${PROJECT_NAME}_CZECH.txt"
+			"${ROOT_DIR}/res/${PROJECT_NAME}_ENGLISH.txt"
+			"${ROOT_DIR}/res/${PROJECT_NAME}_FRENCH.txt"
+			"${ROOT_DIR}/res/${PROJECT_NAME}_GERMAN.txt"
+			"${ROOT_DIR}/res/${PROJECT_NAME}_ITALIAN.txt"
+			"${ROOT_DIR}/res/${PROJECT_NAME}_JAPANESE.txt"
+			"${ROOT_DIR}/res/${PROJECT_NAME}_POLISH.txt"
+			"${ROOT_DIR}/res/${PROJECT_NAME}_RUSSIAN.txt"
+			"${ROOT_DIR}/res/${PROJECT_NAME}_SPANISH.txt"
 	DEPENDS
 		"${PROJECT_NAME}"
 	BYPRODUCTS

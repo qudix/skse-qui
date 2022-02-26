@@ -15,6 +15,9 @@ def make_rel_archive(a_args):
     for file in a_args.swf_files:
         write(file, "Interface")
 
+    for file in a_args.translation_files:
+        write(file, "Interface/Translations")
+
 def make_dbg_archive(a_args):
 	zip = make_zipfile(f"{a_args.name}_pdb")
 	for pdb in a_args.pdb_files:
@@ -27,6 +30,7 @@ def parse_arguments():
     parser.add_argument("--plugin-files", type=str, help="plugin files to pack", nargs="+", required=True)
     parser.add_argument("--pdb-files", type=str, help="pdb files to pack", nargs="+", required=True)
     parser.add_argument("--swf-files", type=str, help="swf files to pack", nargs="+")
+    parser.add_argument("--translation-files", type=str, help="translation files to pack", nargs="+")
     return parser.parse_args()
 
 def main():

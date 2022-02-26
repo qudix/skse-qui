@@ -7,12 +7,12 @@ Loop = true
 Sound = true
 
 [PluginExplorer.Key]
-KeyboardToggle = 87 # F11
+KeyboardToggle = 87 # F11 (https://creationkit.com/index.php?title=Input_Script#DXScanCodes)
 
 [PluginExplorer.Count]
 Alchemy = 25
 Ammo = 500
-Armor = 5
+Armor = 10
 Book = 5
 Ingredient = 100
 Key = 1
