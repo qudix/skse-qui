@@ -1,36 +1,41 @@
+# You can override these settings either by editing this file or creating a QUI_Custom.toml file in the same location.
+# References:
+#     Key Codes: https://creationkit.com/index.php?title=Input_Script#DXScanCodes
+
 [General]
 # Nothing yet
 
 [PluginExplorer]
-Pause = false
-Loop = true
-Sound = true
+Pause = false  # Pause the game when the PluginExplorer interface is open (default: false)
+Loop = true    # Reopens the PluginExplorer interface when the item container is closed (default: true)
+Sound = true   # Unused (default: true)
 
 [PluginExplorer.Key]
-KeyboardToggle = 87 # F11 (https://creationkit.com/index.php?title=Input_Script#DXScanCodes)
+KeyboardToggle = 87 # F11
 
+# Amount of items in the container per type
 [PluginExplorer.Count]
 Alchemy = 25
 Ammo = 500
-Armor = 10
-Book = 5
+Armor = 1
+Book = 1
 Ingredient = 100
 Key = 1
 Misc = 25
 Note = 5
 Spell = 1
-Weapon = 10
+Weapon = 1
 
 [MainMenu]
 # Nothing yet
 
 [MainMenu.UI]
-Logo = true
-Motd = true
+Logo = true    # Removes the Bethesda logo
+Motd = true    # Removes the Message of the Day
 
 [MainMenu.List]
-CC = true
-DLC = false
-Mods = true
-Credits = true
-Help = true
+CC = true      # Removes the Creation Club entry
+DLC = false    # Removes the DLC entry
+Mods = true    # Removes the Mods entry
+Credits = true # Removes the Credits entry
+Help = true    # Removes the Help entry
