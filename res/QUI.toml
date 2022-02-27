@@ -30,12 +30,12 @@ Weapon = 1
 # Nothing yet
 
 [MainMenu.UI]
-Logo = true    # Removes the Bethesda logo
-Motd = true    # Removes the Message of the Day
+Logo = true    # Enable the Bethesda logo (default: true)
+Motd = true    # Enable the Message of the Day (default: true)
 
 [MainMenu.List]
-CC = true      # Removes the Creation Club entry
-DLC = false    # Removes the DLC entry
-Mods = true    # Removes the Mods entry
-Credits = true # Removes the Credits entry
-Help = true    # Removes the Help entry
+CC = true      # Enable the Creation Club entry (default: true)
+DLC = false    # Enable the DLC entry (default: false)
+Mods = true    # Enable the Mods entry (default: true)
+Credits = true # Enable the Credits entry (default: true)
+Help = true    # Enable the Help entry (default: true)
