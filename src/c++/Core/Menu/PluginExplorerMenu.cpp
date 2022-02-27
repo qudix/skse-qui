@@ -180,10 +180,10 @@ namespace Core::Menu
                             break;
                         }
                         case Key::kPageUp:
-                            ModSelectedIndex(-13);
+                            ModSelectedIndex(-14);
                             break;
                         case Key::kPageDown:
-                            ModSelectedIndex(13);
+                            ModSelectedIndex(14);
                             break;
                     }
                 }
