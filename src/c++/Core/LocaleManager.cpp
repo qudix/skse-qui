@@ -11,12 +11,12 @@ namespace Core
         LoadLocalizationStrings();
     }
 
-    std::wstring LocaleManager::GetLocalization(std::wstring a_key)
+    std::wstring LocaleManager::GetLocalization(const std::wstring& a_key)
     {
         return GetLocalizationInternal(a_key);
     }
 
-    std::string LocaleManager::GetLocalization(std::string a_key)
+    std::string LocaleManager::GetLocalization(const std::string& a_key)
     {
         auto wstr = stl::utf8_to_utf16(a_key);
         if (wstr) {
@@ -28,7 +28,7 @@ namespace Core
         return a_key;
     }
 
-    std::string LocaleManager::Translate(std::string a_key)
+    std::string LocaleManager::Translate(const std::string& a_key)
     {
         if (!a_key.empty() && a_key[0] == '$') {
             return GetLocalization(a_key);
@@ -37,7 +37,7 @@ namespace Core
         return a_key;
     }
 
-    void LocaleManager::SetOverride(std::string a_locale)
+    void LocaleManager::SetOverride(const std::string& a_locale)
     {
         if (!a_locale.empty()) {
             auto locale = stl::utf8_to_utf16(a_locale);

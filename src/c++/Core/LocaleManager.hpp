@@ -10,11 +10,11 @@ namespace Core
     public:
         LocaleManager();
 
-        std::wstring GetLocalization(std::wstring a_key);
-        std::string GetLocalization(std::string a_key);
+        std::wstring GetLocalization(const std::wstring& a_key);
+        std::string GetLocalization(const std::string& a_key);
 
-        std::string Translate(std::string a_key);
-        void SetOverride(std::string a_locale = "");
+        std::string Translate(const std::string& a_key);
+        void SetOverride(const std::string& a_locale = "");
 
         void Dump();
 

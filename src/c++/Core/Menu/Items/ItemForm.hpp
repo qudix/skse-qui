@@ -10,7 +10,7 @@ namespace Core::Menu::Item
             _type(a_type),
             _count(a_count)
         {
-            std::string key = "";
+            std::string key = "[Unhandled]";
             switch (a_type) {
             case RE::FormType::AlchemyItem:
                 key = "$QDX_QUI_FORM_ALCH";
@@ -45,7 +45,7 @@ namespace Core::Menu::Item
             }
 
             auto locale = LocaleManager::GetSingleton();
-            _name = !key.empty() ? locale->Translate(key) : "[Unhandled]";
+            _name = locale->Translate(key);
         }
 
         [[nodiscard]]
