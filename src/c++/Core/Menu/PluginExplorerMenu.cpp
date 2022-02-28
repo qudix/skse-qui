@@ -478,7 +478,7 @@ namespace Core::Menu
 
     void PluginExplorerMenu::UpdateTitle()
     {
-        auto str = stl::safe_string("?");
+        std::string str = "";
         if (_focus == Focus::Form) {
             str = _pluginName;
         } else {
