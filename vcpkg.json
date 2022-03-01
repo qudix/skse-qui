@@ -11,7 +11,7 @@
       "frozen",
       "tomlplusplus"
     ],
-    "builtin-baseline": "4f3cf7a20eaf4ea44d7433c37ba8968a9355a2d3",
+    "builtin-baseline": "1c5939e275082fb6f4b2c8a546cd904b978f55ac",
     "overrides": [
       {
         "name": "fmt",
