@@ -43,14 +43,15 @@ namespace Core
                 .Count = {
                     .Alchemy = GetValue("PluginExplorer.Count.Alchemy", 25u),
                     .Ammo = GetValue("PluginExplorer.Count.Ammo", 500u),
-                    .Armor = GetValue("PluginExplorer.Count.Armor", 10u),
-                    .Book = GetValue("PluginExplorer.Count.Book", 5u),
+                    .Armor = GetValue("PluginExplorer.Count.Armor", 1u),
+                    .Book = GetValue("PluginExplorer.Count.Book", 1u),
                     .Ingredient = GetValue("PluginExplorer.Count.Ingredient", 100u),
                     .Key = GetValue("PluginExplorer.Count.Key", 1u),
                     .Misc = GetValue("PluginExplorer.Count.Misc", 25u),
                     .Note = GetValue("PluginExplorer.Count.Note", 5u),
+                    .Soul = GetValue("PluginExplorer.Count.Soul", 25u),
                     .Spell = GetValue("PluginExplorer.Count.Spell", 1u),
-                    .Weapon = GetValue("PluginExplorer.Count.Weapon", 10u),
+                    .Weapon = GetValue("PluginExplorer.Count.Weapon", 1u),
                 }
             },
             .MainMenu = {

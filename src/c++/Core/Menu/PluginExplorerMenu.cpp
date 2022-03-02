@@ -393,6 +393,7 @@ namespace Core::Menu
             doForms(RE::FormType::KeyMaster);
             doForms(RE::FormType::Misc);
             doForms(RE::FormType::Note);
+            doForms(RE::FormType::SoulGem);
             doForms(RE::FormType::Spell);
             doForms(RE::FormType::Weapon);
         }

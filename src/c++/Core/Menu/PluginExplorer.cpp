@@ -23,6 +23,7 @@ namespace Core::Menu
         case Type::KeyMaster:
         case Type::Misc:
         case Type::Note:
+        case Type::SoulGem:
         case Type::Weapon:
             _forms[a_type].insert_or_assign(formID, formName);
             _count += 1;
@@ -76,6 +77,7 @@ namespace Core::Menu
         AddForms(RE::FormType::KeyMaster);
         AddForms(RE::FormType::Misc);
         AddForms(RE::FormType::Note);
+        AddForms(RE::FormType::SoulGem);
         AddForms(RE::FormType::Spell);
         AddForms(RE::FormType::Weapon);
 
@@ -220,6 +222,8 @@ namespace Core::Menu
             return count.Misc;
         case RE::FormType::Note:
             return count.Note;
+        case RE::FormType::SoulGem:
+            return count.Soul;
         case RE::FormType::Spell:
             return count.Spell;
         case RE::FormType::Weapon:

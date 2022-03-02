@@ -36,6 +36,9 @@ namespace Core::Menu::Item
             case RE::FormType::Note:
                 key = "$QDX_QUI_FORM_NOTE";
                 break;
+            case RE::FormType::SoulGem:
+                key = "$QDX_QUI_FORM_SLGM";
+                break;
             case RE::FormType::Spell:
                 key = "$QDX_QUI_FORM_SPEL";
                 break;
