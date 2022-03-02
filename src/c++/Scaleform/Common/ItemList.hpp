@@ -102,6 +102,11 @@ namespace Scaleform
             }
         }
 
+		void RestoreIndex(double a_idx)
+		{
+			RestoreIndex(static_cast<ptrdiff_t>(a_idx));
+		}
+
     private:
         RE::GPtr<RE::GFxMovieView> _view;
         RE::GFxValue _provider;

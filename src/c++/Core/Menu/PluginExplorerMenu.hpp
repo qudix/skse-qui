@@ -109,8 +109,10 @@ namespace Core::Menu
 
         static inline std::string _pluginName;
         static inline uint32_t _pluginIndex{ 0 };
+        static inline double _pluginListIndex{ 0 };
 
         static inline std::string _formName;
         static inline RE::FormType _formType{ RE::FormType::None };
+		static inline double _formListIndex{ 0 };
     };
 }

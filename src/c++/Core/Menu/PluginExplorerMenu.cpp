@@ -336,14 +336,18 @@ namespace Core::Menu
 
         if (_focus == Focus::ContainerLoop) {
             _focus = Focus::Form;
+			_pluginList.RestoreIndex(_pluginListIndex);
             _pluginList.Visible(false);
-            RefreshForms();
+			RefreshForms();
+			_formList.RestoreIndex(_formListIndex);
         } else {
             _focus = Focus::Plugin;
             _pluginName = "";
             _pluginIndex = 0;
+			_pluginListIndex = 0;
             _formName = "";
             _formType = RE::FormType::None;
+			_formListIndex = 0;
         }
 
         RefreshUI();
@@ -351,7 +355,7 @@ namespace Core::Menu
 
     void PluginExplorerMenu::RefreshPlugins()
     {
-        const auto idx = static_cast<ptrdiff_t>(_pluginList.SelectedIndex());
+        const auto idx = _pluginList.SelectedIndex();
         _pluginList.Clear();
 
         auto& plugins = PluginExplorer::GetPlugins();
@@ -372,7 +376,7 @@ namespace Core::Menu
         if (_pluginName.empty())
             return;
 
-        const auto idx = static_cast<ptrdiff_t>(_formList.SelectedIndex());
+        const auto idx = _formList.SelectedIndex();
         _formList.Clear();
 
         auto plugin = PluginExplorer::FindPlugin(_pluginIndex);
@@ -413,8 +417,10 @@ namespace Core::Menu
     {
         if (_focus == Focus::Plugin) {
             _pluginList.ModSelectedIndex(a_mod);
+            _pluginListIndex = _pluginList.SelectedIndex();
         } else if (_focus == Focus::Form) {
             _formList.ModSelectedIndex(a_mod);
+			_formListIndex = _formList.SelectedIndex();
         }
     }
 
