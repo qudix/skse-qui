@@ -5,7 +5,8 @@
 namespace Scaleform
 {
     template <class T>
-    class ItemList : public CLIK::GFx::Controls::ScrollingList
+    class ItemList :
+		public CLIK::GFx::Controls::ScrollingList
     {
     private:
         using super = CLIK::GFx::Controls::ScrollingList;
