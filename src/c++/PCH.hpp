@@ -3,7 +3,7 @@
 #define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
 
 #pragma warning(push)
-#pragma warning(disable: 4200)
+#pragma warning(disable : 4200)
 #include "SKSE/SKSE.h"
 #include "RE/Skyrim.h"
 #pragma warning(pop)
@@ -21,8 +21,8 @@ using namespace std::literals;
 
 namespace stl
 {
-    using namespace SKSE::stl;
-    constexpr std::string_view safe_string(const char* a_str) { return a_str ? a_str : ""sv; }
+	using namespace SKSE::stl;
+	constexpr std::string_view safe_string(const char* a_str) { return a_str ? a_str : ""sv; }
 
 #ifndef IS_SKYRIM_AE
 	constexpr std::uint32_t version_pack(REL::Version a_version) noexcept

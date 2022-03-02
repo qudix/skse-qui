@@ -66,7 +66,7 @@ MaxEmptyLinesToKeep: 2
 NamespaceIndentation: All
 PointerAlignment: Left
 ReflowComments : 'false'
-SortIncludes: 'true'
+SortIncludes: 'false'
 SortUsingDeclarations: 'true'
 SpaceAfterCStyleCast: 'false'
 SpaceAfterLogicalNot: 'false'
@@ -87,9 +87,9 @@ SpacesInConditionalStatement: 'false'
 SpacesInContainerLiterals: 'true'
 SpacesInParentheses: 'false'
 SpacesInSquareBrackets: 'false'
-Standard: c++17
+Standard: c++20
 TabWidth: 4
 UseCRLF: 'true'
-UseTab: Never
+UseTab: Always
 
 ...
