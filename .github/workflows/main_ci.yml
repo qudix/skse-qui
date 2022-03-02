@@ -34,7 +34,7 @@ jobs:
           mkdir -p ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
           cd $env:VCPKG_INSTALLATION_ROOT
           git pull origin 1c5939e275082fb6f4b2c8a546cd904b978f55ac
-          ./bootstrap-vcpkg.bat
+          ./bootstrap-vcpkg.bat -disableMetrics
           ./vcpkg --version > ${{ github.workspace }}/vcpkg-version.txt
 
       - name: Cache vcpkg
