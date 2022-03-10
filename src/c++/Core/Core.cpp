@@ -3,6 +3,8 @@
 
 #include "Core/Event/Event.hpp"
 
+#include "Core/Locale/LocaleManager.hpp"
+
 #include "Core/Menu/PluginExplorer.hpp"
 #include "Core/Menu/PluginExplorerHandler.hpp"
 #include "Core/Menu/PluginExplorerMenu.hpp"
@@ -35,13 +37,19 @@ namespace Core
 			config->Read();
 		}
 
+		logger::info("Loading localizations...");
+		if (const auto locale = LocaleManager::GetSingleton()) {
+			locale->SetLocale();
+			locale->Load();
+			locale->Dump();
+		}
+
 		logger::info("Registering scaleform...");
 		if (const auto scaleform = SKSE::GetScaleformInterface()) {
 			scaleform->Register([](RE::GFxMovieView* a_view, RE::GFxValue* a_root) -> bool {
 				Menu::StartMenu::Register(a_view, a_root);
 				return true;
-			},
-				"QUI");
+			}, "QUI");
 		}
 
 		logger::info("Registering listener...");
@@ -49,9 +57,7 @@ namespace Core
 			using Interface = SKSE::MessagingInterface;
 			messaging->RegisterListener("SKSE", [](Interface::Message* a_msg) {
 				switch (a_msg->type) {
-					case Interface::kDataLoaded:
-						OnDataLoaded();
-						break;
+					case Interface::kDataLoaded: OnDataLoaded(); break;
 				}
 			});
 		}

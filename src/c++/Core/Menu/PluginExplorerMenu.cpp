@@ -4,7 +4,7 @@
 #include "Core/Menu/Items/ItemPlugin.hpp"
 
 #include "Core/Config.hpp"
-#include "Core/LocaleManager.hpp"
+#include "Core/Locale/LocaleManager.hpp"
 
 #include "General/Input.hpp"
 
@@ -498,7 +498,8 @@ namespace Core::Menu
 			str = _pluginName;
 		} else {
 			auto locale = LocaleManager::GetSingleton();
-			str = locale->Translate("$QDX_QUI_PLUGINEXPLORER_PLUGINS");
+			auto locStr = LocaleStrings::GetSingleton();
+			str = locale->Translate(locStr->plugPlugins);
 		}
 
 		_title.HTMLText(str);

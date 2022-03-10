@@ -6,8 +6,13 @@ set(CXX_FILES
 	src/c++/Core/Event/Event.cpp
 	src/c++/Core/Event/Event.hpp
 	src/c++/Core/Event/EventHandler.hpp
-	src/c++/Core/LocaleManager.cpp
-	src/c++/Core/LocaleManager.hpp
+	src/c++/Core/Locale/Locale.cpp
+	src/c++/Core/Locale/Locale.hpp
+	src/c++/Core/Locale/LocaleManager.cpp
+	src/c++/Core/Locale/LocaleManager.hpp
+	src/c++/Core/Locale/LocalePackage.cpp
+	src/c++/Core/Locale/LocalePackage.hpp
+	src/c++/Core/Locale/LocaleStrings.hpp
 	src/c++/Core/Menu/Items/ItemForm.hpp
 	src/c++/Core/Menu/Items/ItemPlugin.hpp
 	src/c++/Core/Menu/PluginExplorer.cpp

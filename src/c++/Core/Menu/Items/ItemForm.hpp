@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Core/LocaleManager.hpp"
+#include "Core/Locale/LocaleManager.hpp"
+#include "Core/Locale/LocaleStrings.hpp"
 
 namespace Core::Menu::Item
 {
@@ -10,45 +11,10 @@ namespace Core::Menu::Item
 			_type(a_type),
 			_count(a_count)
 		{
-			std::string key = "[Unhandled]";
-			switch (a_type) {
-				case RE::FormType::AlchemyItem:
-					key = "$QDX_QUI_FORM_ALCH";
-					break;
-				case RE::FormType::Ammo:
-					key = "$QDX_QUI_FORM_AMMO";
-					break;
-				case RE::FormType::Armor:
-					key = "$QDX_QUI_FORM_ARMO";
-					break;
-				case RE::FormType::Book:
-					key = "$QDX_QUI_FORM_BOOK";
-					break;
-				case RE::FormType::Ingredient:
-					key = "$QDX_QUI_FORM_INGR";
-					break;
-				case RE::FormType::KeyMaster:
-					key = "$QDX_QUI_FORM_KEYM";
-					break;
-				case RE::FormType::Misc:
-					key = "$QDX_QUI_FORM_MISC";
-					break;
-				case RE::FormType::Note:
-					key = "$QDX_QUI_FORM_NOTE";
-					break;
-				case RE::FormType::SoulGem:
-					key = "$QDX_QUI_FORM_SLGM";
-					break;
-				case RE::FormType::Spell:
-					key = "$QDX_QUI_FORM_SPEL";
-					break;
-				case RE::FormType::Weapon:
-					key = "$QDX_QUI_FORM_WEAP";
-					break;
-			}
-
 			auto locale = LocaleManager::GetSingleton();
-			_name = locale->Translate(key);
+			auto locStr = LocaleStrings::GetSingleton();
+			auto type = locStr->FormType(a_type);
+			_name = locale->Translate(type);
 		}
 
 		[[nodiscard]] RE::GFxValue GFxValue(RE::GFxMovieView& a_view) const
@@ -56,16 +22,18 @@ namespace Core::Menu::Item
 			RE::GFxValue value;
 			a_view.CreateObject(std::addressof(value));
 
-			value.SetMember("name", { static_cast<std::string_view>(GetName()) });
-			value.SetMember("count", { _count });
+			value.SetMember("name", { GetName() });
+			value.SetMember("count", { GetCount() });
+
 			return value;
 		}
 
 		[[nodiscard]] const RE::FormType GetType() const noexcept { return _type; }
-		[[nodiscard]] const std::string& GetName() const noexcept { return _name; }
+		[[nodiscard]] std::string_view GetName() const noexcept { return _name; }
+		[[nodiscard]] const size_t GetCount() const noexcept { return _count; }
 
 		RE::FormType _type;
-		std::string _name{ "" };
-		size_t _count{ 0 };
+		std::string	 _name{ "" };
+		size_t		 _count{ 0 };
 	};
 }
