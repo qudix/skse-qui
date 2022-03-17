@@ -41,7 +41,7 @@ namespace Core
 		if (const auto locale = LocaleManager::GetSingleton()) {
 			locale->SetLocale();
 			locale->Load();
-			locale->Dump();
+			//locale->Dump();
 		}
 
 		logger::info("Registering scaleform...");
