@@ -6,7 +6,6 @@ set(CXX_FILES
 	src/c++/Core/Event/Event.cpp
 	src/c++/Core/Event/Event.hpp
 	src/c++/Core/Event/EventHandler.hpp
-	src/c++/Core/Locale/Locale.cpp
 	src/c++/Core/Locale/Locale.hpp
 	src/c++/Core/Locale/LocaleManager.cpp
 	src/c++/Core/Locale/LocaleManager.hpp

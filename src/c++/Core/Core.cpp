@@ -17,13 +17,13 @@ namespace Core
 	{
 		Menu::PluginExplorer::Init();
 
+		logger::info("Registering menus...");
 		if (const auto ui = RE::UI::GetSingleton()) {
-			logger::info("Registering menus...");
 			ui->Register(Menu::PluginExplorerMenu::MENU_NAME, Menu::PluginExplorerMenu::Create);
 		}
 
+		logger::info("Registering event handlers...");
 		if (const auto event = Event::EventManager::GetSingleton()) {
-			logger::info("Registering event handlers...");
 			event->Register();
 			event->Register(Menu::PluginExplorerHandler::GetSingleton());
 		}
