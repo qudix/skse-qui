@@ -8,7 +8,7 @@ find_package(
 
 set(SCRIPT "${ROOT_DIR}/etc/scripts/archive-artifacts.py")
 
-if("${USE_AE}")
+if("${SKYRIM_SUPPORT_AE}")
 	set(ARCHIVE_NAME "${PROJECT_NAME}-AE-${PROJECT_VERSION}")
 else()
 	set(ARCHIVE_NAME "${PROJECT_NAME}-SE-${PROJECT_VERSION}")

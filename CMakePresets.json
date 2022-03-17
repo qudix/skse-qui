@@ -47,7 +47,7 @@
           "value": "x64"
         },
         "cacheVariables": {
-          "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX"
+          "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /external:anglebrackets /external:W0 $penv{CXXFLAGS}"
         },
         "generator": "Visual Studio 16 2019",
         "hidden": true,
@@ -65,7 +65,7 @@
           "value": "x64"
         },
         "cacheVariables": {
-          "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX"
+          "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX $penv{CXXFLAGS}"
         },
         "generator": "Visual Studio 17 2022",
         "hidden": true,
@@ -79,7 +79,7 @@
       },
       {
         "cacheVariables": {
-          "USE_AE": {
+          "SKYRIM_SUPPORT_AE": {
             "type": "BOOL",
             "value": "ON"
           }
@@ -99,7 +99,7 @@
       },
       {
         "cacheVariables": {
-          "USE_AE": {
+          "SKYRIM_SUPPORT_AE": {
             "type": "BOOL",
             "value": "ON"
           }

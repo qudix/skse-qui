@@ -21,7 +21,7 @@ bool InitLogger()
 	return true;
 }
 
-#ifdef IS_SKYRIM_AE
+#ifdef SKYRIM_SUPPORT_AE
 
 extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() {
 	SKSE::PluginVersionData v;
@@ -62,7 +62,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 {
-#ifdef IS_SKYRIM_AE
+#ifdef SKYRIM_SUPPORT_AE
 	if (!InitLogger())
 		return false;
 #endif

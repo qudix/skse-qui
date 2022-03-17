@@ -5,7 +5,6 @@ set(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 # ---- Options ----
 
 option(COPY_OUTPUT "Copy the output of build operations to the game directory." OFF)
-option(USE_AE "Use Anniversary Edition" OFF)
 
 # ---- Project ----
 
@@ -52,11 +51,7 @@ set_from_env(Skyrim64Path)
 
 # ---- Dependencies ----
 
-if(USE_AE)
-    add_subdirectory("lib/CommonLibAE" CommonLibSSE)
-else()
-    add_subdirectory("lib/CommonLibSSE" CommonLibSSE)
-endif()
+add_subdirectory("lib/CommonLibSSE" CommonLibSSE)
 
 find_package(spdlog REQUIRED CONFIG)
 find_package(frozen REQUIRED CONFIG)
@@ -94,10 +89,6 @@ target_compile_features(
     PRIVATE
         cxx_std_20
 )
-
-if (USE_AE)
-    add_compile_definitions(IS_SKYRIM_AE)
-endif()
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     target_compile_options(

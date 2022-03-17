@@ -10,7 +10,7 @@ namespace General::Skyrim
 	inline bool ActivateRef(RE::TESObjectREFR* a_self, RE::TESObjectREFR* a_activator, uint8_t a_arg2, RE::TESBoundObject* a_object, int32_t a_count, bool a_defaultProcessingOnly)
 	{
 		using func_t = decltype(&ActivateRef);
-#ifdef IS_SKYRIM_AE
+#ifdef SKYRIM_SUPPORT_AE
 		REL::Relocation<func_t> func{ REL::ID(19796) };
 #else
 		REL::Relocation<func_t> func{ REL::ID(19369) };
