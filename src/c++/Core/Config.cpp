@@ -49,14 +49,16 @@ namespace Core
 					.Key = GetValue("PluginExplorer.Count.Key", 1u),
 					.Misc = GetValue("PluginExplorer.Count.Misc", 25u),
 					.Note = GetValue("PluginExplorer.Count.Note", 5u),
+					.Scroll = GetValue("PluginExplorer.Count.Scroll", 1u),
 					.Soul = GetValue("PluginExplorer.Count.Soul", 25u),
 					.Spell = GetValue("PluginExplorer.Count.Spell", 1u),
 					.Weapon = GetValue("PluginExplorer.Count.Weapon", 1u),
 				} },
-			.MainMenu = { .UI = {
-							  .Logo = GetValue("MainMenu.UI.Logo", true),
-							  .Motd = GetValue("MainMenu.UI.Motd", true),
-						  },
+				.MainMenu = {
+					.UI = {
+						.Logo = GetValue("MainMenu.UI.Logo", true),
+						.Motd = GetValue("MainMenu.UI.Motd", true),
+					},
 				.List = {
 					.CC = GetValue("MainMenu.List.CC", true),
 					.DLC = GetValue("MainMenu.List.DLC", false),

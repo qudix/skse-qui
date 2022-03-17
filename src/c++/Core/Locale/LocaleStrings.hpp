@@ -29,6 +29,8 @@ namespace Core
 					return formMISC;
 				case RE::FormType::Note:
 					return formNOTE;
+				case RE::FormType::Scroll:
+					return formSCRL;
 				case RE::FormType::SoulGem:
 					return formSLGM;
 				case RE::FormType::Spell:
@@ -49,6 +51,7 @@ namespace Core
 		std::string formKEYM{ "$QDX_QUI_FORM_KEYM" };
 		std::string formMISC{ "$QDX_QUI_FORM_MISC" };
 		std::string formNOTE{ "$QDX_QUI_FORM_NOTE" };
+		std::string formSCRL{ "$QDX_QUI_FORM_SCRL" };
 		std::string formSLGM{ "$QDX_QUI_FORM_SLGM" };
 		std::string formSPEL{ "$QDX_QUI_FORM_SPEL" };
 		std::string formWEAP{ "$QDX_QUI_FORM_WEAP" };

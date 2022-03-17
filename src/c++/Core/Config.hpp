@@ -27,6 +27,7 @@ namespace Core::Private
 				uint32_t Key;
 				uint32_t Misc;
 				uint32_t Note;
+				uint32_t Scroll;
 				uint32_t Soul;
 				uint32_t Spell;
 				uint32_t Weapon;
