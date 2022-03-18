@@ -322,18 +322,24 @@ namespace Core::Menu
 	void PluginExplorerMenu::OnOpen()
 	{
 		using UEFlag = RE::ControlMap::UEFlag;
-		auto controlMap = RE::ControlMap::GetSingleton();
-		if (controlMap) {
-			controlMap->ToggleControls(UEFlag::kPOVSwitch, false);
+		if (const auto control = RE::ControlMap::GetSingleton()) {
+			control->ToggleControls(UEFlag::kPOVSwitch, false);
+		}
+
+		if (const auto queue = RE::UIMessageQueue::GetSingleton()) {
+			queue->AddMessage(RE::HUDMenu::MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
 		}
 	}
 
 	void PluginExplorerMenu::OnClose()
 	{
 		using UEFlag = RE::ControlMap::UEFlag;
-		auto controlMap = RE::ControlMap::GetSingleton();
-		if (controlMap) {
-			controlMap->ToggleControls(UEFlag::kPOVSwitch, true);
+		if (const auto control = RE::ControlMap::GetSingleton()) {
+			control->ToggleControls(UEFlag::kPOVSwitch, true);
+		}
+
+		if (const auto queue = RE::UIMessageQueue::GetSingleton()) {
+			queue->AddMessage(RE::HUDMenu::MENU_NAME, RE::UI_MESSAGE_TYPE::kShow, nullptr);
 		}
 	}
 
