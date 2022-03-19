@@ -5,11 +5,11 @@
 
 #include "Core/Locale/LocaleManager.hpp"
 
+#include "Core/Menu/JournalMenu.hpp"
+#include "Core/Menu/MainMenu.hpp"
 #include "Core/Menu/PluginExplorer.hpp"
 #include "Core/Menu/PluginExplorerHandler.hpp"
 #include "Core/Menu/PluginExplorerMenu.hpp"
-
-#include "Core/Menu/StartMenu.hpp"
 
 namespace Core
 {
@@ -44,13 +44,9 @@ namespace Core
 			//locale->Dump();
 		}
 
-		logger::info("Registering scaleform...");
-		if (const auto scaleform = SKSE::GetScaleformInterface()) {
-			scaleform->Register([](RE::GFxMovieView* a_view, RE::GFxValue* a_root) -> bool {
-				Menu::StartMenu::Register(a_view, a_root);
-				return true;
-			}, "QUI");
-		}
+		logger::info("Installing hooks...");
+		Menu::JournalMenuEx::Install();
+		Menu::MainMenuEx::Install();
 
 		logger::info("Registering listener...");
 		if (const auto messaging = SKSE::GetMessagingInterface()) {

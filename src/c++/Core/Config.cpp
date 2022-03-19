@@ -58,6 +58,7 @@ namespace Core
 					.UI = {
 						.Logo = GetValue("MainMenu.UI.Logo", true),
 						.Motd = GetValue("MainMenu.UI.Motd", true),
+						.Banner = GetValue("MainMenu.UI.Banner", true),
 					},
 				.List = {
 					.CC = GetValue("MainMenu.List.CC", true),

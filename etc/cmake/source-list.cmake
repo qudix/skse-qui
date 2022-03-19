@@ -14,14 +14,16 @@ set(CXX_FILES
 	src/c++/Core/Locale/LocaleStrings.hpp
 	src/c++/Core/Menu/Items/ItemForm.hpp
 	src/c++/Core/Menu/Items/ItemPlugin.hpp
+	src/c++/Core/Menu/JournalMenu.cpp
+	src/c++/Core/Menu/JournalMenu.hpp
+	src/c++/Core/Menu/MainMenu.cpp
+	src/c++/Core/Menu/MainMenu.hpp
 	src/c++/Core/Menu/PluginExplorer.cpp
 	src/c++/Core/Menu/PluginExplorer.hpp
 	src/c++/Core/Menu/PluginExplorerHandler.cpp
 	src/c++/Core/Menu/PluginExplorerHandler.hpp
 	src/c++/Core/Menu/PluginExplorerMenu.cpp
 	src/c++/Core/Menu/PluginExplorerMenu.hpp
-	src/c++/Core/Menu/StartMenu.cpp
-	src/c++/Core/Menu/StartMenu.hpp
 	src/c++/General/Input.hpp
 	src/c++/General/Script.hpp
 	src/c++/General/Singleton.hpp

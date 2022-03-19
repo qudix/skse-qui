@@ -32,7 +32,6 @@ add_custom_target(
 		"--pdb-files=$<TARGET_PDB_FILE:${PROJECT_NAME}>"
 		"--swf-files"
             "${ROOT_DIR}/src/swf/PluginExplorerMenu.swf"
-            "${ROOT_DIR}/src/swf/StartMenuEx.swf"
 		"--translation-files"
 			"${ROOT_DIR}/res/${PROJECT_NAME}_CHINESE.txt"
 			"${ROOT_DIR}/res/${PROJECT_NAME}_CZECH.txt"

@@ -40,6 +40,7 @@ namespace Core::Private
 			{
 				bool Logo;
 				bool Motd;
+				bool Banner;
 			} UI;
 
 			struct

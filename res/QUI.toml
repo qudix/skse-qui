@@ -32,12 +32,13 @@ Weapon = 1
 # Nothing yet
 
 [MainMenu.UI]
-Logo = true    # Enable the Bethesda logo (default: true)
-Motd = true    # Enable the Message of the Day (default: true)
+Logo = true    # Show the Bethesda logo (default: true)
+Motd = true    # Show the Message of the Day (default: true)
+Banner = true  # Show the Anniversary Edition banner (default: true)
 
 [MainMenu.List]
-CC = true      # Enable the Creation Club entry (default: true)
-DLC = false    # Enable the DLC entry (default: false)
-Mods = true    # Enable the Mods entry (default: true)
-Credits = true # Enable the Credits entry (default: true)
-Help = true    # Enable the Help entry (default: true)
+CC = true      # Show the Creation Club entry (default: true)
+DLC = false    # Show the DLC entry (default: false)
+Mods = true    # Show the Mods entry (default: true)
+Credits = true # Show the Credits entry (default: true)
+Help = true    # Show the Help entry (default: true)

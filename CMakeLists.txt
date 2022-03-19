@@ -149,7 +149,6 @@ if("${COPY_OUTPUT}")
                 COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${CMAKE_SOURCE_DIR}/res/QUI.toml" "${Skyrim64Path}/Data/SKSE/Plugins/"
                 COMMAND "${CMAKE_COMMAND}" -E make_directory "${Skyrim64Path}/Data/Interface/"
                 COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${CMAKE_SOURCE_DIR}/src/swf/PluginExplorerMenu.swf" "${Skyrim64Path}/Data/Interface/"
-                COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${CMAKE_SOURCE_DIR}/src/swf/StartMenuEx.swf" "${Skyrim64Path}/Data/Interface/"
             VERBATIM
         )
     else()
