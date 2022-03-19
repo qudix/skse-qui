@@ -14,7 +14,7 @@ bool InitLogger()
 	log->flush_on(spdlog::level::info);
 
 	spdlog::set_default_logger(std::move(log));
-	spdlog::set_pattern("%s(%#): [%^%l%$] %v"s);
+	spdlog::set_pattern("[%^%l%$] %v"s);
 
 	logger::info("{} v{}"sv, Plugin::NAME, Plugin::VERSION.string());
 
