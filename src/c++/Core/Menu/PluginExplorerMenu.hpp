@@ -34,7 +34,7 @@ namespace Core::Menu
 
 		// override (IMenu)
 		RE::UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage& a_message) override;
-		void AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;
+		void AdvanceMovie(float a_interval, uint32_t a_currentTime) override;
 		void RefreshPlatform() override { UpdateButtonBar(); }
 
 		// override (MenuEventHandler)

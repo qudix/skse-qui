@@ -38,7 +38,8 @@ namespace Core::Menu
 		});
 
 		if (!success) {
-			auto message = fmt::format("{} did not have a view due to missing dependencies!", MENU_NAME);
+			auto message = fmt::format("{} did not have a view due to missing dependencies!\n", MENU_NAME);
+			message += "SkyUI must be installed.";
 			stl::report_and_fail(message);
 		}
 
@@ -79,7 +80,7 @@ namespace Core::Menu
 		}
 	}
 
-	void PluginExplorerMenu::AdvanceMovie(float a_interval, std::uint32_t a_currentTime)
+	void PluginExplorerMenu::AdvanceMovie(float a_interval, uint32_t a_currentTime)
 	{
 		if (_upHeld || _downHeld) {
 			_heldGuard += 1;
