@@ -51,9 +51,6 @@ namespace Scaleform
 			DataProvider(CLIK::Array{ _provider });
 		}
 
-		void PushBack(T& a_item) { _impl.push_back(std::move(a_item)); }
-		void Clear() { _impl.clear(); }
-
 		T* SelectedItem()
 		{
 			auto pos = static_cast<ptrdiff_t>(SelectedIndex());
@@ -79,9 +76,7 @@ namespace Scaleform
 		{
 			const auto maxIdx = static_cast<double>(_impl.size()) - 1.0;
 			if (maxIdx >= 0.0) {
-				auto idx = SelectedIndex();
-				idx += a_mod;
-				idx = std::clamp(idx, 0.0, maxIdx);
+				const auto idx = std::clamp(SelectedIndex() + a_mod, 0.0, maxIdx);
 				SelectedIndex(idx);
 			}
 		}
@@ -107,9 +102,13 @@ namespace Scaleform
 			RestoreIndex(static_cast<ptrdiff_t>(a_idx));
 		}
 
+	public:
+		constexpr void clear() noexcept { _impl.clear(); }
+		constexpr void push_back(T& a_item) { _impl.push_back(std::move(a_item)); }
+
 	private:
 		RE::GPtr<RE::GFxMovieView> _view;
-		RE::GFxValue _provider;
-		std::vector<T> _impl;
+		RE::GFxValue			   _provider;
+		std::vector<T>			   _impl;
 	};
 }

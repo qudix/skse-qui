@@ -12,9 +12,6 @@ namespace Core::Menu::Item
 
 		[[nodiscard]] RE::GFxValue GFxValue(RE::GFxMovieView& a_view) const
 		{
-			RE::GFxValue value;
-			a_view.CreateObject(std::addressof(value));
-
 			std::string index;
 			if (_index >= 0xFE) {
 				index = fmt::format(FMT_STRING("FE {:03X}"), _index - 0xFE);
@@ -22,17 +19,23 @@ namespace Core::Menu::Item
 				index = fmt::format(FMT_STRING("{:02X}"), _index);
 			}
 
+			RE::GFxValue value;
+			a_view.CreateObject(std::addressof(value));
+
 			value.SetMember("index", { static_cast<std::string_view>(index) });
-			value.SetMember("name", { _name });
-			value.SetMember("count", { _count });
+			value.SetMember("name", { GetName() });
+			value.SetMember("count", { GetCount() });
+
 			return value;
 		}
 
-		[[nodiscard]] std::string_view GetName() { return _name; }
-		[[nodiscard]] uint32_t GetIndex() { return _index; }
+		[[nodiscard]] const uint32_t GetIndex() const noexcept { return _index; }
+		[[nodiscard]] std::string_view GetName() const noexcept { return _name; }
+		[[nodiscard]] const size_t GetCount() const noexcept { return _count; }
 
-		uint32_t _index;
-		std::string_view _name;
-		size_t _count;
+	private:
+		uint32_t	_index;
+		std::string _name{ "" };
+		size_t		_count{ 0 };
 	};
 }

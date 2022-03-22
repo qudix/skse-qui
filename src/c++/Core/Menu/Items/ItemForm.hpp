@@ -13,7 +13,7 @@ namespace Core::Menu::Item
 		{
 			auto locale = LocaleManager::GetSingleton();
 			auto locStr = LocaleStrings::GetSingleton();
-			auto type = locStr->FormType(a_type);
+			const auto& type = locStr->FormType(a_type);
 			_name = locale->Translate(type);
 		}
 
@@ -32,6 +32,7 @@ namespace Core::Menu::Item
 		[[nodiscard]] std::string_view GetName() const noexcept { return _name; }
 		[[nodiscard]] const size_t GetCount() const noexcept { return _count; }
 
+	private:
 		RE::FormType _type;
 		std::string	 _name{ "" };
 		size_t		 _count{ 0 };

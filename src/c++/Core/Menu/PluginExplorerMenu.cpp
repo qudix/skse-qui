@@ -371,7 +371,7 @@ namespace Core::Menu
 	void PluginExplorerMenu::RefreshPlugins()
 	{
 		const auto idx = _pluginList.SelectedIndex();
-		_pluginList.Clear();
+		_pluginList.clear();
 
 		auto& plugins = PluginExplorer::GetPlugins();
 		for (auto& [index, plugin] : plugins) {
@@ -379,7 +379,7 @@ namespace Core::Menu
 				continue;
 
 			Item::ItemPlugin itemPlugin{ index, plugin.GetName(), plugin.GetCount() };
-			_pluginList.PushBack(itemPlugin);
+			_pluginList.push_back(itemPlugin);
 		}
 
 		_pluginList.Refresh();
@@ -392,7 +392,7 @@ namespace Core::Menu
 			return;
 
 		const auto idx = _formList.SelectedIndex();
-		_formList.Clear();
+		_formList.clear();
 
 		auto plugin = PluginExplorer::FindPlugin(_pluginIndex);
 		if (plugin) {
@@ -400,7 +400,7 @@ namespace Core::Menu
 			auto doForms = [&](RE::FormType a_type) {
 				if (types.contains(a_type)) {
 					Item::ItemForm form{ a_type, types[a_type].size() };
-					_formList.PushBack(form);
+					_formList.push_back(form);
 				}
 			};
 
