@@ -8,6 +8,7 @@ namespace Core::Private
 	{
 		struct
 		{
+			bool Enable;
 			bool Pause;
 			bool Loop;
 			bool Sound;
@@ -36,6 +37,8 @@ namespace Core::Private
 
 		struct
 		{
+			bool Enable;
+
 			struct
 			{
 				bool Logo;
@@ -52,6 +55,12 @@ namespace Core::Private
 				bool Help;
 			} List;
 		} MainMenu;
+
+		struct
+		{
+			bool Enable;
+			uint32_t DefaultPage;
+		} JournalMenu;
 	};
 }
 

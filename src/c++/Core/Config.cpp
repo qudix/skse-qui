@@ -34,6 +34,7 @@ namespace Core
 	{
 		_impl = {
 			.PluginExplorer = {
+				.Enable = GetValue("PluginExplorer.Enable", true),
 				.Pause = GetValue("PluginExplorer.Pause", false),
 				.Loop = GetValue("PluginExplorer.Loop", true),
 				.Sound = GetValue("PluginExplorer.Sound", true),
@@ -53,20 +54,27 @@ namespace Core
 					.Soul = GetValue("PluginExplorer.Count.Soul", 25u),
 					.Spell = GetValue("PluginExplorer.Count.Spell", 1u),
 					.Weapon = GetValue("PluginExplorer.Count.Weapon", 1u),
-				} },
-				.MainMenu = {
-					.UI = {
-						.Logo = GetValue("MainMenu.UI.Logo", true),
-						.Motd = GetValue("MainMenu.UI.Motd", true),
-						.Banner = GetValue("MainMenu.UI.Banner", true),
-					},
+				}
+			},
+			.MainMenu = { 
+				.Enable = GetValue("MainMenu.Enable", true),
+				.UI = {
+					.Logo = GetValue("MainMenu.UI.Logo", true),
+					.Motd = GetValue("MainMenu.UI.Motd", true),
+					.Banner = GetValue("MainMenu.UI.Banner", true),
+				},
 				.List = {
 					.CC = GetValue("MainMenu.List.CC", true),
 					.DLC = GetValue("MainMenu.List.DLC", false),
 					.Mods = GetValue("MainMenu.List.Mods", true),
 					.Credits = GetValue("MainMenu.List.Credits", true),
 					.Help = GetValue("MainMenu.List.Help", true),
-				} }
+				}
+			},
+			.JournalMenu = {
+				.Enable = GetValue("JournalMenu.Enable", true),
+				.DefaultPage = std::clamp(GetValue("JournalMenu.DefaultPage", 2u), 0u, 2u),
+			}
 		};
 	}
 

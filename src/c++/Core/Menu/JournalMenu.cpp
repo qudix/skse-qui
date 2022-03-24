@@ -1,5 +1,7 @@
 #include "Core/Menu/JournalMenu.hpp"
 
+#include "Core/Config.hpp"
+
 namespace Core::Menu
 {
 	void JournalMenuEx::AcceptEx(RE::FxDelegateHandler::CallbackProcessor* a_cbReg)
@@ -20,7 +22,8 @@ namespace Core::Menu
 			if (ui->IsMenuOpen(uiStr->mapMenu)) {
 				*_savedTabIdx = Tab::kQuest;
 			} else {
-				*_savedTabIdx = Tab::kSystem;
+				auto& config = Config::Get();
+				*_savedTabIdx = static_cast<Tab>(config.JournalMenu.DefaultPage);
 			}
 		}
 

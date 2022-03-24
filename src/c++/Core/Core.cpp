@@ -15,17 +15,21 @@ namespace Core
 {
 	void OnDataLoaded()
 	{
-		Menu::PluginExplorer::Init();
+		auto& config = Config::Get();
+		if (config.PluginExplorer.Enable)
+			Menu::PluginExplorer::Init();
 
 		logger::info("Registering menus...");
 		if (const auto ui = RE::UI::GetSingleton()) {
-			ui->Register(Menu::PluginExplorerMenu::MENU_NAME, Menu::PluginExplorerMenu::Create);
+			if (config.PluginExplorer.Enable)
+				ui->Register(Menu::PluginExplorerMenu::MENU_NAME, Menu::PluginExplorerMenu::Create);
 		}
 
 		logger::info("Registering event handlers...");
 		if (const auto event = Event::EventManager::GetSingleton()) {
 			event->Register();
-			event->Register(Menu::PluginExplorerHandler::GetSingleton());
+			if (config.PluginExplorer.Enable)
+				event->Register(Menu::PluginExplorerHandler::GetSingleton());
 		}
 	}
 
@@ -45,8 +49,12 @@ namespace Core
 		}
 
 		logger::info("Installing hooks...");
-		Menu::JournalMenuEx::Install();
-		Menu::MainMenuEx::Install();
+		auto& config = Config::Get();
+		if (config.JournalMenu.Enable)
+			Menu::JournalMenuEx::Install();
+
+		if (config.MainMenu.Enable)
+			Menu::MainMenuEx::Install();
 
 		logger::info("Registering listener...");
 		if (const auto messaging = SKSE::GetMessagingInterface()) {

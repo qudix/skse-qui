@@ -6,6 +6,7 @@
 # Nothing yet
 
 [PluginExplorer]
+Enable = true  # Enable PluginExplorer (default: true)
 Pause = false  # Pause the game when the PluginExplorer interface is open (default: false)
 Loop = true    # Reopens the PluginExplorer interface when the item container is closed (default: true)
 Sound = true   # Unused (default: true)
@@ -29,16 +30,20 @@ Spell = 1
 Weapon = 1
 
 [MainMenu]
-# Nothing yet
+Enable = true   # Enable MainMenu hooks and features (default: true)
 
 [MainMenu.UI]
-Logo = true    # Show the Bethesda logo (default: true)
-Motd = true    # Show the Message of the Day (default: true)
-Banner = true  # Show the Anniversary Edition banner (default: true)
+Logo = true     # Show the Bethesda logo (default: true)
+Motd = true     # Show the Message of the Day (default: true)
+Banner = true   # Show the Anniversary Edition banner (default: true)
 
 [MainMenu.List]
-CC = true      # Show the Creation Club entry (default: true)
-DLC = false    # Show the DLC entry (default: false)
-Mods = true    # Show the Mods entry (default: true)
-Credits = true # Show the Credits entry (default: true)
-Help = true    # Show the Help entry (default: true)
+CC = true       # Show the Creation Club entry (default: true)
+DLC = false     # Show the DLC entry (default: false)
+Mods = true     # Show the Mods entry (default: true)
+Credits = true  # Show the Credits entry (default: true)
+Help = true     # Show the Help entry (default: true)
+
+[JournalMenu]
+Enable = true   # Enable JournalMenu hooks and features (default: true)
+DefaultPage = 2 # Sets the default page [0: QuestPage, 1: StatsPage, 2: SystemPage] (default: 2)
