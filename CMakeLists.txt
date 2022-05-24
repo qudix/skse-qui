@@ -10,7 +10,7 @@ option(COPY_OUTPUT "Copy the output of build operations to the game directory." 
 
 project(
     QUI
-    VERSION 0.2.8
+    VERSION 0.2.9
     LANGUAGES CXX
 )
 
