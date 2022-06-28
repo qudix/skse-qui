@@ -61,7 +61,15 @@ namespace Core::Menu
 			return;
 		}
 
+		auto& config = Config::Get();
+		auto& exclude = config.PluginExplorer.Plugin.Enable;
 		for (auto file : handler->files) {
+			auto it = exclude.find(file->fileName);
+			if (it != exclude.end()) {
+				if (!it->second)
+					continue;
+			}
+
 			if (file->compileIndex != 0xFF) {
 				auto index = General::Skyrim::GetCombinedIndex(file);
 				PluginInfo info{ file->fileName, index };

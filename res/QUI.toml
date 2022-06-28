@@ -29,6 +29,12 @@ Soul = 25
 Spell = 1
 Weapon = 1
 
+# Enable plugins in the PluginExplorer interface [false: Disable, true: Enable] (default: true)
+# Plugin entries can be added and removed. Names are case-sensitive.
+[PluginExplorer.Plugin.Enable]
+"Skyrim.esm" = true
+"Update.esm" = true
+
 [MainMenu]
 Enable = true   # Enable MainMenu hooks and features (default: true)
 

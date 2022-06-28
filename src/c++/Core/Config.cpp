@@ -55,6 +55,7 @@ namespace Core
 		GET_VALUE(PluginExplorer.Count.Soul);
 		GET_VALUE(PluginExplorer.Count.Spell);
 		GET_VALUE(PluginExplorer.Count.Weapon);
+		GET_VALUE(PluginExplorer.Plugin.Enable);
 		GET_VALUE(MainMenu.Enable);
 		GET_VALUE(MainMenu.UI.Logo);
 		GET_VALUE(MainMenu.UI.Motd);

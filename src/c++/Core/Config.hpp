@@ -38,6 +38,11 @@ namespace Core::Private
 				uint32_t Spell{ 1u };
 				uint32_t Weapon{ 1u };
 			} Count;
+
+			struct
+			{
+				std::unordered_map<std::string, bool> Enable{};
+			} Plugin;
 		} PluginExplorer;
 
 		struct
