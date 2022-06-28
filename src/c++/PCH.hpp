@@ -1,6 +1,7 @@
 #pragma once
 
 #define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
+#define SPDLOG_WCHAR_TO_UTF8_SUPPORT
 
 #pragma warning(push)
 #pragma warning(disable : 4200)
