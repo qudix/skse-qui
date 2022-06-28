@@ -1,5 +1,6 @@
 # You can override these settings either by editing this file or creating a QUI_Custom.toml file in the same location.
 # References:
+#     TOML Spec: https://toml.io/en/v1.0.0
 #     Key Codes: https://creationkit.com/index.php?title=Input_Script#DXScanCodes
 
 [General]
@@ -8,11 +9,11 @@ Locale = "" # Override the language locale (default: "")
 [PluginExplorer]
 Enable = true  # Enable PluginExplorer (default: true)
 Pause = false  # Pause the game when the PluginExplorer interface is open (default: false)
-Loop = true    # Reopens the PluginExplorer interface when the item container is closed (default: true)
+Loop = true    # Reopen the PluginExplorer interface when the item container is closed (default: true)
 Sound = true   # Unused (default: true)
 
 [PluginExplorer.Key]
-KeyboardToggle = 87 # F11
+KeyboardToggle = 87 # Toggle the PluginExplorer interface (default: 87 = F11)
 
 # Amount of items in the container per type
 [PluginExplorer.Count]
