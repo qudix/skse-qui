@@ -8,6 +8,7 @@ namespace Core::Private
 	{
 		struct
 		{
+			std::string Locale{ "" };
 		} General;
 
 		struct

@@ -44,12 +44,9 @@ namespace Core
 
 	void LocalePackage::Dump()
 	{
-		auto lang = stl::utf16_to_utf8(_language).value();
-		logger::info("[Locale: {}]", lang);
+		spdlog::info(L"[Locale: {}]", _language);
 		for (auto& [key, value] : _items) {
-			auto mkey = stl::utf16_to_utf8(key).value();
-			auto mvalue = stl::utf16_to_utf8(value).value();
-			logger::info("  {} : {}", mkey.c_str(), mvalue.c_str());
+			spdlog::info(L"  > {} : {}", key, value);
 		}
 	}
 
@@ -71,13 +68,13 @@ namespace Core
 
 	void LocalePackage::ReadFile(const fs::path& a_path)
 	{
-		std::wifstream file(a_path);
+		std::wifstream file(a_path, std::ios::binary);
 		file.imbue(
 			std::locale(file.getloc(),
 				new std::codecvt_utf16<wchar_t, 0x10FFFF, CVT_MODE>));	// UCS-2 LE w/ BOM
 
 		if (!file.is_open()) {
-			logger::error("Failed to open file \"{}\"!\n", a_path.string().c_str());
+			logger::error("Failed to open file \"{}\"!\n", a_path.string());
 			return;
 		}
 
@@ -105,7 +102,7 @@ namespace Core
 				if (sanitizedKey)
 					key = std::move(*sanitizedKey);
 
-				_items.insert(std::make_pair(std::move(key), std::move(value)));
+				_items.insert({ std::move(key), std::move(value) });
 			}
 		}
 	}

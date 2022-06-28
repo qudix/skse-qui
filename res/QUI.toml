@@ -3,7 +3,7 @@
 #     Key Codes: https://creationkit.com/index.php?title=Input_Script#DXScanCodes
 
 [General]
-# Nothing yet
+Locale = "" # Override the language locale (default: "")
 
 [PluginExplorer]
 Enable = true  # Enable PluginExplorer (default: true)

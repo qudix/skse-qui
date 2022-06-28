@@ -42,14 +42,14 @@ namespace Core
 		}
 
 		logger::info("Loading localizations...");
+		auto& config = Config::Get();
 		if (const auto locale = LocaleManager::GetSingleton()) {
-			locale->SetLocale();
+			locale->SetLocale(config.General.Locale);
 			locale->Load();
 			//locale->Dump();
 		}
 
 		logger::info("Installing hooks...");
-		auto& config = Config::Get();
 		if (config.JournalMenu.Enable)
 			Menu::JournalMenuEx::Install();
 

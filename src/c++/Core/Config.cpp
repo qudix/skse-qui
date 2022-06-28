@@ -37,6 +37,7 @@ namespace Core
 		#define GET_VALUE(VALUE_PATH) \
 			GetValue(#VALUE_PATH, _impl.VALUE_PATH);
 
+		GET_VALUE(General.Locale);
 		GET_VALUE(PluginExplorer.Enable);
 		GET_VALUE(PluginExplorer.Pause);
 		GET_VALUE(PluginExplorer.Loop);
