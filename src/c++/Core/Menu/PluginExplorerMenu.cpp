@@ -82,7 +82,7 @@ namespace Core::Menu
 
 	void PluginExplorerMenu::AdvanceMovie(float a_interval, uint32_t a_currentTime)
 	{
-		if (_upHeld || _downHeld) {
+		if ((_upHeld > 0) || (_downHeld > 0)) {
 			_heldGuard += 1;
 			if (_heldGuard >= 15) {
 				_heldCount += 1;
@@ -129,12 +129,18 @@ namespace Core::Menu
 						switch (a_event->idCode) {
 							case Key::kW:
 							case Key::kUp:
-								_upHeld = false;
-								break;
+								{
+									if (_upHeld > 0)
+										_upHeld -= 1;
+									break;
+								}
 							case Key::kS:
 							case Key::kDown:
-								_downHeld = false;
-								break;
+								{
+									if (_downHeld > 0)
+										_downHeld -= 1;
+									break;
+								}
 						}
 					}
 					break;
@@ -143,11 +149,17 @@ namespace Core::Menu
 						using Key = RE::BSWin32GamepadDevice::Key;
 						switch (a_event->idCode) {
 							case Key::kUp:
-								_upHeld = false;
-								break;
+								{
+									if (_upHeld > 0)
+										_upHeld -= 1;
+									break;
+								}
 							case Key::kDown:
-								_downHeld = false;
-								break;
+								{
+									if (_downHeld > 0)
+										_downHeld -= 1;
+									break;
+								}
 						}
 					}
 			}
@@ -173,14 +185,14 @@ namespace Core::Menu
 							case Key::kW:
 							case Key::kUp:
 								{
-									_upHeld = true;
+									_upHeld += 1;
 									ModSelectedIndex(-1);
 									break;
 								}
 							case Key::kS:
 							case Key::kDown:
 								{
-									_downHeld = true;
+									_downHeld += 1;
 									ModSelectedIndex(1);
 									break;
 								}
@@ -224,13 +236,13 @@ namespace Core::Menu
 								break;
 							case Key::kUp:
 								{
-									_upHeld = true;
+									_upHeld += 1;
 									ModSelectedIndex(-1);
 									break;
 								}
 							case Key::kDown:
 								{
-									_downHeld = true;
+									_downHeld += 1;
 									ModSelectedIndex(1);
 									break;
 								}
@@ -528,8 +540,9 @@ namespace Core::Menu
 			indexAccept = General::Input::GetGamepadIndex(Key::kA);
 			indexCancel = General::Input::GetGamepadIndex(Key::kBack);
 		} else {
-			indexAccept = General::Input::kEnter;
-			indexCancel = General::Input::kESC;
+			using Key = RE::BSWin32KeyboardDevice::Key;
+			indexAccept = General::Input::GetKeyboardIndex(Key::kEnter);
+			indexCancel = General::Input::GetKeyboardIndex(Key::kEscape);
 		}
 
 		_buttonBarProvider.ClearElements();

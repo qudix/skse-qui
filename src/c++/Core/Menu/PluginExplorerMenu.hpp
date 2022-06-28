@@ -102,8 +102,8 @@ namespace Core::Menu
 
 		uint32_t _heldGuard{ 0 };
 		uint32_t _heldCount{ 0 };
-		bool _upHeld{ false };
-		bool _downHeld{ false };
+		uint32_t _upHeld{ 0 };
+		uint32_t _downHeld{ 0 };
 
 		static inline Focus _focus{ Focus::Plugin };
 
