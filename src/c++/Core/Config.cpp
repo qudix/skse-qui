@@ -32,50 +32,41 @@ namespace Core
 
 	void Config::Read()
 	{
-		_impl = {
-			.PluginExplorer = {
-				.Enable = GetValue("PluginExplorer.Enable", true),
-				.Pause = GetValue("PluginExplorer.Pause", false),
-				.Loop = GetValue("PluginExplorer.Loop", true),
-				.Sound = GetValue("PluginExplorer.Sound", true),
-				.Key = {
-					.KeyboardToggle = GetValue("PluginExplorer.Key.KeyboardToggle", 87u),
-				},
-				.Count = {
-					.Alchemy = GetValue("PluginExplorer.Count.Alchemy", 25u),
-					.Ammo = GetValue("PluginExplorer.Count.Ammo", 500u),
-					.Armor = GetValue("PluginExplorer.Count.Armor", 1u),
-					.Book = GetValue("PluginExplorer.Count.Book", 1u),
-					.Ingredient = GetValue("PluginExplorer.Count.Ingredient", 100u),
-					.Key = GetValue("PluginExplorer.Count.Key", 1u),
-					.Misc = GetValue("PluginExplorer.Count.Misc", 25u),
-					.Note = GetValue("PluginExplorer.Count.Note", 5u),
-					.Scroll = GetValue("PluginExplorer.Count.Scroll", 1u),
-					.Soul = GetValue("PluginExplorer.Count.Soul", 25u),
-					.Spell = GetValue("PluginExplorer.Count.Spell", 1u),
-					.Weapon = GetValue("PluginExplorer.Count.Weapon", 1u),
-				}
-			},
-			.MainMenu = { 
-				.Enable = GetValue("MainMenu.Enable", true),
-				.UI = {
-					.Logo = GetValue("MainMenu.UI.Logo", true),
-					.Motd = GetValue("MainMenu.UI.Motd", true),
-					.Banner = GetValue("MainMenu.UI.Banner", true),
-				},
-				.List = {
-					.CC = GetValue("MainMenu.List.CC", true),
-					.DLC = GetValue("MainMenu.List.DLC", false),
-					.Mods = GetValue("MainMenu.List.Mods", true),
-					.Credits = GetValue("MainMenu.List.Credits", true),
-					.Help = GetValue("MainMenu.List.Help", true),
-				}
-			},
-			.JournalMenu = {
-				.Enable = GetValue("JournalMenu.Enable", true),
-				.DefaultPage = std::clamp(GetValue("JournalMenu.DefaultPage", 2u), 0u, 2u),
-			}
-		};
+		_impl = {};
+
+		#define GET_VALUE(VALUE_PATH) \
+			GetValue(#VALUE_PATH, _impl.VALUE_PATH);
+
+		GET_VALUE(PluginExplorer.Enable);
+		GET_VALUE(PluginExplorer.Pause);
+		GET_VALUE(PluginExplorer.Loop);
+		GET_VALUE(PluginExplorer.Sound);
+		GET_VALUE(PluginExplorer.Key.KeyboardToggle);
+		GET_VALUE(PluginExplorer.Count.Alchemy);
+		GET_VALUE(PluginExplorer.Count.Ammo);
+		GET_VALUE(PluginExplorer.Count.Armor);
+		GET_VALUE(PluginExplorer.Count.Book);
+		GET_VALUE(PluginExplorer.Count.Ingredient);
+		GET_VALUE(PluginExplorer.Count.Key);
+		GET_VALUE(PluginExplorer.Count.Misc);
+		GET_VALUE(PluginExplorer.Count.Note);
+		GET_VALUE(PluginExplorer.Count.Scroll);
+		GET_VALUE(PluginExplorer.Count.Soul);
+		GET_VALUE(PluginExplorer.Count.Spell);
+		GET_VALUE(PluginExplorer.Count.Weapon);
+		GET_VALUE(MainMenu.Enable);
+		GET_VALUE(MainMenu.UI.Logo);
+		GET_VALUE(MainMenu.UI.Motd);
+		GET_VALUE(MainMenu.UI.Banner);
+		GET_VALUE(MainMenu.List.CC);
+		GET_VALUE(MainMenu.List.DLC);
+		GET_VALUE(MainMenu.List.Mods);
+		GET_VALUE(MainMenu.List.Credits);
+		GET_VALUE(MainMenu.List.Help);
+		GET_VALUE(JournalMenu.Enable);
+		GET_VALUE(JournalMenu.DefaultPage);
+
+		#undef GET_VALUE
 	}
 
 	auto Config::GetNode(const char* a_path) -> toml::node_view<toml::node>
@@ -97,16 +88,46 @@ namespace Core
 		return {};
 	}
 
-	bool Config::GetValue(const char* a_path, bool a_default)
+	void Config::GetValue(const char* a_path, bool& a_value)
 	{
 		auto node = GetNode(a_path);
-		return node.value_or(a_default);
+		if (node && node.is_boolean())
+			a_value = node.value_or(a_value);
 	}
 
-	uint32_t Config::GetValue(const char* a_path, uint32_t a_default)
+	void Config::GetValue(const char* a_path, uint32_t& a_value)
 	{
 		auto node = GetNode(a_path);
-		return node.value_or(a_default);
+		if (node && node.is_integer())
+			a_value = node.value_or(a_value);
+	}
+
+	void Config::GetValue(const char* a_path, float& a_value)
+	{
+		auto node = GetNode(a_path);
+		if (node && node.is_floating_point())
+			a_value = node.value_or(a_value);
+	}
+
+	void Config::GetValue(const char* a_path, std::string& a_value)
+	{
+		auto node = GetNode(a_path);
+		if (node && node.is_string())
+			a_value = node.value_or(a_value);
+	}
+
+	void Config::GetValue(const char* a_path, std::unordered_map<std::string, bool>& a_value)
+	{
+		auto node = GetNode(a_path);
+		if (node) {
+			if (node.is_table()) {
+				for (const auto& [key, value] : *node.as_table()) {
+					auto opt = value.value<bool>();
+					if (opt && !key.empty())
+						a_value[key.data()] = opt.value();
+				}
+			}
+		}
 	}
 
 	Private::ConfigImpl& Config::Get()

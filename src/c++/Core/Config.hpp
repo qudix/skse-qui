@@ -8,58 +8,62 @@ namespace Core::Private
 	{
 		struct
 		{
-			bool Enable;
-			bool Pause;
-			bool Loop;
-			bool Sound;
+		} General;
+
+		struct
+		{
+			bool Enable{ true };
+			bool Pause{ false };
+			bool Loop{ true };
+			bool Sound{ true };
 
 			struct
 			{
-				uint32_t KeyboardToggle;
+				uint32_t KeyboardToggle{ 87u };
 			} Key;
 
 			struct
 			{
-				uint32_t Alchemy;
-				uint32_t Ammo;
-				uint32_t Armor;
-				uint32_t Book;
-				uint32_t Ingredient;
-				uint32_t Key;
-				uint32_t Misc;
-				uint32_t Note;
-				uint32_t Scroll;
-				uint32_t Soul;
-				uint32_t Spell;
-				uint32_t Weapon;
+				uint32_t Alchemy{ 25u };
+				uint32_t Ammo{ 500u };
+				uint32_t Armor{ 1u };
+				uint32_t Book{ 1u };
+				uint32_t Ingredient{ 100u };
+				uint32_t Key{ 1u };
+				uint32_t Misc{ 25u };
+				uint32_t Note{ 5u };
+				uint32_t Scroll{ 1u };
+				uint32_t Soul{ 25u };
+				uint32_t Spell{ 1u };
+				uint32_t Weapon{ 1u };
 			} Count;
 		} PluginExplorer;
 
 		struct
 		{
-			bool Enable;
+			bool Enable{ true };
 
 			struct
 			{
-				bool Logo;
-				bool Motd;
-				bool Banner;
+				bool Logo{ true };
+				bool Motd{ true };
+				bool Banner{ true };
 			} UI;
 
 			struct
 			{
-				bool CC;
-				bool DLC;
-				bool Mods;
-				bool Credits;
-				bool Help;
+				bool CC{ true };
+				bool DLC{ false };
+				bool Mods{ true };
+				bool Credits{ true };
+				bool Help{ true };
 			} List;
 		} MainMenu;
 
 		struct
 		{
-			bool Enable;
-			uint32_t DefaultPage;
+			bool Enable{ true };
+			uint32_t DefaultPage{ 2u };
 		} JournalMenu;
 	};
 }
@@ -75,10 +79,14 @@ namespace Core
 		void Load();
 		void Read();
 
-		toml::node_view<toml::node> GetNode(const char* a_path);
+		auto GetNode(const char* a_path)
+			-> toml::node_view<toml::node>;
 
-		bool GetValue(const char* a_path, bool a_default);
-		uint32_t GetValue(const char* a_path, uint32_t a_default);
+		void GetValue(const char* a_path, bool& a_value);
+		void GetValue(const char* a_path, uint32_t& a_value);
+		void GetValue(const char* a_path, float& a_value);
+		void GetValue(const char* a_path, std::string& a_value);
+		void GetValue(const char* a_path, std::unordered_map<std::string, bool>& a_value);
 
 		static Private::ConfigImpl& Get();
 
@@ -86,6 +94,6 @@ namespace Core
 		toml::parse_result _result;
 		toml::parse_result _resultCustom;
 
-		Private::ConfigImpl _impl{};
+		Private::ConfigImpl _impl;
 	};
 }
