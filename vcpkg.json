@@ -1,21 +1,14 @@
 {
-    "name": "qui",
-    "version": "0.2.9",
-    "description": "",
-    "homepage": "https://github.com/Qudix/QUI-SKSE",
-    "license": "GPL-3.0",
-    "dependencies": [
-      "boost-stl-interfaces",
-      "rsm-binary-io",
-      "spdlog",
-      "frozen",
-      "tomlplusplus"
-    ],
-    "builtin-baseline": "1c5939e275082fb6f4b2c8a546cd904b978f55ac",
-    "overrides": [
-      {
-        "name": "fmt",
-        "version": "8.0.1"
-      }
-    ]
-  }
+  "name": "qui",
+  "version": "0.2.9",
+  "description": "",
+  "homepage": "https://github.com/Qudix/QUI-SKSE",
+  "license": "GPL-3.0",
+  "dependencies": [
+    "boost-stl-interfaces",
+    "rsm-binary-io",
+    "frozen",
+    "tomlplusplus",
+    { "name": "spdlog", "features": [ "wchar" ] }
+  ]
+}

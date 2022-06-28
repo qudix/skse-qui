@@ -1,121 +1,77 @@
 {
     "configurePresets": [
       {
-        "cacheVariables": {
-          "CMAKE_BUILD_TYPE": {
-            "type": "STRING",
-            "value": "RelWithDebInfo"
-          }
-        },
-        "errors": {
-          "deprecated": true
-        },
-        "hidden": true,
         "name": "cmake-dev",
+        "hidden": true,
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": { "type": "STRING", "value": "RelWithDebInfo" }
+        },
         "warnings": {
           "deprecated": true,
           "dev": true
+        },
+        "errors": {
+          "deprecated": true
         }
       },
       {
-        "cacheVariables": {
-          "CMAKE_TOOLCHAIN_FILE": {
-            "type": "STRING",
-            "value": "$env{VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake"
-          }
-        },
+        "name": "vcpkg",
         "hidden": true,
-        "name": "vcpkg"
+        "toolchainFile": "$env{VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake"
       },
       {
-        "cacheVariables": {
-          "CMAKE_MSVC_RUNTIME_LIBRARY": {
-            "type": "STRING",
-            "value": "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
-          },
-          "VCPKG_TARGET_TRIPLET": {
-            "type": "STRING",
-            "value": "x64-windows-static-md"
-          }
-        },
+        "name": "windows",
         "hidden": true,
-        "name": "windows"
+        "cacheVariables": {
+          "VCPKG_TARGET_TRIPLET": { "type": "STRING", "value": "x64-windows-static-md" }
+        },
+        "architecture": { "strategy": "set", "value": "x64" }
       },
       {
-        "architecture": {
-          "strategy": "set",
-          "value": "x64"
-        },
-        "cacheVariables": {
-          "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /external:anglebrackets /external:W0 $penv{CXXFLAGS}"
-        },
-        "generator": "Visual Studio 16 2019",
+        "name": "msvc",
         "hidden": true,
-        "inherits": [
-          "cmake-dev",
-          "vcpkg",
-          "windows"
-        ],
-        "name": "vs2019-windows-vcpkg",
-        "toolset": "v142"
+        "cacheVariables": {
+          "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX /external:W0",
+          "CMAKE_MSVC_RUNTIME_LIBRARY": { "type": "STRING", "value": "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" }
+        }
       },
       {
-        "architecture": {
-          "strategy": "set",
-          "value": "x64"
-        },
-        "cacheVariables": {
-          "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX $penv{CXXFLAGS}"
-        },
-        "generator": "Visual Studio 17 2022",
+        "name": "vs2019",
         "hidden": true,
-        "inherits": [
-          "cmake-dev",
-          "vcpkg",
-          "windows"
-        ],
-        "name": "vs2022-windows-vcpkg",
-        "toolset": "v143"
+        "toolset": "v142",
+        "generator": "Visual Studio 16 2019"
       },
       {
-        "cacheVariables": {
-          "SKYRIM_SUPPORT_AE": {
-            "type": "BOOL",
-            "value": "ON"
-          }
-        },
+        "name": "vs2022",
+        "hidden": true,
+        "toolset": "v143",
+        "generator": "Visual Studio 17 2022"
+      },
+      {
+        "name": "vs2022-windows-vcpkg-ae",
         "binaryDir": "${sourceDir}/build/vs2022-AE",
-        "inherits": [
-          "vs2022-windows-vcpkg"
-        ],
-        "name": "vs2022-windows-vcpkg-ae"
-      },
-      {
-        "binaryDir": "${sourceDir}/build/vs2022-SE",
-        "inherits": [
-          "vs2022-windows-vcpkg"
-        ],
-        "name": "vs2022-windows-vcpkg-se"
-      },
-      {
+        "inherits": [ "cmake-dev", "vcpkg", "windows", "msvc", "vs2022" ],
         "cacheVariables": {
-          "SKYRIM_SUPPORT_AE": {
-            "type": "BOOL",
-            "value": "ON"
-          }
-        },
-        "binaryDir": "${sourceDir}/build/vs2019-AE",
-        "inherits": [
-          "vs2019-windows-vcpkg"
-        ],
-        "name": "vs2019-windows-vcpkg-ae"
+          "SKYRIM_SUPPORT_AE": { "type": "BOOL", "value": "ON" }
+        }
       },
       {
+        "name": "vs2022-windows-vcpkg-se",
+        "binaryDir": "${sourceDir}/build/vs2022-SE",
+        "inherits": [ "cmake-dev", "vcpkg", "windows", "msvc", "vs2022" ]
+      },
+      {
+        "name": "vs2019-windows-vcpkg-ae",
+        "binaryDir": "${sourceDir}/build/vs2019-AE",
+        "inherits": [ "cmake-dev", "vcpkg", "windows", "msvc", "vs2019" ],
+        "cacheVariables": {
+          "SKYRIM_SUPPORT_AE": { "type": "BOOL", "value": "ON" }
+        }
+      },
+      {
+        "name": "vs2019-windows-vcpkg-se",
         "binaryDir": "${sourceDir}/build/vs2019-SE",
-        "inherits": [
-          "vs2019-windows-vcpkg"
-        ],
-        "name": "vs2019-windows-vcpkg-se"
+        "inherits": [ "cmake-dev", "vcpkg", "windows", "msvc", "vs2019" ]
       }
     ],
     "version": 3
