@@ -14,39 +14,38 @@ namespace Core::Menu
 			return;
 
 		auto formID = a_form->GetFormID();
-		using Type = RE::FormType;
 		switch (a_type) {
-			case Type::AlchemyItem:
-			case Type::Ammo:
-			case Type::Armor:
-			case Type::Ingredient:
-			case Type::KeyMaster:
-			case Type::Misc:
-			case Type::Note:
-			case Type::Scroll:
-			case Type::SoulGem:
-			case Type::Weapon:
+			using T = RE::FormType;
+			case T::AlchemyItem:
+			case T::Ammo:
+			case T::Armor:
+			case T::Ingredient:
+			case T::KeyMaster:
+			case T::Misc:
+			case T::Note:
+			case T::Scroll:
+			case T::SoulGem:
+			case T::Weapon: {
 				_forms[a_type].insert_or_assign(formID, formName);
 				_count += 1;
 				break;
-			case Type::Book:
-				{
-					auto book = a_form->As<RE::TESObjectBOOK>();
-					if (book && !book->TeachesSpell()) {
-						_forms[a_type].insert_or_assign(formID, formName);
-						_count += 1;
-					}
-					break;
+			}
+			case T::Book: {
+				auto book = a_form->As<RE::TESObjectBOOK>();
+				if (book && !book->TeachesSpell()) {
+					_forms[a_type].insert_or_assign(formID, formName);
+					_count += 1;
 				}
-			case Type::Spell:
-				{
-					auto book = a_form->As<RE::TESObjectBOOK>();
-					if (book && book->TeachesSpell()) {
-						_forms[a_type].insert_or_assign(formID, formName);
-						_count += 1;
-					}
-					break;
+				break;
+			}
+			case T::Spell: {
+				auto book = a_form->As<RE::TESObjectBOOK>();
+				if (book && book->TeachesSpell()) {
+					_forms[a_type].insert_or_assign(formID, formName);
+					_count += 1;
 				}
+				break;
+			}
 			default:
 				logger::warn("Unhandled FormType: {}", static_cast<int32_t>(a_type));
 				break;
@@ -78,18 +77,19 @@ namespace Core::Menu
 			}
 		}
 
-		AddForms(RE::FormType::AlchemyItem);
-		AddForms(RE::FormType::Ammo);
-		AddForms(RE::FormType::Armor);
-		AddForms(RE::FormType::Book);
-		AddForms(RE::FormType::Ingredient);
-		AddForms(RE::FormType::KeyMaster);
-		AddForms(RE::FormType::Misc);
-		AddForms(RE::FormType::Note);
-		AddForms(RE::FormType::Scroll);
-		AddForms(RE::FormType::SoulGem);
-		AddForms(RE::FormType::Spell);
-		AddForms(RE::FormType::Weapon);
+		using Type = RE::FormType;
+		AddForms(Type::AlchemyItem);
+		AddForms(Type::Ammo);
+		AddForms(Type::Armor);
+		AddForms(Type::Book);
+		AddForms(Type::Ingredient);
+		AddForms(Type::KeyMaster);
+		AddForms(Type::Misc);
+		AddForms(Type::Note);
+		AddForms(Type::Scroll);
+		AddForms(Type::SoulGem);
+		AddForms(Type::Spell);
+		AddForms(Type::Weapon);
 
 		InitContainer();
 	}
@@ -216,44 +216,30 @@ namespace Core::Menu
 		auto& config = Config::Get();
 		auto& count = config.PluginExplorer.Count;
 		switch (a_type) {
-			case RE::FormType::AlchemyItem:
-				return count.Alchemy;
-			case RE::FormType::Ammo:
-				return count.Ammo;
-			case RE::FormType::Armor:
-				return count.Armor;
-			case RE::FormType::Book:
-				return count.Book;
-			case RE::FormType::Ingredient:
-				return count.Ingredient;
-			case RE::FormType::KeyMaster:
-				return count.Key;
-			case RE::FormType::Misc:
-				return count.Misc;
-			case RE::FormType::Note:
-				return count.Note;
-			case RE::FormType::Scroll:
-				return count.Scroll;
-			case RE::FormType::SoulGem:
-				return count.Soul;
-			case RE::FormType::Spell:
-				return count.Spell;
-			case RE::FormType::Weapon:
-				return count.Weapon;
-			default:
-				return 1;
+			using T = RE::FormType;
+			case T::AlchemyItem: return count.Alchemy;
+			case T::Ammo:        return count.Ammo;
+			case T::Armor:       return count.Armor;
+			case T::Book:        return count.Book;
+			case T::Ingredient:  return count.Ingredient;
+			case T::KeyMaster:   return count.Key;
+			case T::Misc:        return count.Misc;
+			case T::Note:        return count.Note;
+			case T::Scroll:      return count.Scroll;
+			case T::SoulGem:     return count.Soul;
+			case T::Spell:       return count.Spell;
+			case T::Weapon:      return count.Weapon;
 		}
+
+		return 1;
 	}
 
 	void PluginExplorer::AddForms(RE::FormType a_type)
 	{
-		RE::FormType type = a_type;
+		auto type = a_type;
 		switch (a_type) {
-			case RE::FormType::Spell:
-				{
-					type = RE::FormType::Book;
-					break;
-				}
+			using T = RE::FormType;
+			case T::Spell: type = T::Book; break;
 		}
 
 		auto handler = RE::TESDataHandler::GetSingleton();

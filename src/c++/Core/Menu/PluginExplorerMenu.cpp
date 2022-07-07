@@ -123,132 +123,115 @@ namespace Core::Menu
 
 		if (a_event->IsUp()) {
 			switch (device) {
-				case Device::kKeyboard:
-					{
-						using Key = RE::BSWin32KeyboardDevice::Key;
-						switch (a_event->idCode) {
-							case Key::kW:
-							case Key::kUp:
-								{
-									if (_upHeld > 0)
-										_upHeld -= 1;
-									break;
-								}
-							case Key::kS:
-							case Key::kDown:
-								{
-									if (_downHeld > 0)
-										_downHeld -= 1;
-									break;
-								}
+				case Device::kKeyboard: {
+					using Key = RE::BSWin32KeyboardDevice::Key;
+					switch (a_event->idCode) {
+						case Key::kW:
+						case Key::kUp: {
+							if (_upHeld > 0)
+								_upHeld -= 1;
+							break;
+						}
+						case Key::kS:
+						case Key::kDown: {
+							if (_downHeld > 0)
+								_downHeld -= 1;
+							break;
 						}
 					}
-					break;
-				case Device::kGamepad:
-					{
-						using Key = RE::BSWin32GamepadDevice::Key;
-						switch (a_event->idCode) {
-							case Key::kUp:
-								{
-									if (_upHeld > 0)
-										_upHeld -= 1;
-									break;
-								}
-							case Key::kDown:
-								{
-									if (_downHeld > 0)
-										_downHeld -= 1;
-									break;
-								}
+				} break;
+				case Device::kGamepad: {
+					using Key = RE::BSWin32GamepadDevice::Key;
+					switch (a_event->idCode) {
+						case Key::kUp: {
+							if (_upHeld > 0)
+								_upHeld -= 1;
+							break;
+						}
+						case Key::kDown: {
+							if (_downHeld > 0)
+								_downHeld -= 1;
+							break;
 						}
 					}
+				}
 			}
 		}
 
 		if (a_event->IsDown()) {
 			switch (device) {
-				case Device::kKeyboard:
-					{
-						using Key = RE::BSWin32KeyboardDevice::Key;
-						switch (a_event->idCode) {
-							case Key::kD:
-							case Key::kRight:
-							case Key::kEnter:
-								Select();
-								break;
-							case Key::kA:
-							case Key::kLeft:
-							case Key::kEscape:
-							case Key::kTab:
-								Back();
-								break;
-							case Key::kW:
-							case Key::kUp:
-								{
-									_upHeld += 1;
-									ModSelectedIndex(-1);
-									break;
-								}
-							case Key::kS:
-							case Key::kDown:
-								{
-									_downHeld += 1;
-									ModSelectedIndex(1);
-									break;
-								}
-							case Key::kPageUp:
-								ModSelectedIndex(-16);
-								break;
-							case Key::kPageDown:
-								ModSelectedIndex(16);
-								break;
+				case Device::kKeyboard: {
+					using Key = RE::BSWin32KeyboardDevice::Key;
+					switch (a_event->idCode) {
+						case Key::kD:
+						case Key::kRight:
+						case Key::kEnter:
+							Select();
+							break;
+						case Key::kA:
+						case Key::kLeft:
+						case Key::kEscape:
+						case Key::kTab:
+							Back();
+							break;
+						case Key::kW:
+						case Key::kUp: {
+							_upHeld += 1;
+							ModSelectedIndex(-1);
+							break;
+						}
+						case Key::kS:
+						case Key::kDown: {
+							_downHeld += 1;
+							ModSelectedIndex(1);
+							break;
+						}
+						case Key::kPageUp:
+							ModSelectedIndex(-16);
+							break;
+						case Key::kPageDown:
+							ModSelectedIndex(16);
+							break;
+					}
+				} break;
+				case Device::kMouse: {
+					using Key = RE::BSWin32MouseDevice::Key;
+					switch (a_event->idCode) {
+						case Key::kLeftButton:
+							Select();
+							break;
+						case Key::kRightButton:
+							Back();
+							break;
+						case Key::kWheelUp:
+							ModSelectedIndex(-1);
+							break;
+						case Key::kWheelDown:
+							ModSelectedIndex(1);
+							break;
+					}
+				} break;
+				case Device::kGamepad: {
+					using Key = RE::BSWin32GamepadDevice::Key;
+					switch (a_event->idCode) {
+						case Key::kA:
+							Select();
+							break;
+						case Key::kB:
+							Back();
+							break;
+						case Key::kUp: {
+							_upHeld += 1;
+							ModSelectedIndex(-1);
+							break;
+						}
+						case Key::kDown: {
+							_downHeld += 1;
+							ModSelectedIndex(1);
+							break;
 						}
 					}
-					break;
-				case Device::kMouse:
-					{
-						using Key = RE::BSWin32MouseDevice::Key;
-						switch (a_event->idCode) {
-							case Key::kLeftButton:
-								Select();
-								break;
-							case Key::kRightButton:
-								Back();
-								break;
-							case Key::kWheelUp:
-								ModSelectedIndex(-1);
-								break;
-							case Key::kWheelDown:
-								ModSelectedIndex(1);
-								break;
-						}
-					}
-					break;
-				case Device::kGamepad:
-					{
-						using Key = RE::BSWin32GamepadDevice::Key;
-						switch (a_event->idCode) {
-							case Key::kA:
-								Select();
-								break;
-							case Key::kB:
-								Back();
-								break;
-							case Key::kUp:
-								{
-									_upHeld += 1;
-									ModSelectedIndex(-1);
-									break;
-								}
-							case Key::kDown:
-								{
-									_downHeld += 1;
-									ModSelectedIndex(1);
-									break;
-								}
-						}
-					}
-					break;
+				} break;
 			}
 		}
 
@@ -416,18 +399,19 @@ namespace Core::Menu
 				}
 			};
 
-			doForms(RE::FormType::AlchemyItem);
-			doForms(RE::FormType::Ammo);
-			doForms(RE::FormType::Armor);
-			doForms(RE::FormType::Book);
-			doForms(RE::FormType::Ingredient);
-			doForms(RE::FormType::KeyMaster);
-			doForms(RE::FormType::Misc);
-			doForms(RE::FormType::Note);
-			doForms(RE::FormType::Scroll);
-			doForms(RE::FormType::SoulGem);
-			doForms(RE::FormType::Spell);
-			doForms(RE::FormType::Weapon);
+			using Type = RE::FormType;
+			doForms(Type::AlchemyItem);
+			doForms(Type::Ammo);
+			doForms(Type::Armor);
+			doForms(Type::Book);
+			doForms(Type::Ingredient);
+			doForms(Type::KeyMaster);
+			doForms(Type::Misc);
+			doForms(Type::Note);
+			doForms(Type::Scroll);
+			doForms(Type::SoulGem);
+			doForms(Type::Spell);
+			doForms(Type::Weapon);
 		}
 
 		_formList.Refresh();

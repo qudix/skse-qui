@@ -11,7 +11,7 @@ AllowAllArgumentsOnNextLine: 'false'
 AllowAllConstructorInitializersOnNextLine: 'false'
 AllowAllParametersOfDeclarationOnNextLine: 'false'
 AllowShortBlocksOnASingleLine: Empty
-AllowShortCaseLabelsOnASingleLine: 'false'
+AllowShortCaseLabelsOnASingleLine: 'true'
 AllowShortFunctionsOnASingleLine: All
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: All
@@ -54,7 +54,7 @@ DerivePointerAlignment: 'false'
 DisableFormat: 'false'
 FixNamespaceComments: 'false'
 IncludeBlocks: Preserve
-IndentCaseBlocks: 'true'
+IndentCaseBlocks: 'false'
 IndentCaseLabels: 'true'
 IndentGotoLabels: 'false'
 IndentPPDirectives: None
