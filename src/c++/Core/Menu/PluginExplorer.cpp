@@ -3,8 +3,6 @@
 
 #include "Core/Config.hpp"
 
-#include "General/Skyrim.hpp"
-
 namespace Core::Menu
 {
 	void PluginExplorer::PluginInfo::AddForm(RE::TESForm* a_form, RE::FormType a_type)
@@ -70,7 +68,7 @@ namespace Core::Menu
 			}
 
 			if (file->compileIndex != 0xFF) {
-				auto index = General::Skyrim::GetCombinedIndex(file);
+				auto index = file->GetCombinedIndex();
 				PluginInfo info{ file->fileName, index };
 				_cache.insert({ file->fileName, index });
 				_plugins.insert({ index, std::move(info) });
@@ -192,7 +190,7 @@ namespace Core::Menu
 
 		auto player = RE::PlayerCharacter::GetSingleton();
 		auto playerRef = player->AsReference();
-		bool success = General::Skyrim::ActivateRef(container.get(), playerRef, 0, nullptr, 0, false);
+		bool success = container->ActivateRef(playerRef, 0, nullptr, 0, false);
 		if (!success) {
 			logger::warn("Could not call `Activate` on ObjectReference");
 			return false;
@@ -253,7 +251,7 @@ namespace Core::Menu
 			if (it == _cache.end())
 				continue;
 
-			auto index = General::Skyrim::GetCombinedIndex(file);
+			auto index = file->GetCombinedIndex();
 			auto info = _plugins.find(index);
 			if (info != _plugins.end()) {
 				info->second.AddForm(form, a_type);

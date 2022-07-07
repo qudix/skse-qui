@@ -27,7 +27,6 @@ set(CXX_FILES
 	src/c++/General/Input.hpp
 	src/c++/General/Script.hpp
 	src/c++/General/Singleton.hpp
-	src/c++/General/Skyrim.hpp
 	src/c++/Main.cpp
 	src/c++/PCH.hpp
 	src/c++/Scaleform/CLIK/Array.hpp
