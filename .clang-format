@@ -2,16 +2,17 @@
 AccessModifierOffset: -4
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: 'false'
-AlignConsecutiveDeclarations: 'false'
+AlignConsecutiveDeclarations: 'true'
 AlignConsecutiveMacros: 'false'
 AlignEscapedNewlines: Left
-AlignOperands: 'true'
+AlignOperands: Align
 AlignTrailingComments: 'true'
 AllowAllArgumentsOnNextLine: 'false'
 AllowAllConstructorInitializersOnNextLine: 'false'
 AllowAllParametersOfDeclarationOnNextLine: 'false'
 AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseLabelsOnASingleLine: 'true'
+AllowShortEnumsOnASingleLine: 'true'
 AllowShortFunctionsOnASingleLine: All
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: All
@@ -62,7 +63,7 @@ IndentWidth: 4
 IndentWrappedFunctionNames: 'true'
 KeepEmptyLinesAtTheStartOfBlocks: 'false'
 Language: Cpp
-MaxEmptyLinesToKeep: 2
+MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
 PointerAlignment: Left
 ReflowComments : 'false'
@@ -90,6 +91,6 @@ SpacesInSquareBrackets: 'false'
 Standard: c++20
 TabWidth: 4
 UseCRLF: 'true'
-UseTab: Always
+UseTab: AlignWithSpaces
 
 ...
