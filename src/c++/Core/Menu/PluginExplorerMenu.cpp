@@ -32,14 +32,12 @@ namespace Core::Menu
 
 		auto scaleform = RE::BSScaleformManager::GetSingleton();
 		bool success = scaleform->LoadMovieEx(menu, FILE_NAME, [](RE::GFxMovieDef* a_def) -> void {
-			a_def->SetState(
-				RE::GFxState::StateType::kLog,
-				RE::make_gptr<Scaleform::Logger<PluginExplorerMenu>>().get());
+			using StateType = RE::GFxState::StateType;
+			a_def->SetState(StateType::kLog, SF::make_logger(MENU_NAME));
 		});
 
 		if (!success) {
-			auto message = fmt::format("{} did not have a view due to missing dependencies!\n", MENU_NAME);
-			message += "SkyUI must be installed.";
+			auto message = fmt::format("{} did not have a view due to missing dependencies!\nSkyUI SE must be installed.", MENU_NAME);
 			stl::report_and_fail(message);
 		}
 
@@ -266,7 +264,7 @@ namespace Core::Menu
 
 	void PluginExplorerMenu::Init()
 	{
-		using element_t = std::pair<std::reference_wrapper<CLIK::Object>, std::string_view>;
+		using element_t = std::pair<std::reference_wrapper<SF::Object>, std::string_view>;
 		std::array objects{
 			element_t{ std::ref(_rootObj), "_root.rootObj"sv },
 			element_t{ std::ref(_title), "_root.rootObj.title"sv },
@@ -278,19 +276,19 @@ namespace Core::Menu
 		for (const auto& [object, path] : objects) {
 			auto& instance = object.get().GetInstance();
 			[[maybe_unused]] const bool success = _view->GetVariable(std::addressof(instance), path.data());
-			assert(success && instance.IsObject());
+			SF::Assert(success && instance.IsObject());
 		}
 
 		_rootObj.Visible(true);
 
-		_title.AutoSize(CLIK::Object{ "left" });
+		_title.AutoSize(SF::Object{ "left" });
 		_title.Visible(false);
 
 		_pluginList.Init(_view);
 		_formList.Init(_view);
 
 		_view->CreateArray(std::addressof(_buttonBarProvider));
-		_buttonBar.DataProvider(CLIK::Array{ _buttonBarProvider });
+		_buttonBar.DataProvider(SF::Array{ _buttonBarProvider });
 
 		Refresh();
 
@@ -308,11 +306,8 @@ namespace Core::Menu
 	void PluginExplorerMenu::InitExtensions()
 	{
 		const RE::GFxValue boolean{ true };
-		[[maybe_unused]] bool success;
-		success = _view->SetVariable("_global.gfxExtensions", boolean);
-		assert(success);
-		success = _view->SetVariable("_global.noInvisibleAdvance", boolean);
-		assert(success);
+		SF::Assert(_view->SetVariable("_global.gfxExtensions", boolean));
+		SF::Assert(_view->SetVariable("_global.noInvisibleAdvance", boolean));
 	}
 
 	void PluginExplorerMenu::OnOpen()
@@ -373,7 +368,7 @@ namespace Core::Menu
 			if (plugin.GetCount() == 0)
 				continue;
 
-			Item::ItemPlugin itemPlugin{ index, plugin.GetName(), plugin.GetCount() };
+			auto itemPlugin = std::make_shared<Item::ItemPlugin>(index, plugin.GetName(), plugin.GetCount());
 			_pluginList.push_back(itemPlugin);
 		}
 
@@ -394,8 +389,8 @@ namespace Core::Menu
 			auto& types = plugin->GetForms();
 			auto doForms = [&](RE::FormType a_type) {
 				if (types.contains(a_type)) {
-					Item::ItemForm form{ a_type, types[a_type].size() };
-					_formList.push_back(form);
+                    auto itemForm = std::make_shared<Item::ItemForm>(a_type, types[a_type].size());
+                    _formList.push_back(itemForm);
 				}
 			};
 
@@ -438,17 +433,16 @@ namespace Core::Menu
 
 	void PluginExplorerMenu::ModSelectedPage(double a_mod)
 	{
-		std::array<RE::GFxValue, 1> args{ a_mod };
 		if (_focus == Focus::Plugin)
-			_pluginList.GetInstance().Invoke("modSelectedPage", args);
+			_pluginList.InvokeA("modSelectedPage", nullptr, a_mod);
 		else if (_focus == Focus::Form)
-			_formList.GetInstance().Invoke("modSelectedPage", args);
+			_formList.InvokeA("modSelectedPage", nullptr, a_mod);
 	}
 
 	void PluginExplorerMenu::Select()
 	{
 		if (_focus == Focus::Plugin) {
-			auto plugin = _pluginList.SelectedItem();
+			auto plugin = _pluginList.SelectedItem<Item::ItemPlugin>();
 			if (plugin) {
 				_focus = Focus::Form;
 				_pluginName = plugin->GetName();
@@ -457,7 +451,7 @@ namespace Core::Menu
 				RefreshForms();
 			}
 		} else if (_focus == Focus::Form) {
-			auto form = _formList.SelectedItem();
+			auto form = _formList.SelectedItem<Item::ItemForm>();
 			if (form) {
 				_focus = Focus::Container;
 				_formName = form->GetName();

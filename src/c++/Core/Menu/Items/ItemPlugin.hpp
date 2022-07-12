@@ -1,16 +1,19 @@
 #pragma once
 
+#include "Scaleform/Common/Item.hpp"
+
 namespace Core::Menu::Item
 {
-	struct ItemPlugin
+	class ItemPlugin : public SF::IItem
 	{
+	public:
 		ItemPlugin(uint32_t a_index, std::string_view a_name, size_t a_count) :
 			_index(a_index),
 			_name(a_name),
 			_count(a_count)
 		{}
 
-		[[nodiscard]] RE::GFxValue GFxValue(RE::GFxMovieView& a_view) const
+		[[nodiscard]] RE::GFxValue GFxValue(RE::GFxMovieView& a_view) const override
 		{
 			std::string index;
 			if (_index >= 0xFE) {

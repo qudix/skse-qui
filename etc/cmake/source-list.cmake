@@ -29,19 +29,34 @@ set(CXX_FILES
 	src/c++/General/Singleton.hpp
 	src/c++/Main.cpp
 	src/c++/PCH.hpp
-	src/c++/Scaleform/CLIK/Array.hpp
+	src/c++/Scaleform/Array.hpp
+	src/c++/Scaleform/Array.inl
 	src/c++/Scaleform/CLIK/GFx/Controls/Button.hpp
+	src/c++/Scaleform/CLIK/GFx/Controls/Button.inl
 	src/c++/Scaleform/CLIK/GFx/Controls/ButtonBar.hpp
+	src/c++/Scaleform/CLIK/GFx/Controls/ButtonBar.inl
 	src/c++/Scaleform/CLIK/GFx/Controls/CoreList.hpp
+	src/c++/Scaleform/CLIK/GFx/Controls/CoreList.inl
 	src/c++/Scaleform/CLIK/GFx/Controls/DropdownMenu.hpp
+	src/c++/Scaleform/CLIK/GFx/Controls/DropdownMenu.inl
 	src/c++/Scaleform/CLIK/GFx/Controls/ScrollingList.hpp
+	src/c++/Scaleform/CLIK/GFx/Controls/ScrollingList.inl
 	src/c++/Scaleform/CLIK/GFx/Controls/Slider.hpp
+	src/c++/Scaleform/CLIK/GFx/Controls/Slider.inl
 	src/c++/Scaleform/CLIK/GFx/Controls/TextInput.hpp
+	src/c++/Scaleform/CLIK/GFx/Controls/TextInput.inl
 	src/c++/Scaleform/CLIK/GFx/Core/UIComponent.hpp
-	src/c++/Scaleform/CLIK/MovieClip.hpp
-	src/c++/Scaleform/CLIK/Object.hpp
-	src/c++/Scaleform/CLIK/TextField.hpp
+	src/c++/Scaleform/CLIK/GFx/Core/UIComponent.inl
+	src/c++/Scaleform/Common/Item.hpp
 	src/c++/Scaleform/Common/ItemList.hpp
+	src/c++/Scaleform/Common/ItemList.inl
+	src/c++/Scaleform/MovieClip.hpp
+	src/c++/Scaleform/MovieClip.inl
+	src/c++/Scaleform/Object.hpp
+	src/c++/Scaleform/Object.inl
+	src/c++/Scaleform/System/Assert.hpp
 	src/c++/Scaleform/System/Function.hpp
 	src/c++/Scaleform/System/Logger.hpp
+	src/c++/Scaleform/TextField.hpp
+	src/c++/Scaleform/TextField.inl
 )

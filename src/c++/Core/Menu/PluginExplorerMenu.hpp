@@ -1,18 +1,13 @@
 #pragma once
 
-#include "Scaleform/CLIK/Array.hpp"
-#include "Scaleform/CLIK/TextField.hpp"
+#include "Scaleform/Object.hpp"
+#include "Scaleform/Array.hpp"
+#include "Scaleform/TextField.hpp"
 #include "Scaleform/CLIK/GFx/Controls/ButtonBar.hpp"
 #include "Scaleform/Common/ItemList.hpp"
 
 namespace Core::Menu
 {
-	namespace Item
-	{
-		struct ItemPlugin;
-		struct ItemForm;
-	}
-
 	class PluginExplorerMenu :
 		public RE::IMenu,
 		public RE::MenuEventHandler
@@ -91,13 +86,13 @@ namespace Core::Menu
 	private:
 		RE::GPtr<RE::GFxMovieView> _view;
 
-		CLIK::MovieClip _rootObj;
-		CLIK::TextField _title;
+		SF::MovieClip _rootObj;
+		SF::TextField _title;
 
-		Scaleform::ItemList<Item::ItemPlugin> _pluginList;
-		Scaleform::ItemList<Item::ItemForm> _formList;
+		SF::ItemList _pluginList;
+		SF::ItemList _formList;
 
-		CLIK::GFx::Controls::ButtonBar _buttonBar;
+		SF::CLIK::GFx::Controls::ButtonBar _buttonBar;
 		RE::GFxValue _buttonBarProvider;
 
 		uint32_t _heldGuard{ 0 };

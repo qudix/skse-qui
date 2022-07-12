@@ -16,6 +16,8 @@
 #include <spdlog/sinks/msvc_sink.h>
 #include <toml++/toml.h>
 
+#include <source_location>
+
 namespace WinAPI = SKSE::WinAPI;
 namespace logger = SKSE::log;
 namespace fs = std::filesystem;

@@ -1,12 +1,15 @@
 #pragma once
 
+#include "Scaleform/Common/Item.hpp"
+
 #include "Core/Locale/LocaleManager.hpp"
 #include "Core/Locale/LocaleStrings.hpp"
 
 namespace Core::Menu::Item
 {
-	struct ItemForm
+	class ItemForm : public SF::IItem
 	{
+	public:
 		ItemForm(RE::FormType a_type, size_t a_count) :
 			_type(a_type),
 			_count(a_count)
@@ -17,13 +20,13 @@ namespace Core::Menu::Item
 			_name = locale->Translate(type);
 		}
 
-		[[nodiscard]] RE::GFxValue GFxValue(RE::GFxMovieView& a_view) const
+		[[nodiscard]] RE::GFxValue GFxValue(RE::GFxMovieView& a_view) const override
 		{
 			RE::GFxValue value;
 			a_view.CreateObject(std::addressof(value));
 
-			value.SetMember("name", { GetName() });
-			value.SetMember("count", { GetCount() });
+			value.SetMember("name", GetName() );
+			value.SetMember("count", GetCount() );
 
 			return value;
 		}

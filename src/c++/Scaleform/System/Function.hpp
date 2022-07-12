@@ -1,12 +1,12 @@
 #pragma once
 
-namespace Scaleform
+namespace SF
 {
 	using FunctionHandlerCache = std::map<const std::type_info*, RE::GFxFunctionHandler*>;
-	static FunctionHandlerCache functionHandlerCache;
+	inline static FunctionHandlerCache functionHandlerCache;
 
 	template <typename T>
-	void CreateFunction(RE::GFxMovieView* a_view, RE::GFxValue* a_dst)
+	inline void CreateFunction(RE::GFxMovieView* a_view, RE::GFxValue* a_dst)
 	{
 		// either allocate the object or retrieve an existing instance from the cache
 		RE::GFxFunctionHandler* func = nullptr;
@@ -30,7 +30,7 @@ namespace Scaleform
 	}
 
 	template <typename T>
-	void RegisterFunction(RE::GFxMovieView* a_view, RE::GFxValue* a_dst, const char* a_name)
+	inline void RegisterFunction(RE::GFxMovieView* a_view, RE::GFxValue* a_dst, const char* a_name)
 	{
 		RE::GFxValue function;
 		CreateFunction<T>(a_view, &function);
