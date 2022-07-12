@@ -1,6 +1,6 @@
 import os
 
-CXX_TYPES = (".c",".cpp",".cxx",".h",".hpp",".hxx")
+CXX_TYPES = (".c",".cpp",".cxx",".h",".hpp",".hxx", ".inl")
 
 def walk_dir(a_dir, types):
 	temp = []
