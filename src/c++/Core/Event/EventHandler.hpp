@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Core::Event
+namespace Core
 {
 	class IEventHandler
 	{

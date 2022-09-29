@@ -1,4 +1,10 @@
-build/
-release/
+# dot folders
 .vs/
+.vscode/
+.xmake/
+
+# folders
+build/
+
+# files
 *.zip

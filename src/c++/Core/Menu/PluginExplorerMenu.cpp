@@ -33,7 +33,7 @@ namespace Core::Menu
 		auto scaleform = RE::BSScaleformManager::GetSingleton();
 		bool success = scaleform->LoadMovieEx(menu, FILE_NAME, [](RE::GFxMovieDef* a_def) -> void {
 			using StateType = RE::GFxState::StateType;
-			a_def->SetState(StateType::kLog, SF::make_logger(MENU_NAME));
+			a_def->SetState(StateType::kLog, RE::make_gptr<SF::Logger<PluginExplorerMenu>>().get());
 		});
 
 		if (!success) {

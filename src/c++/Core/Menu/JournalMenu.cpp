@@ -20,10 +20,10 @@ namespace Core::Menu
 			auto ui = RE::UI::GetSingleton();
 			auto uiStr = RE::InterfaceStrings::GetSingleton();
 			if (ui->IsMenuOpen(uiStr->mapMenu)) {
-				*_savedTabIdx = Tab::kQuest;
+				*_TabIdx = Tab::kQuest;
 			} else {
 				auto& config = Config::Get();
-				*_savedTabIdx = static_cast<Tab>(config.JournalMenu.DefaultPage);
+				*_TabIdx = static_cast<Tab>(config.JournalMenu.DefaultPage);
 			}
 		}
 
@@ -35,5 +35,6 @@ namespace Core::Menu
 		REL::Relocation<uintptr_t> vtbl(RE::VTABLE_JournalMenu[0]);
 		_AcceptFn = vtbl.write_vfunc(0x1, &AcceptEx);
 		_ProcessMessageFn = vtbl.write_vfunc(0x4, &ProcessMessageEx);
+		_TabIdx = { RELOCATION_ID(520167, 406697) };
 	}
 }

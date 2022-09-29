@@ -1,23 +1,20 @@
 #pragma once
 
-namespace General
+template <class T>
+class ISingleton
 {
-	template <class T>
-	class Singleton
-	{
-	public:
-		Singleton() = default;
-		Singleton(const Singleton&) = delete;
-		Singleton(Singleton&&) = delete;
-		Singleton& operator=(const Singleton&) = delete;
-		Singleton& operator=(Singleton&&) = delete;
-		~Singleton() = default;
+public:
+	ISingleton() = default;
+	ISingleton(const ISingleton&) = delete;
+	ISingleton(ISingleton&&) = delete;
+	ISingleton& operator=(const ISingleton&) = delete;
+	ISingleton& operator=(ISingleton&&) = delete;
+	~ISingleton() = default;
 
-	public:
-		static T* GetSingleton()
-		{
-			static T singleton;
-			return std::addressof(singleton);
-		}
-	};
-}
+public:
+	static T* GetSingleton()
+	{
+		static T singleton;
+		return std::addressof(singleton);
+	}
+};

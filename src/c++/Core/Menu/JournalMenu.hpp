@@ -24,6 +24,6 @@ namespace Core::Menu
 
 		inline static REL::Relocation<AcceptFn>			_AcceptFn;
 		inline static REL::Relocation<ProcessMessageFn> _ProcessMessageFn;
-		inline static REL::Relocation<Tab*>				_savedTabIdx{ RELOCATION_ID(520167, 406697) };
+		inline static REL::Relocation<Tab*>				_TabIdx;
 	};
 }

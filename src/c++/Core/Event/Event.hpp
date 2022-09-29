@@ -2,14 +2,17 @@
 
 #include "General/Singleton.hpp"
 
+namespace Core
+{
+	class IEventHandler;
+}
+
 namespace Core::Event
 {
 	using EventResult = RE::BSEventNotifyControl;
 
-	class IEventHandler;
-
 	class EventManager final :
-		public General::Singleton<EventManager>,
+		public ISingleton<EventManager>,
 		public RE::BSTEventSink<RE::MenuOpenCloseEvent>,
 		public RE::BSTEventSink<RE::InputEvent*>
 	{

@@ -7,7 +7,7 @@
 namespace Core
 {
 	class LocaleManager final :
-		public General::Singleton<LocaleManager>
+		public ISingleton<LocaleManager>
 	{
 		using size_type = std::wstring::size_type;
 

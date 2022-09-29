@@ -27,9 +27,9 @@ namespace Core::Menu
 
 		private:
 			std::string_view _name{ "" };
-			TypeMap _forms;
-			uint32_t _index;
-			size_t _count;
+			TypeMap _forms{};
+			uint32_t _index{ 0 };
+			size_t _count{ 0 };
 		};
 
 		using PluginList = std::map<uint32_t, PluginInfo>;
@@ -56,8 +56,8 @@ namespace Core::Menu
 		static inline PluginList _plugins;
 		static inline PluginCache _cache;
 
-		static inline RE::TESObjectCELL* _cell;
-		static inline RE::TESObjectCONT* _container;
-		static inline RE::ObjectRefHandle _containerRef;
+		//static inline RE::TESObjectCELL* _cell;
+		static inline RE::TESObjectCONT* _container{ nullptr };
+		static inline RE::ObjectRefHandle _containerRef{};
 	};
 }

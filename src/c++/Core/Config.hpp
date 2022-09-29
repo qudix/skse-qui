@@ -77,7 +77,7 @@ namespace Core::Private
 namespace Core
 {
 	class Config final :
-		public General::Singleton<Config>
+		public ISingleton<Config>
 	{
 	public:
 		Config() = default;

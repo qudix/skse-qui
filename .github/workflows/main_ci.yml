@@ -5,64 +5,30 @@ on:
     branches: [ main, dev ]
     paths:
       - '.github/workflows/main_ci.yml'
-      - 'etc/**'
-      - 'lib/**'
       - 'res/**'
       - 'src/**'
-      - 'CMakeLists.txt'
-      - 'CMakePresets.json'
-      - 'vcpkg.json'
+      - 'xmake.lua'
+      - 'xmake-requires.lock'
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
-
-env:
-  VS_TYPE: vs2022
-  BUILD_TYPE: RelWithDebInfo
-  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
 
 jobs:
   windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Setup xmake
+        uses: xmake-io/github-action-setup-xmake@v1
         with:
-          submodules: 'true'
+          xmake-version: '2.7.1'
 
-      - name: Setup vcpkg
+      - name: Build and Package project
         run: |
-          mkdir -p ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
-          cd $env:VCPKG_INSTALLATION_ROOT
-          git pull origin 1c5939e275082fb6f4b2c8a546cd904b978f55ac
-          ./bootstrap-vcpkg.bat -disableMetrics
-          ./vcpkg --version > ${{ github.workspace }}/vcpkg-version.txt
-
-      - name: Cache vcpkg
-        uses: actions/cache@v2
-        id: vcpkg-cache
-        env:
-          cache-name: vcpkg-cache
-        with:
-          path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}/*
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('main/**/vcpkg.json', 'vcpkg-version.txt') }}
-
-      - name: Configure CMake
-        run: |
-          cmake --preset ${{ env.VS_TYPE }}-windows-vcpkg-ae
-          cmake --preset ${{ env.VS_TYPE }}-windows-vcpkg-se
-
-      - name: Build AE
-        run: |
-          cmake --build build/${{ env.VS_TYPE }}-AE --config ${{ env.BUILD_TYPE }}
-          cmake --build build/${{ env.VS_TYPE }}-AE --target ArchiveArtifacts --config ${{ env.BUILD_TYPE }}
-
-      - name: Build SE
-        run: |
-          cmake --build build/${{ env.VS_TYPE }}-SE --config ${{ env.BUILD_TYPE }}
-          cmake --build build/${{ env.VS_TYPE }}-SE --target ArchiveArtifacts --config ${{ env.BUILD_TYPE }}
+          xmake package
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.VS_TYPE }}
-          path: ${{ github.workspace }}/build/*.zip
+          name: build
+          path: ${{ github.workspace }}/build/package/*.zip

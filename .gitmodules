@@ -1,8 +1,0 @@
-[submodule "lib/CommonLibSSE"]
-	path = lib/CommonLibSSE
-	url = https://github.com/powerof3/CommonLibSSE.git
-	branch = dev
-[submodule "lib/CommonLibAE"]
-	path = lib/CommonLibAE
-	url = https://github.com/powerof3/CommonLibSSE.git
-	branch = dev-ae

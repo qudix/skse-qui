@@ -4,8 +4,9 @@ namespace Core
 {
 	void Config::Load()
 	{
-		auto path = fmt::format("Data/SKSE/Plugins/{}.toml", Plugin::NAME);
-		auto pathCustom = fmt::format("Data/SKSE/Plugins/{}_Custom.toml", Plugin::NAME);
+		auto plugin = SKSE::PluginDeclaration::GetSingleton();
+		auto path = fmt::format("Data/SKSE/Plugins/{}.toml", plugin->GetName());
+		auto pathCustom = fmt::format("Data/SKSE/Plugins/{}_Custom.toml", plugin->GetName());
 
 		_result = toml::parse_file(path);
 		if (!_result) {

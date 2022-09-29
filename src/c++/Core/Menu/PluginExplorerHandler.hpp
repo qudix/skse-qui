@@ -7,8 +7,8 @@
 namespace Core::Menu
 {
 	class PluginExplorerHandler final :
-		public General::Singleton<PluginExplorerHandler>,
-		public Event::IEventHandler
+		public ISingleton<PluginExplorerHandler>,
+		public IEventHandler
 	{
 	public:
 		PluginExplorerHandler() = default;

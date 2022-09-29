@@ -5,7 +5,7 @@
 namespace Core
 {
 	class LocaleStrings :
-		public General::Singleton<LocaleStrings>
+		public ISingleton<LocaleStrings>
 	{
 		std::string unhandled{ "[Unhandled]" };
 

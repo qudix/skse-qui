@@ -95,7 +95,7 @@ namespace Core::Menu
 	void PluginExplorer::InitContainer()
 	{
 		// TODO: Figure out how to access the container in an unloaded cell
-
+		/*
 		auto factoryCELL = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectCELL>();
 		_cell = factoryCELL ? factoryCELL->Create() : nullptr;
 		if (!_cell) {
@@ -113,8 +113,11 @@ namespace Core::Menu
 		_cell->SetFormEditorID("QUIPluginExplorerCELL");
 		_cell->fullName = "QUIPluginExplorerCELL";
 		_cell->cellFlags.set(RE::TESObjectCELL::Flag::kIsInteriorCell);
-		_cell->lightingTemplate = lighting;
-		_cell->waterHeight = 0;
+
+		if (auto& data = _cell->GetRuntimeData()) {
+			data.lightingTemplate = lighting;
+			data.waterHeight = 0;
+		}*/
 
 		auto factoryCONT = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectCONT>();
 		_container = factoryCONT ? factoryCONT->Create() : nullptr;
@@ -143,7 +146,7 @@ namespace Core::Menu
 		containerRef->formFlags |= RE::TESForm::RecordFlags::kTemporary;
 		containerRef->data.objectReference = _container;
 		containerRef->extraList.SetOwner(playerRef);
-		containerRef->SetParentCell(_cell);
+		//containerRef->SetParentCell(_cell);
 		containerRef->SetStartingPosition({ 0, 0, 0 });
 		_containerRef = containerRef->CreateRefHandle();
 	}
