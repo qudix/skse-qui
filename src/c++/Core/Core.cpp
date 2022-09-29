@@ -1,6 +1,8 @@
 #include "Core/Core.hpp"
 #include "Core/Config.hpp"
 
+#include "Core/Console/ConsoleCommands.hpp"
+
 #include "Core/Event/Event.hpp"
 
 #include "Core/Locale/LocaleManager.hpp"
@@ -19,6 +21,9 @@ namespace Core
 		if (config.PluginExplorer.Enable)
 			Menu::PluginExplorer::Init();
 
+		logger::info("Registering console commands...");
+		ConsoleCommand::Register();
+
 		logger::info("Registering menus...");
 		if (const auto ui = RE::UI::GetSingleton()) {
 			if (config.PluginExplorer.Enable)
@@ -35,13 +40,13 @@ namespace Core
 
 	void Init()
 	{
-		logger::info("Loading config...");
+		logger::info("Loading config..."sv);
 		if (const auto config = Config::GetSingleton()) {
 			config->Load();
 			config->Read();
 		}
 
-		logger::info("Loading localizations...");
+		logger::info("Loading localizations..."sv);
 		auto& config = Config::Get();
 		if (const auto locale = LocaleManager::GetSingleton()) {
 			locale->SetLocale(config.General.Locale);
