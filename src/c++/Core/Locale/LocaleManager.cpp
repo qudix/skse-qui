@@ -101,7 +101,8 @@ namespace Core
 		auto& package = GetLocalePackage();
 		auto item = package.FindItem(a_key);
 		if (!item) {
-			spdlog::info(L"Key not found: {}", a_key);
+			auto key = stl::utf16_to_utf8(a_key);
+			spdlog::info("Key not found: {}", key.value_or(""));
 			if (&package != &_packageENG) {
 				item = _packageENG.FindItem(a_key);
 				if (!item) {

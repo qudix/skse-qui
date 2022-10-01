@@ -1,6 +1,4 @@
-set_xmakever("2.6.5")
-
-add_repositories("custom https://github.com/Qudix/xmake-repo-custom.git main")
+set_xmakever("2.7.1")
 
 -- project
 set_project("QUI")
@@ -25,8 +23,7 @@ set_policy("build.optimization.lto", true)
 set_policy("package.requires_lock", true)
 
 -- packages
-add_requires("fmt", "frozen", "toml++")
-add_requires("spdlog", { configs = { wchar = true } })
+add_requires("fmt", "spdlog", "frozen", "toml++")
 add_requires("commonlibsse-ng", { configs = { skyrim_vr = false }})
 
 includes("res/commonlib.lua")

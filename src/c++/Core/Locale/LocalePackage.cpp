@@ -44,9 +44,12 @@ namespace Core
 
 	void LocalePackage::Dump()
 	{
-		spdlog::info(L"[Locale: {}]", _language);
-		for (auto& [key, value] : _items) {
-			spdlog::info(L"  > {} : {}", key, value);
+		auto language = stl::utf16_to_utf8(_language);
+		spdlog::info("[Locale: {}]", language.value_or(""));
+		for (auto& [_key, _value] : _items) {
+			auto key = stl::utf16_to_utf8(_key);
+			auto value = stl::utf16_to_utf8(_value);
+			spdlog::info("  > {} : {}", key.value_or(""), value.value_or(""));
 		}
 	}
 
