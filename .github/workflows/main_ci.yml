@@ -18,17 +18,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup xmake
+      - name: Setup XMake
         uses: xmake-io/github-action-setup-xmake@v1
         with:
-          xmake-version: '2.7.1'
+          xmake-version: '>=2.7.1'
 
-      - name: Build and Package project
+      - name: Build and Package
         run: |
           xmake package
 
-      - name: Upload artifacts
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: ${{ github.workspace }}/build/package/*.zip
+          path: ${{ github.workspace }}/build/packages/**.zip
