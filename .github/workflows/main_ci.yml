@@ -28,7 +28,7 @@ jobs:
           xmake package -y
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: build
-          path: ${{ github.workspace }}/build/packages/**.zip
+          path: ${{ github.workspace }}/build/packages/**/*.zip
