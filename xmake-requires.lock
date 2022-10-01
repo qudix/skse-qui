@@ -6,16 +6,16 @@
         ["cmake#31fecfc4"] = {
             repo = {
                 branch = "master",
-                commit = "eefae2d71533ecf2e92e741d13546731d472c847",
+                commit = "f3b519903e6ccef69bb85d8ae765218abc5ff032",
                 url = "https://gitlab.com/tboox/xmake-repo.git"
             },
             version = "3.24.1"
         },
         ["commonlibsse-ng#6cab6700"] = {
             repo = {
-                branch = "main",
+                branch = "master",
                 commit = "bc4da65ec680df649adb6b1170fd6d6a8077228a",
-                url = "https://github.com/Qudix/xmake-repo-custom.git"
+                url = "https://gitlab.com/tboox/xmake-repo.git"
             },
             version = "v3.5.6"
         },
@@ -45,17 +45,9 @@
         },
         ["spdlog#31fecfc4"] = {
             repo = {
-                branch = "main",
-                commit = "ddb652b72c2d7857404428f1ad20d8b7631c960b",
-                url = "https://github.com/Qudix/xmake-repo-custom.git"
-            },
-            version = "v1.10.0"
-        },
-        ["spdlog#6f420e3e"] = {
-            repo = {
-                branch = "main",
-                commit = "ddb652b72c2d7857404428f1ad20d8b7631c960b",
-                url = "https://github.com/Qudix/xmake-repo-custom.git"
+                branch = "master",
+                commit = "f3b519903e6ccef69bb85d8ae765218abc5ff032",
+                url = "https://gitlab.com/tboox/xmake-repo.git"
             },
             version = "v1.10.0"
         },
