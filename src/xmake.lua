@@ -14,10 +14,21 @@ target("QUI")
     })
 
     add_rules("commonlibsse.plugin.package", {
-        files = {
-            { "@{target_dir}", "*.dll", "Data/SKSE/Plugins/" },
-            { "$(projectdir)/res/plugins/", "@{plugin}.toml", "Data/SKSE/Plugins/" },
-            { "$(projectdir)/res/translations/", "@{plugin}_*.txt", "Data/Interface/Translations/" },
-            { "$(projectdir)/src/swf/", "*.swf", "Data/Interface/" }
+        packages = {
+            {
+                name = "@{plugin}-@{plugin_ver}.zip",
+                files = {
+                    { "@{target_dir}", "*.dll", "Data/SKSE/Plugins/" },
+                    { "$(projectdir)/res/plugins/", "@{plugin}.toml", "Data/SKSE/Plugins/" },
+                    { "$(projectdir)/res/translations/", "@{plugin}_*.txt", "Data/Interface/Translations/" },
+                    { "$(projectdir)/src/swf/", "*.swf", "Data/Interface/" }
+                }
+            },
+            {
+                name = "@{plugin}-@{plugin_ver}_pdb.zip",
+                files = {
+                    { "@{target_dir}", "*.pdb" },
+                }
+            }
         }
     })

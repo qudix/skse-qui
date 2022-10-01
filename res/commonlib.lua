@@ -168,39 +168,36 @@ rule("commonlibsse.plugin.package")
             return a_str
         end
 
-        local package_dir = path.join(os.projectdir(), "$(buildir)", "package")
-        local package_plugin_dir = path.join(package_dir, plugin_name)
-        if not os.exists(package_plugin_dir) then
-            os.tryrm(package_plugin_dir)
+        local packages_dir = path.join(os.projectdir(), "$(buildir)", "packages")
+        local packages_plugin_dir = path.join(packages_dir, plugin_name)
+        if not os.exists(packages_plugin_dir) then
+            os.tryrm(packages_plugin_dir)
         end
 
-        os.mkdir(package_plugin_dir)
+        os.mkdir(packages_plugin_dir)
 
-        local get_package_conf = function(a_conf)
-            return a_target:extraconf("rules", "commonlibsse.plugin.package", a_conf)
-        end
+        local packages = a_target:extraconf("rules", "commonlibsse.plugin.package", "packages")
+        for id, package in pairs(packages) do
+            if package.name and package.files then
+                local package_name = parse_str(package.name)
+                local package_dir = path.join(packages_plugin_dir, id)
+                os.mkdir(package_dir)
 
-        local package_files = get_package_conf("files")
-        if package_files then
-            for _, item in pairs(package_files) do
-                local root = parse_str(item[1])
-                local src = path.join(root, parse_str(item[2]))
-                local dest = path.join(package_plugin_dir, parse_str(item[3]))
+                for _, item in pairs(package.files) do
+                    local root = parse_str(item[1])
+                    local src = path.join(root, parse_str(item[2]))
+                    local dest = path.join(package_dir, parse_str(item[3] or ""))
 
-                if not os.exists(dest) then
-                    os.mkdir(dest)
+                    if not os.exists(dest) then
+                        os.mkdir(dest)
+                    end
+
+                    os.trycp(src, dest, { rootdir = root })
                 end
 
-                os.trycp(src, dest, { rootdir = root })
+                local old_dir = os.cd(package_dir)
+                archive.archive(path.join("../", package_name), ".")
+                os.cd(old_dir)
             end
         end
-
-        local package_name = get_package_conf("name") or "@{plugin}-@{plugin_ver}.zip"
-        package_name = parse_str(package_name)
-
-        local old_dir = os.cd(package_plugin_dir)
-
-        archive.archive(path.join("../", package_name), ".")
-
-        os.cd(old_dir)
     end)
