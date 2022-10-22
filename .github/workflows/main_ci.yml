@@ -41,7 +41,7 @@ jobs:
 
       - name: Build and Package
         run: |
-          xmake package -y
+          xmake package -v -y
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3.1.1
