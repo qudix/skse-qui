@@ -41,12 +41,12 @@ jobs:
           path: ${{ env.XMAKE_GLOBALDIR }}\packages
           key: ${{ steps.packages_key.outputs.hash }}
 
-      - name: Build and Package
-        run: |
-          xmake package -y
+#      - name: Build and Package
+#        run: |
+#          xmake package -y
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3.1.1
-        with:
-          name: build
-          path: ${{ github.workspace }}/build/packages/**/*.zip
+#      - name: Upload Artifacts
+#        uses: actions/upload-artifact@v3.1.1
+#        with:
+#          name: build
+#          path: ${{ github.workspace }}/build/packages/**/*.zip
