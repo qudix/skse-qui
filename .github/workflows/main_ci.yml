@@ -12,6 +12,9 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  XMAKE_GLOBALDIR: ${{ runner.workspace }}/xmake-global
+
 jobs:
   windows:
     runs-on: windows-latest
@@ -25,16 +28,17 @@ jobs:
 
       - name: Setup XMake (Repo)
         run: |
+          dir ${{ runner.workspace }}
           xmake repo --update
 
       - name: Setup Packages (Hash)
         id: packages_key
-        run: echo "::set-output name=hash::$(xmake l utils.ci.packageskey)"
+        run: echo "hash=$(xmake l utils.ci.packageskey)" >> $GITHUB_OUTPUT
 
       - name: Setup Packages (Cache)
         uses: actions/cache@v3
         with:
-          path: ${{ env.APPLOCALDATA }}\.xmake\packages
+          path: ${{ env.XMAKE_GLOBALDIR }}\packages
           key: ${{ steps.packages_key.outputs.hash }}
 
       - name: Build and Package
