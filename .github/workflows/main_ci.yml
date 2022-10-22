@@ -15,8 +15,6 @@ on:
 jobs:
   windows:
     runs-on: windows-latest
-    env:
-      WHERE_XMAKE_GLOBALDIR: $env:LOCALAPPDATA/.xmake/
     steps:
       - uses: actions/checkout@v2
 
@@ -25,9 +23,10 @@ jobs:
         with:
           xmake-version: '>=2.7.2'
 
-      - name: Setup XMake (Repo)
+      - name: Setup XMake (Global)
         run: |
           xmake repo --update
+          echo "GLOBAL_XMAKE=$env:LOCALAPPDATA/.xmake/" >> $env:GITHUB_ENV
 
       - name: Setup Packages (Hash)
         id: packages_key
@@ -37,7 +36,7 @@ jobs:
       - name: Setup Packages (Cache)
         uses: actions/cache@v3
         with:
-          path: ${{ env.WHERE_XMAKE_GLOBALDIR }}/packages
+          path: ${{ env.GLOBAL_XMAKE }}/packages
           key: ${{ steps.packages_key.outputs.hash }}
 
       - name: Build and Package
