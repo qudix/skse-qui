@@ -13,22 +13,22 @@ namespace Core::Menu
 
 		auto formID = a_form->GetFormID();
 		switch (a_type) {
-			using T = RE::FormType;
-			case T::AlchemyItem:
-			case T::Ammo:
-			case T::Armor:
-			case T::Ingredient:
-			case T::KeyMaster:
-			case T::Misc:
-			case T::Note:
-			case T::Scroll:
-			case T::SoulGem:
-			case T::Weapon: {
+			using enum RE::FormType;
+			case AlchemyItem:
+			case Ammo:
+			case Armor:
+			case Ingredient:
+			case KeyMaster:
+			case Misc:
+			case Note:
+			case Scroll:
+			case SoulGem:
+			case Weapon: {
 				_forms[a_type].insert_or_assign(formID, formName);
 				_count += 1;
 				break;
 			}
-			case T::Book: {
+			case Book: {
 				auto book = a_form->As<RE::TESObjectBOOK>();
 				if (book && !book->TeachesSpell()) {
 					_forms[a_type].insert_or_assign(formID, formName);
@@ -36,7 +36,7 @@ namespace Core::Menu
 				}
 				break;
 			}
-			case T::Spell: {
+			case Spell: {
 				auto book = a_form->As<RE::TESObjectBOOK>();
 				if (book && book->TeachesSpell()) {
 					_forms[a_type].insert_or_assign(formID, formName);
@@ -75,19 +75,19 @@ namespace Core::Menu
 			}
 		}
 
-		using Type = RE::FormType;
-		AddForms(Type::AlchemyItem);
-		AddForms(Type::Ammo);
-		AddForms(Type::Armor);
-		AddForms(Type::Book);
-		AddForms(Type::Ingredient);
-		AddForms(Type::KeyMaster);
-		AddForms(Type::Misc);
-		AddForms(Type::Note);
-		AddForms(Type::Scroll);
-		AddForms(Type::SoulGem);
-		AddForms(Type::Spell);
-		AddForms(Type::Weapon);
+		using enum RE::FormType;
+		AddForms(AlchemyItem);
+		AddForms(Ammo);
+		AddForms(Armor);
+		AddForms(Book);
+		AddForms(Ingredient);
+		AddForms(KeyMaster);
+		AddForms(Misc);
+		AddForms(Note);
+		AddForms(Scroll);
+		AddForms(SoulGem);
+		AddForms(Spell);
+		AddForms(Weapon);
 
 		InitContainer();
 	}
@@ -217,19 +217,19 @@ namespace Core::Menu
 		auto& config = Config::Get();
 		auto& count = config.PluginExplorer.Count;
 		switch (a_type) {
-			using T = RE::FormType;
-			case T::AlchemyItem: return count.Alchemy;
-			case T::Ammo:        return count.Ammo;
-			case T::Armor:       return count.Armor;
-			case T::Book:        return count.Book;
-			case T::Ingredient:  return count.Ingredient;
-			case T::KeyMaster:   return count.Key;
-			case T::Misc:        return count.Misc;
-			case T::Note:        return count.Note;
-			case T::Scroll:      return count.Scroll;
-			case T::SoulGem:     return count.Soul;
-			case T::Spell:       return count.Spell;
-			case T::Weapon:      return count.Weapon;
+			using enum RE::FormType;
+			case AlchemyItem: return count.Alchemy;
+			case Ammo:        return count.Ammo;
+			case Armor:       return count.Armor;
+			case Book:        return count.Book;
+			case Ingredient:  return count.Ingredient;
+			case KeyMaster:   return count.Key;
+			case Misc:        return count.Misc;
+			case Note:        return count.Note;
+			case Scroll:      return count.Scroll;
+			case SoulGem:     return count.Soul;
+			case Spell:       return count.Spell;
+			case Weapon:      return count.Weapon;
 		}
 
 		return 1;
