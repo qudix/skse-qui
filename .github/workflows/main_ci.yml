@@ -27,18 +27,18 @@ jobs:
 
       - name: Setup XMake (Repo)
         run: |
-          dir ${{ runner.workspace }}
+          dir ${{ github.workspace }}\
           xmake repo --update
 
       - name: Setup Packages (Hash)
-        id: packages_key
+        id: packageskey
         run: echo "hash=$(xmake l utils.ci.packageskey)" >> $GITHUB_OUTPUT
 
       - name: Setup Packages (Cache)
         uses: actions/cache@v3
         with:
           path: ${{ env.XMAKE_GLOBALDIR }}\packages
-          key: ${{ steps.packages_key.outputs.hash }}
+          key: ${{ steps.packageskey.outputs.hash }}
 
 #      - name: Build and Package
 #        run: |
