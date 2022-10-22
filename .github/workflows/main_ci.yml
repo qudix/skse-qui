@@ -15,8 +15,8 @@ on:
 jobs:
   windows:
     runs-on: windows-latest
-    env:
-      XMAKE_GLOBALDIR: ${{ github.workspace }}/.global
+#    env:
+#      XMAKE_GLOBALDIR: ${{ github.workspace }}/.global
     steps:
       - uses: actions/checkout@v2
 
@@ -25,15 +25,15 @@ jobs:
         with:
           xmake-version: '>=2.7.2'
 
-      - name: Setup Packages (Hash)
-        id: packages_key
-        run: echo "hash=$(xmake l utils.ci.packageskey)" >> $env:GITHUB_OUTPUT
+#      - name: Setup Packages (Hash)
+#        id: packages_key
+#        run: echo "hash=$(xmake l utils.ci.packageskey)" >> $env:GITHUB_OUTPUT
 
-      - name: Setup Packages (Cache)
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.XMAKE_GLOBALDIR }}\.xmake\packages
-          key: ${{ steps.packages_key.outputs.hash }}
+#      - name: Setup Packages (Cache)
+#        uses: actions/cache@v3
+#        with:
+#          path: ${{ env.XMAKE_GLOBALDIR }}\.xmake\packages
+#          key: ${{ steps.packages_key.outputs.hash }}
 
       - name: Build and Package
         run: |
