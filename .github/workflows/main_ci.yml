@@ -21,7 +21,7 @@ jobs:
       - name: Setup XMake
         uses: xmake-io/github-action-setup-xmake@v1
         with:
-          xmake-version: '>=2.7.1'
+          xmake-version: '>=2.7.2'
 
       - name: Build and Package
         run: |
