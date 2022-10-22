@@ -15,8 +15,8 @@ on:
 jobs:
   windows:
     runs-on: windows-latest
-#    env:
-#      XMAKE_GLOBALDIR: ${{ github.workspace }}/.global
+    env:
+      WHERE_XMAKE_GLOBALDIR: $env:LOCALAPPDATA/.xmake/
     steps:
       - uses: actions/checkout@v2
 
@@ -32,15 +32,15 @@ jobs:
 #      - name: Setup Packages (Cache)
 #        uses: actions/cache@v3
 #        with:
-#          path: ${{ env.XMAKE_GLOBALDIR }}\.xmake\packages
+#          path: ${{ env.WHERE_XMAKE_GLOBALDIR }}\packages
 #          key: ${{ steps.packages_key.outputs.hash }}
 
-      - name: Build and Package
-        run: |
-          xmake package -v -y
+#      - name: Build and Package
+#        run: |
+#          xmake package -v -y
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3.1.1
-        with:
-          name: build
-          path: ${{ github.workspace }}/build/packages/**/*.zip
+#      - name: Upload Artifacts
+#        uses: actions/upload-artifact@v3.1.1
+#        with:
+#          name: build
+#          path: ${{ github.workspace }}/build/packages/**/*.zip
