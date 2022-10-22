@@ -25,10 +25,6 @@ jobs:
         with:
           xmake-version: '>=2.7.2'
 
-      - name: Setup XMake (Repo)
-        run: |
-          xmake repo --update
-
       - name: Setup Packages (Hash)
         id: packages_key
         run: echo "hash=$(xmake l utils.ci.packageskey)" >> $env:GITHUB_OUTPUT
