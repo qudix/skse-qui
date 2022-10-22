@@ -31,7 +31,6 @@ jobs:
       - name: Setup Packages (Hash)
         id: packages_key
         run: |
-          dir ${{ env.WHERE_XMAKE_GLOBALDIR }}
           echo "hash=$(xmake l utils.ci.packageskey)" >> $env:GITHUB_OUTPUT
 
       - name: Setup Packages (Cache)
@@ -40,12 +39,12 @@ jobs:
           path: ${{ env.WHERE_XMAKE_GLOBALDIR }}\packages
           key: ${{ steps.packages_key.outputs.hash }}
 
-#      - name: Build and Package
-#        run: |
-#          xmake package -v -y
+      - name: Build and Package
+        run: |
+          xmake package -v -y
 
-#      - name: Upload Artifacts
-#        uses: actions/upload-artifact@v3.1.1
-#        with:
-#          name: build
-#          path: ${{ github.workspace }}/build/packages/**/*.zip
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: build
+          path: ${{ github.workspace }}/build/packages/**/*.zip
