@@ -28,7 +28,6 @@ jobs:
       - name: Setup XMake (Repo)
         run: |
           xmake repo --update
-          dir ${{ env.XMAKE_GLOBALDIR }}\.xmake\
 
       - name: Setup Packages (Hash)
         id: packages_key
@@ -40,12 +39,12 @@ jobs:
           path: ${{ env.XMAKE_GLOBALDIR }}\.xmake\packages
           key: ${{ steps.packages_key.outputs.hash }}
 
-#      - name: Build and Package
-#        run: |
-#          xmake package -y
+      - name: Build and Package
+        run: |
+          xmake package -y
 
-#      - name: Upload Artifacts
-#        uses: actions/upload-artifact@v3.1.1
-#        with:
-#          name: build
-#          path: ${{ github.workspace }}/build/packages/**/*.zip
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: build
+          path: ${{ github.workspace }}/build/packages/**/*.zip
