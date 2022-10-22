@@ -28,7 +28,7 @@ jobs:
       - name: Setup XMake (Repo)
         run: |
           xmake repo --update
-          dir ${{ github.workspace }}\
+          dir ${{ env.XMAKE_GLOBALDIR }}\
 
       - name: Setup Packages (Hash)
         id: packages_key
