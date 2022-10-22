@@ -26,7 +26,8 @@ jobs:
           xmake-version: '>=2.7.2'
 
       - name: Setup XMake (Repo)
-        run: xmake repo --update
+        run: |
+          xmake repo --update
 
       - name: Setup Packages (Hash)
         id: packages_key
@@ -36,7 +37,7 @@ jobs:
       - name: Setup Packages (Cache)
         uses: actions/cache@v3
         with:
-          path: ${{ env.WHERE_XMAKE_GLOBALDIR }}\packages
+          path: ${{ env.WHERE_XMAKE_GLOBALDIR }}/packages
           key: ${{ steps.packages_key.outputs.hash }}
 
       - name: Build and Package
