@@ -49,7 +49,7 @@ rule("mod.package")
                 os.mkdir(package_dir)
 
                 for _, file in pairs(files) do
-                    local root = _parse_str(a_target, file[1])
+                    local root = path.absolute(_parse_str(a_target, file[1]))
                     local src = path.join(root, _parse_str(a_target, file[2]))
                     local dest = path.join(package_dir, _parse_str(a_target, file[3] or ""))
 
