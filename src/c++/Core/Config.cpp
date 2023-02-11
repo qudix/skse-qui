@@ -43,6 +43,7 @@ namespace Core
 		GET_VALUE(PluginExplorer.Pause);
 		GET_VALUE(PluginExplorer.Loop);
 		GET_VALUE(PluginExplorer.Sound);
+		GET_VALUE(PluginExplorer.AutoSearch);
 		GET_VALUE(PluginExplorer.Key.KeyboardToggle);
 		GET_VALUE(PluginExplorer.Count.Alchemy);
 		GET_VALUE(PluginExplorer.Count.Ammo);
