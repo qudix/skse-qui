@@ -30,6 +30,8 @@ namespace Core::Menu
 		if (config.PluginExplorer.Pause)
 			menu->menuFlags.set(Flag::kPausesGame);
 
+		_autoSearch = config.PluginExplorer.AutoSearch;
+
 		auto scaleform = RE::BSScaleformManager::GetSingleton();
 		bool success = scaleform->LoadMovieEx(menu, FILE_NAME, [](RE::GFxMovieDef* a_def) -> void {
 			using StateType = RE::GFxState::StateType;
@@ -134,8 +136,11 @@ namespace Core::Menu
 						case Key::kDown: {
 							if (_downHeld > 0)
 								_downHeld -= 1;
-							break;
+							break;			
 						}
+						case Key::kLeftShift:
+							_shiftHeld = false;
+							break;
 					}
 				} break;
 				case Device::kGamepad: {
@@ -160,35 +165,84 @@ namespace Core::Menu
 			switch (device) {
 				case Device::kKeyboard: {
 					using Key = RE::BSWin32KeyboardDevice::Key;
-					switch (a_event->idCode) {
-						case Key::kD:
-						case Key::kRight:
-						case Key::kEnter:
-							Select();
+
+					switch (_focus) {
+						case Focus::Search:
+							switch (a_event->idCode) {
+								case Key::kEscape:
+								case Key::kTab:
+									Back();
+									break;
+								case Key::kEnter:
+									Select();
+									break;
+								case Key::kBackspace:
+									if (_searchTerm.size() > 0) {
+										_searchTerm.pop_back();
+
+										UpdateSearchField();
+
+										if (_autoSearch)
+											RefreshPlugins();
+									}
+									break;
+								case Key::kSpacebar:
+									_searchTerm.push_back(' ');
+									break;
+								case Key::kLeftShift:
+									_shiftHeld = true;
+									break;
+								default: {
+									auto vk = MapVirtualKey(a_event->idCode, MAPVK_VSC_TO_VK);
+									auto ci = MapVirtualKey(vk, MAPVK_VK_TO_CHAR);
+									auto ch = static_cast<char>(_shiftHeld ? ci : std::tolower(ci));
+
+									if (iswalnum(ch)) {
+										_searchTerm.push_back(ch);
+										UpdateSearchField();
+
+										if (_autoSearch)
+											RefreshPlugins();
+									}
+									break;
+								}
+							}
 							break;
-						case Key::kA:
-						case Key::kLeft:
-						case Key::kEscape:
-						case Key::kTab:
-							Back();
-							break;
-						case Key::kW:
-						case Key::kUp: {
-							_upHeld += 1;
-							ModSelectedIndex(-1);
-							break;
-						}
-						case Key::kS:
-						case Key::kDown: {
-							_downHeld += 1;
-							ModSelectedIndex(1);
-							break;
-						}
-						case Key::kPageUp:
-							ModSelectedIndex(-16);
-							break;
-						case Key::kPageDown:
-							ModSelectedIndex(16);
+						default:
+							switch (a_event->idCode) {
+								case Key::kD:
+								case Key::kRight:
+								case Key::kEnter:
+									Select();
+									break;
+								case Key::kA:
+								case Key::kLeft:
+								case Key::kEscape:
+								case Key::kTab:
+									Back();
+									break;
+								case Key::kSpacebar:
+									Search();
+									break;
+								case Key::kW:
+								case Key::kUp: {
+									_upHeld += 1;
+									ModSelectedIndex(-1);
+									break;
+								}
+								case Key::kS:
+								case Key::kDown: {
+									_downHeld += 1;
+									ModSelectedIndex(1);
+									break;
+								}
+								case Key::kPageUp:
+									ModSelectedIndex(-16);
+									break;
+								case Key::kPageDown:
+									ModSelectedIndex(16);
+									break;
+							}
 							break;
 					}
 				} break;
@@ -270,7 +324,9 @@ namespace Core::Menu
 			element_t{ std::ref(_title), "_root.rootObj.title"sv },
 			element_t{ std::ref(_pluginList), "_root.rootObj.itemList"sv },
 			element_t{ std::ref(_formList), "_root.rootObj.formList"sv },
-			element_t{ std::ref(_buttonBar), "_root.rootObj.buttonBar"sv }
+			element_t{ std::ref(_buttonBar), "_root.rootObj.buttonBar"sv },
+			element_t{ std::ref(_searchField), "_root.rootObj.searchField"sv},
+			element_t{ std::ref(_searchText), "_root.rootObj.searchField.searchText"sv}
 		};
 
 		for (const auto& [object, path] : objects) {
@@ -289,6 +345,10 @@ namespace Core::Menu
 
 		_view->CreateArray(std::addressof(_buttonBarProvider));
 		_buttonBar.DataProvider(SF::Array{ _buttonBarProvider });
+
+		_searchField.Visible(false);
+
+		_searchText.AutoSize(SF::Object{ "left" });
 
 		Refresh();
 
@@ -368,6 +428,11 @@ namespace Core::Menu
 			if (plugin.GetCount() == 0)
 				continue;
 
+			if (_focus == Focus::Search && !_searchTerm.empty()) {
+				if (plugin.GetName().find(_searchTerm) == std::string_view::npos)
+					continue;
+			}
+
 			auto itemPlugin = std::make_shared<Item::ItemPlugin>(index, plugin.GetName(), plugin.GetCount());
 			_pluginList.push_back(itemPlugin);
 		}
@@ -418,6 +483,7 @@ namespace Core::Menu
 	{
 		UpdateTitle();
 		UpdateButtonBar();
+		UpdateSearchField();
 	}
 
 	void PluginExplorerMenu::ModSelectedIndex(double a_mod)
@@ -458,6 +524,9 @@ namespace Core::Menu
 				_formType = form->GetType();
 				Close();
 			}
+		} else if (_focus == Focus::Search) {
+			RefreshPlugins();
+			_focus = Focus::Plugin;
 		}
 
 		RefreshUI();
@@ -467,6 +536,12 @@ namespace Core::Menu
 	{
 		if (_focus == Focus::Plugin) {
 			Close();
+
+		} else if (_focus == Focus::Search) {
+			_focus = Focus::Plugin;
+			_searchTerm.clear();
+			RefreshPlugins();
+			
 		} else if (_focus == Focus::Form) {
 			_focus = Focus::Plugin;
 			_formList.Visible(false);
@@ -478,6 +553,16 @@ namespace Core::Menu
 		}
 
 		RefreshUI();
+	}
+
+	void PluginExplorerMenu::Search() 
+	{
+		if (_focus == Focus::Plugin) {
+			_focus = Focus::Search;
+			
+			RefreshPlugins();
+			RefreshUI();
+		}
 	}
 
 	void PluginExplorerMenu::UpdatePosition()
@@ -511,16 +596,20 @@ namespace Core::Menu
 
 		uint32_t indexAccept;
 		uint32_t indexCancel;
+		uint32_t indexSearch;
 
 		auto input = RE::BSInputDeviceManager::GetSingleton();
 		if (input->IsGamepadEnabled()) {
 			using Key = RE::BSWin32GamepadDevice::Key;
 			indexAccept = General::Input::GetGamepadIndex(Key::kA);
 			indexCancel = General::Input::GetGamepadIndex(Key::kBack);
+			// TODO: Fix controller search bind
+			indexSearch = General::Input::GetGamepadIndex(Key::kStart);
 		} else {
 			using Key = RE::BSWin32KeyboardDevice::Key;
 			indexAccept = General::Input::GetKeyboardIndex(Key::kEnter);
 			indexCancel = General::Input::GetKeyboardIndex(Key::kEscape);
+			indexSearch = General::Input::GetKeyboardIndex(Key::kSpacebar);
 		}
 
 		_buttonBarProvider.ClearElements();
@@ -535,11 +624,21 @@ namespace Core::Menu
 		};
 
 		makeButton(indexAccept, "sAccept");
-		if (_focus == Focus::Plugin)
+		if (_focus == Focus::Plugin) 
+		{
 			makeButton(indexCancel, "sCancel");
+			makeButton(indexSearch, "sSearch");
+		} 
 		else
 			makeButton(indexCancel, "sBack");
 
 		_buttonBar.InvalidateData();
 	}
+
+	void PluginExplorerMenu::UpdateSearchField()
+	{
+		_searchField.Visible(_focus == Focus::Search);
+		_searchText.HTMLText(_searchTerm);
+	}
+
 }

@@ -42,7 +42,8 @@ namespace Core::Menu
 			Plugin,
 			Form,
 			Container,
-			ContainerLoop
+			ContainerLoop,
+			Search
 		};
 
 	public:
@@ -78,10 +79,12 @@ namespace Core::Menu
 
 		void Select();
 		void Back();
+		void Search();
 
 		void UpdatePosition();
 		void UpdateTitle();
 		void UpdateButtonBar();
+		void UpdateSearchField();
 
 	private:
 		RE::GPtr<RE::GFxMovieView> _view;
@@ -95,10 +98,16 @@ namespace Core::Menu
 		SF::CLIK::GFx::Controls::ButtonBar _buttonBar;
 		RE::GFxValue _buttonBarProvider;
 
+		SF::MovieClip _searchField;
+		SF::TextField _searchText;
+
 		uint32_t _heldGuard{ 0 };
 		uint32_t _heldCount{ 0 };
 		uint32_t _upHeld{ 0 };
 		uint32_t _downHeld{ 0 };
+
+		bool _autoSearch{ false };
+		bool _shiftHeld{ false };
 
 		static inline Focus _focus{ Focus::Plugin };
 
@@ -109,5 +118,7 @@ namespace Core::Menu
 		static inline std::string _formName;
 		static inline RE::FormType _formType{ RE::FormType::None };
 		static inline double _formListIndex{ 0 };
+
+		static inline std::string _searchTerm;
 	};
 }

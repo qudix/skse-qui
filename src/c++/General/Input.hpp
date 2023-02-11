@@ -23,6 +23,9 @@ namespace General::Input
 			case Key::kEnter:
 				index = 28u;
 				break;
+			case Key::kSpacebar:
+				index = 57u;
+				break;
 			default:
 				index = kInvalidButton;
 				break;

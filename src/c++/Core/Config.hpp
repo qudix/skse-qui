@@ -17,6 +17,7 @@ namespace Core::Private
 			bool Pause{ false };
 			bool Loop{ true };
 			bool Sound{ true };
+			bool AutoSearch{ false };
 
 			struct
 			{
