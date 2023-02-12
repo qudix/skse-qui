@@ -136,7 +136,7 @@ namespace Core::Menu
 						case Key::kDown: {
 							if (_downHeld > 0)
 								_downHeld -= 1;
-							break;			
+							break;
 						}
 						case Key::kLeftShift:
 							_shiftHeld = false;
@@ -282,6 +282,9 @@ namespace Core::Menu
 							ModSelectedIndex(1);
 							break;
 						}
+						case Key::kRightThumb:
+							if (_focus == Focus::Plugin) Search();
+							break;
 					}
 				} break;
 			}
@@ -602,9 +605,8 @@ namespace Core::Menu
 		if (input->IsGamepadEnabled()) {
 			using Key = RE::BSWin32GamepadDevice::Key;
 			indexAccept = General::Input::GetGamepadIndex(Key::kA);
-			indexCancel = General::Input::GetGamepadIndex(Key::kBack);
-			// TODO: Fix controller search bind
-			indexSearch = General::Input::GetGamepadIndex(Key::kStart);
+			indexCancel = General::Input::GetGamepadIndex(Key::kB);
+			indexSearch = General::Input::GetGamepadIndex(Key::kRightThumb);
 		} else {
 			using Key = RE::BSWin32KeyboardDevice::Key;
 			indexAccept = General::Input::GetKeyboardIndex(Key::kEnter);
