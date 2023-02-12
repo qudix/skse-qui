@@ -7,10 +7,11 @@
 Locale = "" # Override the language locale (default: "")
 
 [PluginExplorer]
-Enable = true  # Enable PluginExplorer (default: true)
-Pause = false  # Pause the game when the PluginExplorer interface is open (default: false)
-Loop = true    # Reopen the PluginExplorer interface when the item container is closed (default: true)
-Sound = true   # Unused (default: true)
+Enable = true       # Enable PluginExplorer (default: true)
+Pause = false       # Pause the game when the PluginExplorer interface is open (default: false)
+Loop = true         # Reopen the PluginExplorer interface when the item container is closed (default: true)
+Sound = true        # Unused (default: true)
+AutoSearch = false	# Automatically filter plugins as you search (default: false)
 
 [PluginExplorer.Key]
 KeyboardToggle = 87 # Toggle the PluginExplorer interface (default: 87 = F11)
