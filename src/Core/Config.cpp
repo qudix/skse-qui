@@ -4,18 +4,18 @@ namespace Core
 {
 	void Config::Load()
 	{
-		auto path = fmt::format("Data/SKSE/Plugins/{}.toml", Version::NAME);
-		auto pathCustom = fmt::format("Data/SKSE/Plugins/{}_Custom.toml", Version::NAME);
+		auto path = fmt::format("Data/SKSE/Plugins/{}.toml", Plugin::NAME);
+		auto pathCustom = fmt::format("Data/SKSE/Plugins/{}_Custom.toml", Plugin::NAME);
 
 		_result = toml::parse_file(path);
 		if (!_result) {
-			logger::info("Default file failed!");
+			REX::INFO("Default file failed!");
 			std::ostringstream ss;
 			ss << "Failed to load config:\n"
 			   << "Error parsing file:\n"
 			   << _result.error() << "\n";
-			logger::error("{}", ss.str());
-			stl::report_and_fail(ss.str());
+			REX::ERROR("{}", ss.str());
+			REX::FAIL(ss.str());
 		}
 
 		_resultCustom = toml::parse_file(pathCustom);
@@ -25,8 +25,8 @@ namespace Core
 			ss << "Failed to load custom config:\n"
 			   << "Error parsing file:\n"
 			   << _resultCustom.error() << "\n";
-			logger::error("{}", ss.str());
-			stl::report_and_fail(ss.str());
+			REX::ERROR("{}", ss.str());
+			REX::FAIL(ss.str());
 		}
 	}
 
@@ -34,8 +34,8 @@ namespace Core
 	{
 		_impl = {};
 
-		#define GET_VALUE(VALUE_PATH) \
-			GetValue(#VALUE_PATH, _impl.VALUE_PATH);
+#define GET_VALUE(VALUE_PATH) \
+	GetValue(#VALUE_PATH, _impl.VALUE_PATH);
 
 		GET_VALUE(General.Locale);
 		GET_VALUE(PluginExplorer.Enable);
@@ -68,21 +68,21 @@ namespace Core
 		GET_VALUE(JournalMenu.Enable);
 		GET_VALUE(JournalMenu.DefaultPage);
 
-		#undef GET_VALUE
+#undef GET_VALUE
 	}
 
 	auto Config::GetNode(const char* a_path) -> toml::node_view<toml::node>
 	{
 		if (_resultCustom) {
 			auto& table = _resultCustom.table();
-			auto node = table.at_path(a_path);
+			auto  node = table.at_path(a_path);
 			if (node)
 				return node;
 		}
 
 		if (_result) {
 			auto& table = _result.table();
-			auto node = table.at_path(a_path);
+			auto  node = table.at_path(a_path);
 			if (node)
 				return node;
 		}

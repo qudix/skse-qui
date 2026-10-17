@@ -12,8 +12,6 @@
 #include <RE/Skyrim.h>
 #pragma warning(pop)
 
-#include "Version.h"
-
 #include <frozen/map.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/msvc_sink.h>
@@ -21,12 +19,10 @@
 
 #include <source_location>
 
+#include "Plugin.h"
+
 namespace WinAPI = REX::W32;
-namespace logger = SKSE::log;
+// 0.4.1 -> Commonlib switched to REX
+//namespace logger = SKSE::log;
 namespace fs = std::filesystem;
 using namespace std::literals;
-
-namespace stl
-{
-	using namespace SKSE::stl;
-}

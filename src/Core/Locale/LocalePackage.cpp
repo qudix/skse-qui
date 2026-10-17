@@ -9,9 +9,9 @@ namespace Core
 
 	constexpr wchar_t REGEX_PREFIX[]{ L".*_" };
 	constexpr wchar_t REGEX_POSTFIX[]{ L"\\.txt$" };
-	constexpr auto	  REGEX_FLAGS{ std::regex::grep | std::regex::icase };
+	constexpr auto    REGEX_FLAGS{ std::regex::grep | std::regex::icase };
 
-	constexpr auto	  CVT_MODE = std::codecvt_mode(std::little_endian | std::consume_header);
+	constexpr auto CVT_MODE = std::codecvt_mode(std::little_endian | std::consume_header);
 
 	void LocalePackage::Load()
 	{
@@ -44,12 +44,15 @@ namespace Core
 
 	void LocalePackage::Dump()
 	{
-		auto language = stl::utf16_to_utf8(_language);
-		spdlog::info("[Locale: {}]", language.value_or(""));
+		std::string language{};
+		REX::UTF16_TO_UTF8(_language, language);
+		REX::INFO("[Locale: {}]", language);
 		for (auto& [_key, _value] : _items) {
-			auto key = stl::utf16_to_utf8(_key);
-			auto value = stl::utf16_to_utf8(_value);
-			spdlog::info("  > {} : {}", key.value_or(""), value.value_or(""));
+			std::string key{};
+			std::string value{};
+			key = REX::UTF16_TO_UTF8(_key, key);
+			REX::UTF16_TO_UTF8(_value, value);
+			REX::INFO("  > {} : {}", key, value);
 		}
 	}
 
@@ -74,10 +77,10 @@ namespace Core
 		std::wifstream file(a_path, std::ios::binary);
 		file.imbue(
 			std::locale(file.getloc(),
-				new std::codecvt_utf16<wchar_t, 0x10FFFF, CVT_MODE>));	// UCS-2 LE w/ BOM
+				new std::codecvt_utf16<wchar_t, 0x10FFFF, CVT_MODE>));  // UCS-2 LE w/ BOM
 
 		if (!file.is_open()) {
-			logger::error("Failed to open file \"{}\"!\n", a_path.string());
+			REX::ERROR("Failed to open file \"{}\"!\n", a_path.string());
 			return;
 		}
 

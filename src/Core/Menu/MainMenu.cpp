@@ -11,19 +11,19 @@ namespace Core::Menu
 	{
 		RE::GFxValue root;
 		if (!a_movie->GetVariable(&root, "_root")) {
-			logger::warn("MainMenuEx: No _root");
+			REX::WARN("MainMenuEx: No _root");
 			return;
 		}
 
 		RE::GFxValue menuHolder;
 		if (!root.GetMember("MenuHolder", &menuHolder)) {
-			logger::warn("MainMenuEx: No _root.MenuHolder");
+			REX::WARN("MainMenuEx: No _root.MenuHolder");
 			return;
 		}
 
 		RE::GFxValue menuMC;
 		if (!menuHolder.GetMember("Menu_mc", &menuMC)) {
-			logger::warn("MainMenuEx: No _root.MenuHolder.Menu_mc");
+			REX::WARN("MainMenuEx: No _root.MenuHolder.Menu_mc");
 			return;
 		}
 
@@ -33,7 +33,7 @@ namespace Core::Menu
 			if (menuMC.GetMember("Logo_mc", &logoMC)) {
 				logoMC.SetMember("_y", RE::GFxValue{ 1000.0 });
 			} else {
-				logger::warn("MainMenuEx: No _root.MenuHolder.Menu_mc.Logo_mc");
+				REX::WARN("MainMenuEx: No _root.MenuHolder.Menu_mc.Logo_mc");
 			}
 		}
 
@@ -42,7 +42,7 @@ namespace Core::Menu
 			if (menuMC.GetMember("MessageOfTheDay_mc", &motdMC)) {
 				motdMC.SetMember("_y", RE::GFxValue{ 1000.0 });
 			} else {
-				logger::warn("MainMenuEx: No _root.MenuHolder.Menu_mc.MessageOfTheDay_mc");
+				REX::WARN("MainMenuEx: No _root.MenuHolder.Menu_mc.MessageOfTheDay_mc");
 			}
 		}
 
@@ -82,10 +82,10 @@ namespace Core::Menu
 
 				mainList.Invoke("InvalidateData");
 			} else {
-				logger::warn("MainMenuEx: Could not invoke _root.MenuHolder.Menu_mc.MainList.__get__entryList()");
+				REX::WARN("MainMenuEx: Could not invoke _root.MenuHolder.Menu_mc.MainList.__get__entryList()");
 			}
 		} else {
-			logger::warn("MainMenuEx: No _root.MenuHolder.Menu_mc.MainList");
+			REX::WARN("MainMenuEx: No _root.MenuHolder.Menu_mc.MainList");
 		}
 
 #ifdef SKYRIM_SUPPORT_AE

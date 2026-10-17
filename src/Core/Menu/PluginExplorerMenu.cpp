@@ -37,8 +37,7 @@ namespace Core::Menu
 		});
 
 		if (!success) {
-			auto message = fmt::format("{} did not have a view due to missing dependencies!\nSkyUI SE must be installed.", MENU_NAME);
-			stl::report_and_fail(message);
+			REX::FAIL(fmt::format("{} did not have a view due to missing dependencies!\nSkyUI SE must be installed.", MENU_NAME));
 		}
 
 		_view = menu->uiMovie;
@@ -274,7 +273,7 @@ namespace Core::Menu
 		};
 
 		for (const auto& [object, path] : objects) {
-			auto& instance = object.get().GetInstance();
+			auto&                       instance = object.get().GetInstance();
 			[[maybe_unused]] const bool success = _view->GetVariable(std::addressof(instance), path.data());
 			SF::Assert(success && instance.IsObject());
 		}
@@ -299,7 +298,7 @@ namespace Core::Menu
 			container->SetPosition({ player->GetPositionX(), player->GetPositionY(), -2000 });
 			container->SetCollision(false);
 		} else {
-			logger::critical("No container");
+			REX::CRITICAL("No container");
 		}
 	}
 
@@ -314,7 +313,7 @@ namespace Core::Menu
 	{
 		using UEFlag = RE::ControlMap::UEFlag;
 		if (const auto control = RE::ControlMap::GetSingleton()) {
-			control->ToggleControls(UEFlag::kPOVSwitch, false);
+			control->ToggleControls(UEFlag::kPOVSwitch, false, true);
 		}
 
 		if (const auto queue = RE::UIMessageQueue::GetSingleton()) {
@@ -326,7 +325,7 @@ namespace Core::Menu
 	{
 		using UEFlag = RE::ControlMap::UEFlag;
 		if (const auto control = RE::ControlMap::GetSingleton()) {
-			control->ToggleControls(UEFlag::kPOVSwitch, true);
+			control->ToggleControls(UEFlag::kPOVSwitch, true, true);
 		}
 
 		if (const auto queue = RE::UIMessageQueue::GetSingleton()) {
@@ -387,10 +386,10 @@ namespace Core::Menu
 		auto plugin = PluginExplorer::FindPlugin(_pluginIndex);
 		if (plugin) {
 			auto& types = plugin->GetForms();
-			auto doForms = [&](RE::FormType a_type) {
+			auto  doForms = [&](RE::FormType a_type) {
 				if (types.contains(a_type)) {
-                    auto itemForm = std::make_shared<Item::ItemForm>(a_type, types[a_type].size());
-                    _formList.push_back(itemForm);
+					auto itemForm = std::make_shared<Item::ItemForm>(a_type, types[a_type].size());
+					_formList.push_back(itemForm);
 				}
 			};
 

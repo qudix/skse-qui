@@ -19,16 +19,18 @@ namespace Core
 		if (a_locale.empty()) {
 			auto setting = RE::GetINISetting("sLanguage:General");
 			if (setting) {
-				auto u8Language = setting->GetString();
-				auto u16Language = stl::utf8_to_utf16(u8Language);
-				_locale = u16Language.value_or(_localeDefault);
+				auto         u8Language = setting->GetString();
+				std::wstring u16Language{};
+				REX::UTF8_TO_UTF16(u8Language, u16Language);
+				_locale = u16Language.empty() ? _localeDefault : u16Language;
 			}
 
 			return false;
 		}
 
-		auto locale = stl::utf8_to_utf16(a_locale);
-		_locale = locale.value_or(_localeDefault);
+		std::wstring locale{};
+		REX::UTF8_TO_UTF16(a_locale, locale);
+		_locale = locale.empty() ? _localeDefault : locale;
 
 		return true;
 	}
@@ -55,11 +57,13 @@ namespace Core
 
 	std::string LocaleManager::GetLocalization(const std::string& a_key)
 	{
-		auto wstr = stl::utf8_to_utf16(a_key);
-		if (wstr) {
-			auto locale = GetLocalizationImpl(wstr.value());
-			auto str = stl::utf16_to_utf8(locale);
-			return str.value_or(a_key);
+		std::wstring wstr{};
+		REX::UTF8_TO_UTF16(a_key, wstr);
+		if (!wstr.empty()) {
+			auto        locale = GetLocalizationImpl(wstr);
+			std::string str{};
+			REX::UTF16_TO_UTF8(locale, str);
+			return str.empty() ? a_key : str;
 		}
 
 		return a_key;
@@ -83,7 +87,7 @@ namespace Core
 		if (!localization)
 			return a_key;
 
-		std::stack<size_type> stack;
+		std::stack<size_type>    stack;
 		std::queue<std::wstring> queue;
 		if (!GetNestedLocalizations(a_key, stack, queue))
 			return *localization;
@@ -99,10 +103,11 @@ namespace Core
 	std::optional<std::wstring> LocaleManager::FindLocalization(const std::wstring& a_key)
 	{
 		auto& package = GetLocalePackage();
-		auto item = package.FindItem(a_key);
+		auto  item = package.FindItem(a_key);
 		if (!item) {
-			auto key = stl::utf16_to_utf8(a_key);
-			spdlog::info("Key not found: {}", key.value_or(""));
+			std::string key{};
+			REX::UTF16_TO_UTF8(a_key, key);
+			REX::INFO("Key not found: {}", key);
 			if (&package != &_packageENG) {
 				item = _packageENG.FindItem(a_key);
 				if (!item) {
@@ -115,8 +120,8 @@ namespace Core
 	}
 
 	bool LocaleManager::GetNestedLocalizations(
-		const std::wstring& a_key,
-		std::stack<size_type>& a_stack,
+		const std::wstring&       a_key,
+		std::stack<size_type>&    a_stack,
 		std::queue<std::wstring>& a_queue)
 	{
 		for (size_type pos = 0; pos < a_key.size(); ++pos) {
@@ -142,7 +147,8 @@ namespace Core
 						} break;
 						default:
 							a_stack.pop();
-					} break;
+					}
+					break;
 				}
 			}
 		}
@@ -151,8 +157,8 @@ namespace Core
 	}
 
 	bool LocaleManager::InsertLocalizations(
-		std::wstring& a_localization,
-		std::stack<size_type>& a_stack,
+		std::wstring&             a_localization,
+		std::stack<size_type>&    a_stack,
 		std::queue<std::wstring>& a_queue)
 	{
 		for (size_type pos = 0; pos < a_localization.size(); ++pos) {

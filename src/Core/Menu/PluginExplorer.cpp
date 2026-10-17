@@ -45,7 +45,7 @@ namespace Core::Menu
 				break;
 			}
 			default:
-				logger::warn("Unhandled FormType: {}", static_cast<int32_t>(a_type));
+				REX::WARN("Unhandled FormType: {}", static_cast<int32_t>(a_type));
 				break;
 		}
 	}
@@ -54,7 +54,7 @@ namespace Core::Menu
 	{
 		auto handler = RE::TESDataHandler::GetSingleton();
 		if (!handler) {
-			logger::error("Missing TESDataHandler!");
+			REX::ERROR("Missing TESDataHandler!");
 			return;
 		}
 
@@ -68,7 +68,7 @@ namespace Core::Menu
 			}
 
 			if (file->compileIndex != 0xFF) {
-				auto index = file->GetCombinedIndex();
+				auto       index = file->GetCombinedIndex();
 				PluginInfo info{ file->fileName, index };
 				_cache.insert({ file->fileName, index });
 				_plugins.insert({ index, std::move(info) });
@@ -99,14 +99,14 @@ namespace Core::Menu
 		auto factoryCELL = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectCELL>();
 		_cell = factoryCELL ? factoryCELL->Create() : nullptr;
 		if (!_cell) {
-			logger::error("Failed to create cell");
+			REX::ERROR("Failed to create cell");
 			return;
 		}
 
 		auto handler = RE::TESDataHandler::GetSingleton();
 		auto lighting = handler->LookupForm<RE::BGSLightingTemplate>(RE::FormID(0x300E2), "Skyrim.esm");
 		if (!lighting) {
-			logger::error("Failed to lookup default lighting template");
+			REX::ERROR("Failed to lookup default lighting template");
 			return;
 		}
 
@@ -122,7 +122,7 @@ namespace Core::Menu
 		auto factoryCONT = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectCONT>();
 		_container = factoryCONT ? factoryCONT->Create() : nullptr;
 		if (!_container) {
-			logger::error("Failed to create container");
+			REX::ERROR("Failed to create container");
 			return;
 		}
 
@@ -137,7 +137,7 @@ namespace Core::Menu
 		auto factoryREFR = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectREFR>();
 		auto containerRef = factoryREFR ? factoryREFR->Create() : nullptr;
 		if (!containerRef) {
-			logger::error("Failed to create container reference");
+			REX::ERROR("Failed to create container reference");
 			return;
 		}
 
@@ -169,7 +169,7 @@ namespace Core::Menu
 
 		auto plugin = FindPlugin(a_index);
 		if (!plugin) {
-			logger::warn("Could not find plugin ({})", plugin->GetName());
+			REX::WARN("Could not find plugin ({})", plugin->GetName());
 			return false;
 		}
 
@@ -195,7 +195,7 @@ namespace Core::Menu
 		auto playerRef = player->AsReference();
 		bool success = container->ActivateRef(playerRef, 0, nullptr, 0, false);
 		if (!success) {
-			logger::warn("Could not call `Activate` on ObjectReference");
+			REX::WARN("Could not call `Activate` on ObjectReference");
 			return false;
 		}
 
@@ -219,17 +219,17 @@ namespace Core::Menu
 		switch (a_type) {
 			using enum RE::FormType;
 			case AlchemyItem: return count.Alchemy;
-			case Ammo:        return count.Ammo;
-			case Armor:       return count.Armor;
-			case Book:        return count.Book;
-			case Ingredient:  return count.Ingredient;
-			case KeyMaster:   return count.Key;
-			case Misc:        return count.Misc;
-			case Note:        return count.Note;
-			case Scroll:      return count.Scroll;
-			case SoulGem:     return count.Soul;
-			case Spell:       return count.Spell;
-			case Weapon:      return count.Weapon;
+			case Ammo: return count.Ammo;
+			case Armor: return count.Armor;
+			case Book: return count.Book;
+			case Ingredient: return count.Ingredient;
+			case KeyMaster: return count.Key;
+			case Misc: return count.Misc;
+			case Note: return count.Note;
+			case Scroll: return count.Scroll;
+			case SoulGem: return count.Soul;
+			case Spell: return count.Spell;
+			case Weapon: return count.Weapon;
 		}
 
 		return 1;
@@ -243,7 +243,7 @@ namespace Core::Menu
 			case T::Spell: type = T::Book; break;
 		}
 
-		auto handler = RE::TESDataHandler::GetSingleton();
+		auto  handler = RE::TESDataHandler::GetSingleton();
 		auto& items = handler->GetFormArray(type);
 		for (auto form : items) {
 			auto file = form->GetFile(0);

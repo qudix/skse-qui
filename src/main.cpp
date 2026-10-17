@@ -1,66 +1,71 @@
 #include "Core/Core.hpp"
 
-void InitLogger()
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/msvc_sink.h>
+#include <spdlog/sinks/rotating_file_sink.h>
+#include <spdlog/spdlog.h>
+
+static void SetupLog()
 {
-	auto logsFolder = SKSE::log::log_directory();
-	if (!logsFolder)
-		SKSE::stl::report_and_fail("SKSE log_directory not provided, logs disabled.");
-
-	auto pluginName = Version::NAME;
-	auto logFilePath = *logsFolder / std::format("{}.log", pluginName);
-	auto fileLoggerPtr = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logFilePath.string(), true);
-	auto loggerPtr = std::make_shared<spdlog::logger>("log", std::move(fileLoggerPtr));
-
-	spdlog::set_default_logger(std::move(loggerPtr));
-#ifdef DEBUG
-	spdlog::set_level(spdlog::level::debug);
-	spdlog::flush_on(spdlog::level::debug);
+#ifndef NDEBUG
+#define SPD_LOG_LEVEL spdlog::level::debug
 #else
-	spdlog::set_level(spdlog::level::info);
-	spdlog::flush_on(spdlog::level::info);
+#define SPD_LOG_LEVEL spdlog::level::info
 #endif
 
-	//Pattern
-	spdlog::set_pattern("%v");
+	auto path = SKSE::log::log_directory();
+	if (!path)
+		return;
+
+	*path /= std::format("{}.log", Plugin::NAME);
+
+	std::vector<spdlog::sink_ptr> sinks{
+		std::make_shared<spdlog::sinks::msvc_sink_mt>()
+	};
+	sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true));
+
+	auto logger = std::make_shared<spdlog::logger>("global", sinks.begin(), sinks.end());
+	logger->set_level(SPD_LOG_LEVEL);
+	logger->flush_on(SPD_LOG_LEVEL);
+
+	spdlog::set_default_logger(std::move(logger));
+	spdlog::set_pattern("[%T.%e] [%=5t] [%L] %v");
+
+	REX::INFO("{} v{}", Plugin::NAME, Plugin::VERSION.string());
 }
 
-#ifdef SKYRIM_NG
-SKSEPluginInfo(
-		.Name = "qui")
-
-	SKSEPluginLoad(const SKSE::LoadInterface* a_skse)
-{
-	InitLogger();
-
-	const auto plugin = SKSE::PluginDeclaration::GetSingleton();
-	logger::info("{} v{}", plugin->GetName(), plugin->GetVersion());
-
-	SKSE::Init(a_skse);
-	Core::Init();
-
-	logger::info("{} loaded", plugin->GetName());
-
-	return true;
-}
-#else
 extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() {
-	SKSE::PluginVersionData v;
-	v.PluginVersion({ Version::MAJOR, Version::MINOR, Version::PATCH });
-	v.PluginName(Version::NAME);
-	v.AuthorName(Version::PROJECT_AUTHOR);
+	SKSE::PluginVersionData v{};
+
+	v.PluginVersion(Plugin::VERSION);
+	v.PluginName(Plugin::NAME);
+	v.AuthorName("SeaSparrow"sv);
 	v.UsesAddressLibrary();
 	v.UsesUpdatedStructs();
-	v.CompatibleVersions({ SKSE::RUNTIME_LATEST });
+
 	return v;
 }();
 
-extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
+SKSE_PLUGIN_QUERY(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
 {
-	InitLogger();
-	
+	a_info->infoVersion = SKSE::PluginInfo::kVersion;
+	a_info->name = Plugin::NAME.data();
+	a_info->version = Plugin::VERSION[0];
+
+	if (a_skse->IsEditor()) {
+		REX::CRITICAL("Loaded in editor, marking as incompatible"sv);
+		return false;
+	}
+
+	return true;
+}
+
+SKSE_PLUGIN_LOAD(const SKSE::LoadInterface* a_skse)
+{
+	SetupLog();
+
 	SKSE::Init(a_skse);
 	Core::Init();
 
 	return true;
 }
-#endif

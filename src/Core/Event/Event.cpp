@@ -6,12 +6,12 @@ namespace Core::Event
 	void EventManager::Register()
 	{
 		if (const auto ui = RE::UI::GetSingleton()) {
-			logger::info("Sinking ui events...");
+			REX::INFO("Sinking ui events...");
 			ui->AddEventSink<RE::MenuOpenCloseEvent>(this);
 		}
 
 		if (const auto input = RE::BSInputDeviceManager::GetSingleton()) {
-			logger::info("Sinking input events...");
+			REX::INFO("Sinking input events...");
 			input->AddEventSink(this);
 		}
 	}

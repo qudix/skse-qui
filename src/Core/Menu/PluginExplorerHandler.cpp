@@ -72,7 +72,7 @@ namespace Core::Menu
 				if (formType != RE::FormType::None) {
 					bool success = PluginExplorer::OpenContainer(pluginIndex, formType);
 					if (!success) {
-						logger::info("Failed to open container: [{}] {} ({})",
+						REX::INFO("Failed to open container: [{}] {} ({})",
 							pluginIndex, pluginName, formName);
 					}
 				}
@@ -85,7 +85,7 @@ namespace Core::Menu
 		using Menu = PluginExplorerMenu;
 		auto& config = Config::Get();
 		auto& key = config.PluginExplorer.Key;
-		auto id = a_event.GetIDCode();
+		auto  id = a_event.GetIDCode();
 		if (id == key.KeyboardToggle) {
 			Menu::Toggle();
 		}
