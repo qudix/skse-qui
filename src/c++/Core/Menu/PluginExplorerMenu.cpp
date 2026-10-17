@@ -37,8 +37,7 @@ namespace Core::Menu
 		});
 
 		if (!success) {
-			auto message = fmt::format("{} did not have a view due to missing dependencies!\nSkyUI SE must be installed.", MENU_NAME);
-			stl::report_and_fail(message);
+			REX::FAIL("{} did not have a view due to missing dependencies!\nSkyUI SE must be installed.", MENU_NAME);
 		}
 
 		_view = menu->uiMovie;
@@ -299,7 +298,7 @@ namespace Core::Menu
 			container->SetPosition({ player->GetPositionX(), player->GetPositionY(), -2000 });
 			container->SetCollision(false);
 		} else {
-			logger::critical("No container");
+			REX::CRITICAL("No container");
 		}
 	}
 
@@ -314,7 +313,7 @@ namespace Core::Menu
 	{
 		using UEFlag = RE::ControlMap::UEFlag;
 		if (const auto control = RE::ControlMap::GetSingleton()) {
-			control->ToggleControls(UEFlag::kPOVSwitch, false);
+			control->ToggleControls(UEFlag::kPOVSwitch, false, true);
 		}
 
 		if (const auto queue = RE::UIMessageQueue::GetSingleton()) {
@@ -326,7 +325,7 @@ namespace Core::Menu
 	{
 		using UEFlag = RE::ControlMap::UEFlag;
 		if (const auto control = RE::ControlMap::GetSingleton()) {
-			control->ToggleControls(UEFlag::kPOVSwitch, true);
+			control->ToggleControls(UEFlag::kPOVSwitch, true, true);
 		}
 
 		if (const auto queue = RE::UIMessageQueue::GetSingleton()) {

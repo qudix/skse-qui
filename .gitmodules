@@ -1,0 +1,3 @@
+[submodule "lib/commonlibsse"]
+	path = lib/commonlibsse
+	url = https://github.com/libxse/commonlibsse.git

@@ -6,7 +6,7 @@ namespace Core::ConsoleCommand
 	{
 		auto info = RE::SCRIPT_FUNCTION::LocateConsoleCommand("DumpNiUpdates");
 		if (!info) {
-			logger::info("Console command (DumpNiUpdates) not found. Skipping...");
+			REX::INFO("Console command (DumpNiUpdates) not found. Skipping...");
 			return;
 		}
 

@@ -1,31 +1,28 @@
-set_xmakever("2.7.2")
+includes("lib/commonlibsse")
 
--- project
-set_project("QUI")
+set_project("skse-qui")
 set_version("0.3.2")
-set_license("MIT")
-set_languages("c++20")
-set_optimize("faster")
-set_warnings("allextra", "error")
+set_license("GPL-3.0")
+set_languages("c++23")
+set_warnings("allextra")
 
--- allowed
-set_allowedarchs("x64")
-set_allowedmodes("debug", "releasedbg")
-
--- default
-set_defaultarchs("x64")
-set_defaultmode("releasedbg")
-
--- rules
 add_rules("mode.debug", "mode.releasedbg")
+add_rules("plugin.vsxmake.autoupdate")
 
--- policies
-set_policy("package.requires_lock", true)
+add_requires("frozen 1.2.0", "imgui", "toml++")
 
--- packages
-add_requires("fmt", "frozen", "toml++")
-add_requires("spdlog", { configs = { header_only = false } })
-add_requires("commonlibsse-ng", { configs = { skyrim_vr = false }})
+target("skse-qui")
+    add_packages("frozen", "imgui", "toml++")
 
-includes("res/package.lua")
-includes("src")
+    add_rules("commonlibsse.plugin", {
+        name = "skse-qui",
+        author = "qudix",
+        description = "Various UI tools, tweaks, and fixes"
+    })
+
+    add_files("src/c++/**.cpp")
+    add_headerfiles("src/c++/**.h")
+    add_includedirs("src/c++")
+    set_pcxxheader("src/c++/pch.h")
+
+    add_installfiles("res/(**)")

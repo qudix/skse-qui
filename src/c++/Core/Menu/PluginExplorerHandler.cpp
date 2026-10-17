@@ -72,7 +72,7 @@ namespace Core::Menu
 				if (formType != RE::FormType::None) {
 					bool success = PluginExplorer::OpenContainer(pluginIndex, formType);
 					if (!success) {
-						logger::info("Failed to open container: [{}] {} ({})",
+						REX::INFO("Failed to open container: [{}] {} ({})",
 							pluginIndex, pluginName, formName);
 					}
 				}

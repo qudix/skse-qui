@@ -21,7 +21,7 @@ namespace Core
 
 	private:
 		void LoadFiles();
-		void ReadFile(const fs::path& a_path);
+		void ReadFile(const std::filesystem::path& a_path);
 
 	private:
 		std::wstring _language{ L"ENGLISH" };

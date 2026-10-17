@@ -19,16 +19,15 @@ namespace Core
 		if (a_locale.empty()) {
 			auto setting = RE::GetINISetting("sLanguage:General");
 			if (setting) {
-				auto u8Language = setting->GetString();
-				auto u16Language = stl::utf8_to_utf16(u8Language);
-				_locale = u16Language.value_or(_localeDefault);
+				if (!REX::UTF8_TO_UTF16(setting->GetString(), _locale))
+				    _locale = _localeDefault;
 			}
 
 			return false;
 		}
 
-		auto locale = stl::utf8_to_utf16(a_locale);
-		_locale = locale.value_or(_localeDefault);
+		if (!REX::UTF8_TO_UTF16(a_locale, _locale))
+		    _locale = _localeDefault;
 
 		return true;
 	}
@@ -55,11 +54,14 @@ namespace Core
 
 	std::string LocaleManager::GetLocalization(const std::string& a_key)
 	{
-		auto wstr = stl::utf8_to_utf16(a_key);
-		if (wstr) {
-			auto locale = GetLocalizationImpl(wstr.value());
-			auto str = stl::utf16_to_utf8(locale);
-			return str.value_or(a_key);
+	    std::wstring wstr;
+		if (REX::UTF8_TO_UTF16(a_key, wstr)) {
+			auto locale = GetLocalizationImpl(wstr);
+			std::string str;
+			if (!REX::UTF16_TO_UTF8(locale, str))
+			    return a_key;
+
+			return str;
 		}
 
 		return a_key;
@@ -101,8 +103,9 @@ namespace Core
 		auto& package = GetLocalePackage();
 		auto item = package.FindItem(a_key);
 		if (!item) {
-			auto key = stl::utf16_to_utf8(a_key);
-			spdlog::info("Key not found: {}", key.value_or(""));
+		    std::string key;
+			REX::UTF16_TO_UTF8(a_key, key);
+			REX::INFO("Key not found: {}", key);
 			if (&package != &_packageENG) {
 				item = _packageENG.FindItem(a_key);
 				if (!item) {

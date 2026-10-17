@@ -45,7 +45,7 @@ namespace Core::Menu
 				break;
 			}
 			default:
-				logger::warn("Unhandled FormType: {}", static_cast<int32_t>(a_type));
+				REX::WARN("Unhandled FormType: {}", static_cast<int32_t>(a_type));
 				break;
 		}
 	}
@@ -54,7 +54,7 @@ namespace Core::Menu
 	{
 		auto handler = RE::TESDataHandler::GetSingleton();
 		if (!handler) {
-			logger::error("Missing TESDataHandler!"sv);
+			REX::ERROR("Missing TESDataHandler!"sv);
 			return;
 		}
 
@@ -99,14 +99,14 @@ namespace Core::Menu
 		auto factoryCELL = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectCELL>();
 		_cell = factoryCELL ? factoryCELL->Create() : nullptr;
 		if (!_cell) {
-			logger::error("Failed to create cell");
+			REX::ERROR("Failed to create cell");
 			return;
 		}
 
 		auto handler = RE::TESDataHandler::GetSingleton();
 		auto lighting = handler->LookupForm<RE::BGSLightingTemplate>(RE::FormID(0x300E2), "Skyrim.esm");
 		if (!lighting) {
-			logger::error("Failed to lookup default lighting template");
+			REX::ERROR("Failed to lookup default lighting template");
 			return;
 		}
 
@@ -122,7 +122,7 @@ namespace Core::Menu
 		auto factoryCONT = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectCONT>();
 		_container = factoryCONT ? factoryCONT->Create() : nullptr;
 		if (!_container) {
-			logger::error("Failed to create container");
+			REX::ERROR("Failed to create container");
 			return;
 		}
 
@@ -137,7 +137,7 @@ namespace Core::Menu
 		auto factoryREFR = RE::IFormFactory::GetConcreteFormFactoryByType<RE::TESObjectREFR>();
 		auto containerRef = factoryREFR ? factoryREFR->Create() : nullptr;
 		if (!containerRef) {
-			logger::error("Failed to create container reference");
+			REX::ERROR("Failed to create container reference");
 			return;
 		}
 
@@ -169,7 +169,7 @@ namespace Core::Menu
 
 		auto plugin = FindPlugin(a_index);
 		if (!plugin) {
-			logger::warn("Could not find plugin ({})", plugin->GetName());
+			REX::WARN("Could not find plugin ({})", plugin->GetName());
 			return false;
 		}
 
@@ -195,7 +195,7 @@ namespace Core::Menu
 		auto playerRef = player->AsReference();
 		bool success = container->ActivateRef(playerRef, 0, nullptr, 0, false);
 		if (!success) {
-			logger::warn("Could not call `Activate` on ObjectReference");
+			REX::WARN("Could not call `Activate` on ObjectReference");
 			return false;
 		}
 

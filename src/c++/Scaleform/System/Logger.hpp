@@ -19,7 +19,7 @@ namespace SF
 			std::vsnprintf(buf.data(), buf.size(), fmt.c_str(), args);
 			va_end(args);
 
-			logger::info("{}: {}"sv, T::MENU_NAME, buf.data());
+			REX::INFO("{}: {}"sv, T::MENU_NAME, buf.data());
 		}
 	};
 }

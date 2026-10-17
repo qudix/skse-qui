@@ -5,7 +5,7 @@
 
 namespace Core
 {
-	const fs::path LOCALE_PATH{ "data/interface/translations" };
+	const std::filesystem::path LOCALE_PATH{ "data/interface/translations" };
 
 	constexpr wchar_t REGEX_PREFIX[]{ L".*_" };
 	constexpr wchar_t REGEX_POSTFIX[]{ L"\\.txt$" };
@@ -44,23 +44,25 @@ namespace Core
 
 	void LocalePackage::Dump()
 	{
-		auto language = stl::utf16_to_utf8(_language);
-		spdlog::info("[Locale: {}]", language.value_or(""));
+	    std::string language;
+		REX::UTF16_TO_UTF8(_language, language);
+		REX::INFO("[Locale: {}]", language);
 		for (auto& [_key, _value] : _items) {
-			auto key = stl::utf16_to_utf8(_key);
-			auto value = stl::utf16_to_utf8(_value);
-			spdlog::info("  > {} : {}", key.value_or(""), value.value_or(""));
+		    std::string key, value;
+			REX::UTF16_TO_UTF8(_key, key);
+			REX::UTF16_TO_UTF8(_value, value);
+			REX::INFO("  > {} : {}", key, value);
 		}
 	}
 
 	void LocalePackage::LoadFiles()
 	{
 		std::error_code err;
-		if (!fs::exists(LOCALE_PATH, err))
+		if (!std::filesystem::exists(LOCALE_PATH, err))
 			return;
 
-		fs::path fileName;
-		for (auto& dir : fs::directory_iterator(LOCALE_PATH)) {
+		std::filesystem::path fileName;
+		for (auto& dir : std::filesystem::directory_iterator(LOCALE_PATH)) {
 			fileName = dir.path().filename();
 			const auto& native = fileName.native();
 			if (std::regex_match(native, _regex)) {
@@ -69,7 +71,7 @@ namespace Core
 		}
 	}
 
-	void LocalePackage::ReadFile(const fs::path& a_path)
+	void LocalePackage::ReadFile(const std::filesystem::path& a_path)
 	{
 		std::wifstream file(a_path, std::ios::binary);
 		file.imbue(
@@ -77,7 +79,7 @@ namespace Core
 				new std::codecvt_utf16<wchar_t, 0x10FFFF, CVT_MODE>));	// UCS-2 LE w/ BOM
 
 		if (!file.is_open()) {
-			logger::error("Failed to open file \"{}\"!\n", a_path.string());
+			REX::ERROR("Failed to open file \"{}\"!\n", a_path.string());
 			return;
 		}
 

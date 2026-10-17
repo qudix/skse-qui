@@ -4,30 +4,29 @@ namespace Core
 {
 	void Config::Load()
 	{
-		auto plugin = SKSE::PluginDeclaration::GetSingleton();
-		auto path = fmt::format("Data/SKSE/Plugins/{}.toml", plugin->GetName());
-		auto pathCustom = fmt::format("Data/SKSE/Plugins/{}_Custom.toml", plugin->GetName());
+		std::string path = "Data/SKSE/Plugins/skse-qui.toml";
+		std::string pathCustom = "Data/SKSE/Plugins/skse-qui_custom.toml";
 
 		_result = toml::parse_file(path);
 		if (!_result) {
-			logger::info("Default file failed!");
+			REX::INFO("Default file failed!");
 			std::ostringstream ss;
 			ss << "Failed to load config:\n"
 			   << "Error parsing file:\n"
 			   << _result.error() << "\n";
-			logger::error("{}", ss.str());
-			stl::report_and_fail(ss.str());
+			REX::ERROR("{}", ss.str());
+			REX::FAIL(ss.str());
 		}
 
 		_resultCustom = toml::parse_file(pathCustom);
-		bool exists = fs::exists(pathCustom);
+		bool exists = std::filesystem::exists(pathCustom);
 		if (!_resultCustom && exists) {
 			std::ostringstream ss;
 			ss << "Failed to load custom config:\n"
 			   << "Error parsing file:\n"
 			   << _resultCustom.error() << "\n";
-			logger::error("{}", ss.str());
-			stl::report_and_fail(ss.str());
+			REX::ERROR("{}", ss.str());
+			REX::FAIL(ss.str());
 		}
 	}
 

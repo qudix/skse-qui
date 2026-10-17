@@ -17,9 +17,9 @@ namespace Core::Menu::Item
 		{
 			std::string index;
 			if (_index >= 0xFE) {
-				index = fmt::format(FMT_STRING("FE {:03X}"), _index - 0xFE);
+				index = std::format("FE {:03X}", _index - 0xFE);
 			} else {
-				index = fmt::format(FMT_STRING("{:02X}"), _index);
+				index = std::format("{:02X}", _index);
 			}
 
 			RE::GFxValue value;
