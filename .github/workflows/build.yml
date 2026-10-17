@@ -1,0 +1,107 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  BUILD_TYPE: Release
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
+  VCPKG_ROOT: C:\vcpkg
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        include:
+          - preset: github-steam
+            artifact: release
+          - preset: github-gog
+            artifact: gog
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Setup vcpkg
+        shell: pwsh
+        run: |
+          $vcpkgManifest = Get-Content "${{ github.workspace }}\vcpkg.json" | ConvertFrom-Json
+          $vcpkgCommit = $vcpkgManifest."builtin-baseline"
+
+          if ([string]::IsNullOrWhiteSpace($vcpkgCommit)) {
+            throw "vcpkg.json does not contain a builtin-baseline."
+          }
+
+          Write-Host "Using vcpkg baseline: $vcpkgCommit"
+
+          if (Test-Path "${{ env.VCPKG_ROOT }}") {
+            Remove-Item "${{ env.VCPKG_ROOT }}" -Recurse -Force
+          }
+
+          git clone https://github.com/microsoft/vcpkg.git "${{ env.VCPKG_ROOT }}"
+          git -C "${{ env.VCPKG_ROOT }}" checkout --detach $vcpkgCommit
+
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to checkout vcpkg commit $vcpkgCommit."
+          }
+
+          $baselinePath = "${vcpkgCommit}:versions/baseline.json"
+          git -C "${{ env.VCPKG_ROOT }}" show $baselinePath > $null
+
+          if ($LASTEXITCODE -ne 0) {
+            throw "vcpkg commit $vcpkgCommit does not contain versions/baseline.json."
+          }
+
+          Write-Host "Verified builtin-baseline: $vcpkgCommit"
+          & "${{ env.VCPKG_ROOT }}\bootstrap-vcpkg.bat"
+
+          if ($LASTEXITCODE -ne 0) {
+            throw "vcpkg bootstrap failed."
+          }
+
+          New-Item `
+            -ItemType Directory `
+            -Force `
+            -Path "${{ env.VCPKG_DEFAULT_BINARY_CACHE }}" | Out-Null
+
+          & "${{ env.VCPKG_ROOT }}\vcpkg.exe" --version |
+            Out-File "${{ github.workspace }}\vcpkg-version.txt"
+
+          Write-Host "vcpkg commit:"
+          git -C "${{ env.VCPKG_ROOT }}" rev-parse HEAD
+
+      - name: Cache vcpkg
+        uses: actions/cache@v6
+        id: vcpkg-cache
+        env:
+          cache-name: vcpkg-cache
+        with:
+          path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}/*
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/vcpkg.json', 'vcpkg-version.txt') }}
+
+      - name: Configure CMake
+        run: |
+          cmake --preset ${{ matrix.preset }} -Wno-deprecated
+
+      - name: Build
+        run: |
+          cmake --build ${{ github.workspace }}/build --config ${{ env.BUILD_TYPE }}
+
+      - name: Install
+        run: |
+          cmake --install ${{ github.workspace }}/build --component "components" --config ${{ env.BUILD_TYPE }} --prefix ${{ github.workspace }}/ReleaseBuild
+          cmake --install ${{ github.workspace }}/build --component "SKSEPlugin" --config ${{ env.BUILD_TYPE }} --prefix ${{ github.workspace }}/ReleaseBuild
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ github.event.repository.name }}-${{ matrix.artifact }}
+          path: ${{ github.workspace }}/ReleaseBuild

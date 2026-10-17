@@ -2,107 +2,59 @@
   "version": 3,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 21,
+    "minor": 24,
     "patch": 0
   },
   "configurePresets": [
     {
-      "name": "cmake-dev",
-      "hidden": true,
-      "cacheVariables": {
-        "CMAKE_CONFIGURATION_TYPES": "Debug;Release",
-        "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /external:anglebrackets /external:W0 $penv{CXXFLAGS}"
-      }
-    },
-    {
-      "name": "vcpkg",
+      "name": "base",
       "hidden": true,
       "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-      "cacheVariables": {
-        "VCPKG_OVERLAY_PORTS": "${sourceDir}/cmake/ports/"
-      }
-    },
-    {
-      "name": "windows",
-      "hidden": true,
+      "generator": "Visual Studio 18 2026",
       "cacheVariables": {
         "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>",
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
+        "CMAKE_CONFIGURATION_TYPES": "Debug;Release",
+        "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /external:anglebrackets /external:W0 $penv{CXXFLAGS}",
+        "VCPKG_OVERLAY_PORTS": "${sourceDir}/cmake/ports;${sourceDir}/External/CommonLibSSE/cmake/ports",
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "GOG": false,
+        "SKIP_ARTIFACTS": false,
+        "CMAKE_BUILD_TYPE": "Release"
       }
-    },
-    {
-      "name": "vs2022",
-      "hidden": true,
-      "generator": "Visual Studio 17 2022",
-      "toolset": "v143"
-    },
-    {
-      "name": "release",
-      "hidden": true,
-      "binaryDir": "${sourceDir}/build"
     },
     {
       "name": "test",
-      "hidden": true,
+      "hidden": false,
       "binaryDir": "${sourceDir}/build-test",
+      "inherits": [
+        "base"
+      ],
       "cacheVariables": {
-        "BUILD_TEST": true
+        "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
-      "name": "ng",
-      "hidden": true,
-      "binaryDir": "${sourceDir}/build-ng",
+      "name": "github-gog",
+      "hidden": false,
+      "binaryDir": "${sourceDir}/build",
+      "inherits": [
+        "base"
+      ],
       "cacheVariables": {
-        "BUILD_NG": true
+        "GOG": true,
+        "SKIP_ARTIFACTS": true
       }
     },
     {
-      "name": "vs2022-windows-vcpkg-release",
+      "name": "github-steam",
+      "hidden": false,
+      "binaryDir": "${sourceDir}/build",
       "inherits": [
-        "cmake-dev",
-        "vcpkg",
-        "windows",
-        "vs2022",
-        "release"
-      ]
-    },
-    {
-      "name": "vs2022-windows-vcpkg-test",
-      "inherits": [
-        "cmake-dev",
-        "vcpkg",
-        "windows",
-        "vs2022",
-        "test"
-      ]
-    },
-    {
-      "name": "vs2022-windows-vcpkg-ng",
-      "inherits": [
-        "cmake-dev",
-        "vcpkg",
-        "windows",
-        "vs2022",
-        "ng"
-      ]
-    }
-  ],
-  "buildPresets": [
-    {
-      "name": "Release",
-      "configurePreset": "vs2022-windows-vcpkg-release",
-      "configuration": "Release"
-    },
-    {
-      "name": "Test",
-      "configurePreset": "vs2022-windows-vcpkg-test",
-      "configuration": "Release"
-    },
-    {
-      "name": "Release - NG",
-      "configurePreset": "vs2022-windows-vcpkg-ng",
-      "configuration": "Release"
+        "base"
+      ],
+      "cacheVariables": {
+        "SKIP_ARTIFACTS": true
+      }
     }
   ]
 }

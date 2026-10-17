@@ -4,4 +4,5 @@
 
 /.vs
 /build
-/build-ng
+/build-test
+/build-gog

@@ -1,10 +1,11 @@
 {
   "name": "qui",
-  "version-string": "0.4.0",
-  "description": "",
-  "homepage": "",
-  "license": "gpl3",
+  "version-string": "0.4.1",
+  "description": "SKSE Plugin that adds functionality to Skyrim's UI, developed by Quidix. Update your mod I am BEGGING you.",
+  "homepage": "https://github.com/SeaSparrowOG/skse-qui",
+  "license": "GPL-3.0-or-later",
   "dependencies": [
+    "commonlib-shared",
     "rapidcsv",
     "directxtk",
     "frozen",
@@ -13,11 +14,11 @@
     "spdlog",
     "xbyak"
   ],
+  "builtin-baseline": "89dd0f4d241136b843fb55813b2f0fa6448c204d",
   "overrides": [
     {
-      "name": "fmt",
-      "version": "9.1.0"
+      "name": "xbyak",
+      "version": "7.23.1"
     }
-  ],
-  "builtin-baseline": "198d68dbcc6c907cb3d0b9b1d93c3df6ecf93c62"
+  ]
 }
