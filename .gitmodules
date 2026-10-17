@@ -1,10 +1,16 @@
-[submodule "Extern/CommonlibSSE"]
-	path = Extern/CommonlibSSE
-	url = https://github.com/SeaSparrowOG/CommonLibSSE
 [submodule "tomlplusplus"]
 	path = tomlplusplus
 	url = https://github.com/marzer/tomlplusplus.git
-[submodule "Extern/CommonLibNG"]
-	path = Extern/CommonLibNG
-	url = https://github.com/alandtse/CommonLibVR
-	branch = ng
+[submodule "Tools/SKSE-CMakeModules"]
+	path = Tools/SKSE-CMakeModules
+	url = https://github.com/Exit-9B/SKSE-CMakeModules.git
+[submodule "CommonLibSSE"]
+	path = CommonLibSSE
+	url = https://github.com/SeaSparrowOG/CommonLibSSE
+[submodule "External/CommonLibSSE"]
+	path = External/CommonLibSSE
+	url = https://github.com/SeaSparrowOG/CommonLibSSE
+[submodule "External/CommonLibSSE_1.6"]
+	path = External/CommonLibSSE_1.6
+	url = https://github.com/SeaSparrowOG/CommonLibSSE
+	branch = dev-1.6
